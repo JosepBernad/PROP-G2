@@ -25,4 +25,7 @@ public class UserDAO {
         return users;
     }
 
+    public void createUser(User user) {
+
+    }
 }

@@ -2,6 +2,7 @@ package user;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test_givenNonUsers_whenGetUsers_thenReturnsEmptySet() {
+    public void test_givenNoUsers_whenGetUsers_thenReturnsEmptySet() {
         Set<User> users = userService.getUsers();
         assertTrue(users.isEmpty());
     }
@@ -49,13 +50,29 @@ public class UserServiceTest {
 
         // Assert
         Set<User> expectedUsers = new HashSet<>();
-        addUser(expectedUsers, 1, "Pepito");
-        addUser(expectedUsers, 3, "Borja");
-        addUser(expectedUsers, 2, "Pepita");
+        addUserToSet(expectedUsers, 1, "Pepito");
+        addUserToSet(expectedUsers, 3, "Borja");
+        addUserToSet(expectedUsers, 2, "Pepita");
         assertEquals(expectedUsers, users);
     }
 
-    private void addUser(Set<User> expectedUsers, int id, String name) {
+    @Ignore("under implementation")
+    @Test
+    public void test_givenNoUsers_whenCreateUser_withValidUser_thenPersistsUser() {
+        // Arrange
+        User user = new User();
+        user.setId(28);
+        user.setName("Miquel");
+
+        //Act
+        userService.createUser(user);
+
+        //Assert
+        Set<User> users = userService.getUsers();
+        assertTrue(users.contains(user));
+    }
+
+    private void addUserToSet(Set<User> expectedUsers, int id, String name) {
         User user = new User();
         user.setName(name);
         user.setId(id);

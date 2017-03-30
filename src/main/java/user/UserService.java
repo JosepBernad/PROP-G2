@@ -8,4 +8,8 @@ public class UserService {
     public Set<User> getUsers() {
         return userDAO.getUsers();
     }
+
+    public void createUser(User user) {
+        userDAO.createUser(user);
+    }
 }
