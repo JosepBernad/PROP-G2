@@ -2,15 +2,14 @@ package user;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertEquals;
@@ -35,8 +34,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test_givenNoUsers_whenGetUsers_thenReturnsEmptySet() {
-        Set<User> users = userService.getUsers();
+    public void test_givenNoUsers_whenGetUsers_thenReturnsEmptyMap() {
+        Map<Integer, User> users = userService.getUsers();
         assertTrue(users.isEmpty());
     }
 
@@ -46,17 +45,31 @@ public class UserServiceTest {
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
 
         // Act
-        Set<User> users = userService.getUsers();
+        Map<Integer, User> users = userService.getUsers();
 
         // Assert
-        Set<User> expectedUsers = new HashSet<>();
-        addUserToSet(expectedUsers, 1, "Pepito");
-        addUserToSet(expectedUsers, 3, "Borja");
-        addUserToSet(expectedUsers, 2, "Pepita");
+        Map<Integer, User> expectedUsers = new HashMap<>();
+        addUserToMap(expectedUsers, 1, "Pepito");
+        addUserToMap(expectedUsers, 3, "Borja");
+        addUserToMap(expectedUsers, 2, "Pepita");
         assertEquals(expectedUsers, users);
     }
 
-    @Ignore("under implementation")
+    @Test
+    public void test_givenExistingUser_whenGetUser_withValidId_thenReturnsUser() throws IOException {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
+
+        // Act
+        User user = userService.getUserById(1);
+
+        // Assert
+        User expectedUser = new User();
+        expectedUser.setId(1);
+        expectedUser.setName("Pepito");
+        assertEquals(expectedUser, user);
+    }
+
     @Test
     public void test_givenNoUsers_whenCreateUser_withValidUser_thenPersistsUser() {
         // Arrange
@@ -68,15 +81,14 @@ public class UserServiceTest {
         userService.createUser(user);
 
         //Assert
-        Set<User> users = userService.getUsers();
-        assertTrue(users.contains(user));
+        assertEquals(user, userService.getUserById(28));
     }
 
-    private void addUserToSet(Set<User> expectedUsers, int id, String name) {
+    private void addUserToMap(Map<Integer, User> expectedUsers, int id, String name) {
         User user = new User();
         user.setName(name);
         user.setId(id);
-        expectedUsers.add(user);
+        expectedUsers.put(id, user);
     }
 
 }
