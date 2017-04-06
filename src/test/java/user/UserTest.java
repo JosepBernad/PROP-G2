@@ -15,11 +15,10 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UserServiceTest {
+public class UserTest {
 
-    public static final Path USERS_BACKUP = Paths.get((UserDAO.USERS) + ".bak");
-    public static final Path USERS_PATH = Paths.get(UserDAO.USERS);
-    private UserService userService = new UserService();
+    public static final Path USERS_BACKUP = Paths.get((User.USERS) + ".bak");
+    public static final Path USERS_PATH = Paths.get(User.USERS);
 
 
     @Before
@@ -35,7 +34,7 @@ public class UserServiceTest {
 
     @Test
     public void test_givenNoUsers_whenGetUsers_thenReturnsEmptyMap() {
-        Map<Integer, User> users = userService.getUsers();
+        Map<Integer, User> users = User.getUsers();
         assertTrue(users.isEmpty());
     }
 
@@ -45,7 +44,7 @@ public class UserServiceTest {
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
 
         // Act
-        Map<Integer, User> users = userService.getUsers();
+        Map<Integer, User> users = User.getUsers();
 
         // Assert
         Map<Integer, User> expectedUsers = new HashMap<>();
@@ -61,7 +60,7 @@ public class UserServiceTest {
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
 
         // Act
-        User user = userService.getUserById(1);
+        User user = User.getUserById(1);
 
         // Assert
         User expectedUser = new User();
@@ -78,10 +77,10 @@ public class UserServiceTest {
         user.setName("Miquel");
 
         //Act
-        userService.createUser(user);
+        user.save();
 
         //Assert
-        assertEquals(user, userService.getUserById(28));
+        assertEquals(user, User.getUserById(28));
     }
 
     private void addUserToMap(Map<Integer, User> expectedUsers, int id, String name) {
