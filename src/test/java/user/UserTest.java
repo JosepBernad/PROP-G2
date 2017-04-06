@@ -34,7 +34,7 @@ public class UserTest {
 
     @Test
     public void test_givenNoUsers_whenGetUsers_thenReturnsEmptyMap() {
-        Map<Integer, User> users = User.getUsers();
+        Map<String, User> users = User.getUsers();
         assertTrue(users.isEmpty());
     }
 
@@ -44,13 +44,13 @@ public class UserTest {
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
 
         // Act
-        Map<Integer, User> users = User.getUsers();
+        Map<String, User> users = User.getUsers();
 
         // Assert
-        Map<Integer, User> expectedUsers = new HashMap<>();
-        addUserToMap(expectedUsers, 1, "Pepito");
-        addUserToMap(expectedUsers, 3, "Borja");
-        addUserToMap(expectedUsers, 2, "Pepita");
+        Map<String, User> expectedUsers = new HashMap<>();
+        addUserToMap(expectedUsers, "pepi", "Pepito");
+        addUserToMap(expectedUsers, "borji", "Borja");
+        addUserToMap(expectedUsers, "peti", "Petita");
         assertEquals(expectedUsers, users);
     }
 
@@ -60,34 +60,45 @@ public class UserTest {
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
 
         // Act
-        User user = User.getUserById(1);
+        User user = User.getUserByUsername("pepi");
 
         // Assert
         User expectedUser = new User();
-        expectedUser.setId(1);
+        expectedUser.setUsername("pepi");
         expectedUser.setName("Pepito");
         assertEquals(expectedUser, user);
     }
 
     @Test
-    public void test_givenNoUsers_whenCreateUser_withValidUser_thenPersistsUser() {
+    public void test_givenNoUsers_whenCreateUser_withValidUser_thenPersistsUser()  throws Exception {
         // Arrange
         User user = new User();
-        user.setId(28);
+        user.setUsername("miqui");
         user.setName("Miquel");
 
         //Act
         user.save();
 
         //Assert
-        assertEquals(user, User.getUserById(28));
+        assertEquals(user, User.getUserByUsername("miqui"));
     }
 
-    private void addUserToMap(Map<Integer, User> expectedUsers, int id, String name) {
+    @Test(expected = NotValidUsernameException.class)
+    public void test_givenExistingUser_whenSaveUser_withSameUsername_thenThrowsNotValidUsernameException() throws Exception {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
+        User user = new User();
+        user.setUsername("pepi");
+
+        // Act
+        user.save();
+    }
+
+    private void addUserToMap(Map<String, User> expectedUsers, String username, String name) {
         User user = new User();
         user.setName(name);
-        user.setId(id);
-        expectedUsers.put(id, user);
+        user.setUsername(username);
+        expectedUsers.put(username, user);
     }
 
 }

@@ -11,15 +11,15 @@ import java.util.Map;
 public class User {
     public static final String USERS = "src/main/resources/users.json";
 
-    private Integer id;
+    private String username;
     private String name;
 
-    public Integer getId() {
-        return id;
+    public String getUsername() {
+        return username;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -30,48 +30,26 @@ public class User {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
-
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        return name != null ? name.equals(user.name) : user.name == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
-
-    public static Map<Integer, User> getUsers() {
-        Map<Integer, User> users = new HashMap<>();
+    public static Map<String, User> getUsers() {
+        Map<String, User> users = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
             users = mapper.readValue(
                     new File(USERS),
-                    mapper.getTypeFactory().constructMapType(Map.class, Integer.class, User.class));
+                    mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return users;
     }
 
-    public void save() {
-        Map<Integer, User> users = new HashMap<>();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            users = mapper.readValue(
-                    new File(USERS),
-                    mapper.getTypeFactory().constructMapType(Map.class, Integer.class, User.class));
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-        users.put(this.id, this);
+    public void save() throws NotValidUsernameException {
+        Map<String, User> users = getUsers();
+
+        if (users.containsKey(this.username)) throw new NotValidUsernameException();
+
+        users.put(this.username, this);
 
         try (FileWriter file = new FileWriter(USERS)) {
             file.write(new ObjectMapper().writeValueAsString(users));
@@ -81,16 +59,34 @@ public class User {
         }
     }
 
-    public static User getUserById(Integer id) {
-        Map<Integer, User> users = new HashMap<>();
+    public static User getUserByUsername(String username) {
+        Map<String, User> users = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try {
             users = mapper.readValue(
                     new File(USERS),
-                    mapper.getTypeFactory().constructMapType(Map.class, Integer.class, User.class));
+                    mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return users.get(id);
+        return users.get(username);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        return name != null ? name.equals(user.name) : user.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
     }
 }

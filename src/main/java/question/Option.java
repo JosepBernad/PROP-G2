@@ -1,7 +1,6 @@
 package question;
 
-public class Option
-{
+public class Option {
     private String value;
     private Integer weight;
 
@@ -13,10 +12,6 @@ public class Option
     public Option(String value) {
         this.value = value;
     }
-
-
-
-
 
 
 }

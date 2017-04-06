@@ -1,14 +1,14 @@
 {
-  "1": {
+  "pepi": {
     "name": "Pepito",
-    "id": 1
+    "username": "pepi"
   },
-  "2": {
-    "name": "Pepita",
-    "id": 2
+  "peti": {
+    "name": "Petita",
+    "username": "peti"
   },
-  "3": {
-    "id": 3,
-    "name": "Borja"
+  "borji": {
+    "name": "Borja",
+    "username": "borji"
   }
 }
