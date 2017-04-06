@@ -4,7 +4,6 @@ public class NumericQuestion extends Question {
 
     private Integer min;
     private Integer max;
-    public Foo hola;
 
     public Integer getMin() {
         return min;
