@@ -1,7 +1,14 @@
 package question;
 
-/**
- * Created by Sergio on 06/04/2017.
- */
-public class Question {
+public abstract class Question {
+
+    private String statement;
+
+    public String getStatement() {
+        return statement;
+    }
+
+    public void setStatement(String statement) {
+        this.statement = statement;
+    }
 }
