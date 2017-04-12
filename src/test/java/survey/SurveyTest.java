@@ -3,15 +3,14 @@ package survey;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import question.NumericQuestion;
-import user.User;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -20,16 +19,16 @@ import static org.junit.Assert.assertTrue;
 
 public class SurveyTest {
 
-    public static final Path SURVEY_BACKUP = Paths.get((Survey.SURVEY) + ".bak");
-    public static final Path SURVEY_PATH = Paths.get(Survey.SURVEY);
+    private static final Path SURVEY_BACKUP = Paths.get((Survey.SURVEY) + ".bak");
+    private static final Path SURVEY_PATH = Paths.get(Survey.SURVEY);
 
     @Before
-    public void backupUsersFile() throws IOException {
+    public void backupSurveysFile() throws IOException {
         Files.copy(SURVEY_PATH, SURVEY_BACKUP, REPLACE_EXISTING);
     }
 
     @After
-    public void restoreUsersFile() throws IOException {
+    public void restoreSurveysFile() throws IOException {
         Files.copy(SURVEY_BACKUP, SURVEY_PATH, REPLACE_EXISTING);
         Files.delete(SURVEY_BACKUP);
     }
@@ -55,6 +54,44 @@ public class SurveyTest {
 
         //Assert
         assertTrue(surveys.isEmpty());
+    }
+
+    @Test
+    public void test_givenSurveys_whenGetSurveys_thenReturnsMapWithSurveys() throws IOException {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+
+        // Act
+        Map<Integer, Survey> surveys = Survey.getSurveys();
+
+        // Assert
+        Map<Integer, Survey> expectedSurveys = new HashMap<>();
+        addSurveyToMap(expectedSurveys, 1, "Survey1");
+        addSurveyToMap(expectedSurveys, 2, "Survey2");
+        addSurveyToMap(expectedSurveys, 3, "Survey3");
+        assertEquals(expectedSurveys, surveys);
+    }
+
+    @Test
+    public void test_givenExistingSurveys_whenGetSurveyById_thenReturnThisSurvey() throws IOException {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+
+        // Act
+        Survey survey = Survey.getSurveyById(2);
+
+        // Assert
+        Survey expectedSurvey = new Survey();
+        expectedSurvey.setId(2);
+        expectedSurvey.setName("Survey2");
+        assertEquals(expectedSurvey, survey);
+    }
+
+    private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
+        Survey survey = new Survey();
+        survey.setId(id);
+        survey.setName(name);
+        expectedSurveys.put(id, survey);
     }
 
     @Test

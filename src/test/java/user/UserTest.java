@@ -17,8 +17,8 @@ import static org.junit.Assert.assertTrue;
 
 public class UserTest {
 
-    public static final Path USERS_BACKUP = Paths.get((User.USERS) + ".bak");
-    public static final Path USERS_PATH = Paths.get(User.USERS);
+    private static final Path USERS_BACKUP = Paths.get((User.USERS) + ".bak");
+    private static final Path USERS_PATH = Paths.get(User.USERS);
 
 
     @Before
@@ -39,7 +39,7 @@ public class UserTest {
     }
 
     @Test
-    public void test_givenUsers_whenGetUsers_thenReturnsSetWithUsers() throws IOException {
+    public void test_givenUsers_whenGetUsers_thenReturnsMapWithUsers() throws IOException {
         // Arrange
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
 

@@ -3,7 +3,6 @@ package survey;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import question.Question;
-import user.User;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -125,5 +124,9 @@ public class Survey
         result = 31 * result + (visible != null ? visible.hashCode() : 0);
         result = 31 * result + (questions != null ? questions.hashCode() : 0);
         return result;
+    }
+
+    public static Survey getSurveyById(Integer id) {
+        return getSurveys().get(id);
     }
 }
