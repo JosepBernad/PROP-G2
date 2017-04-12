@@ -70,7 +70,7 @@ public class UserTest {
     }
 
     @Test
-    public void test_givenNoUsers_whenCreateUser_withValidUser_thenPersistsUser()  throws Exception {
+    public void test_givenNoUsers_whenSaveUser_withValidUser_thenPersistsUser()  throws Exception {
         // Arrange
         User user = new User();
         user.setUsername("miqui");
