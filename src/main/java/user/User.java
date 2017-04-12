@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    public static final String USERS = "src/main/resources/users.json";
+    public static final String USERS = "users.json";
 
     private String username;
     private String name;
@@ -33,11 +33,14 @@ public class User {
 
     public static Map<String, User> getUsers() {
         Map<String, User> users = new HashMap<>();
+
+        File file = new File(USERS);
+        if (!file.exists()) return users;
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             users = mapper.readValue(
-                    new File(USERS),
-                    mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
+                    file, mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,25 +54,20 @@ public class User {
 
         users.put(this.username, this);
 
-        try (FileWriter file = new FileWriter(USERS)) {
-            file.write(new ObjectMapper().writeValueAsString(users));
-            file.flush();
+        File file = new File(USERS);
+        try {
+            if (!file.exists()) file.createNewFile();
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(new ObjectMapper().writeValueAsString(users));
+            fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static User getUserByUsername(String username) {
-        Map<String, User> users = new HashMap<>();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            users = mapper.readValue(
-                    new File(USERS),
-                    mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return users.get(username);
+        return getUsers().get(username);
     }
 
     @Override

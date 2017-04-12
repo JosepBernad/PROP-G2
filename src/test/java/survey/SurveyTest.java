@@ -2,7 +2,6 @@ package survey;
 
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import question.NumericQuestion;
 
@@ -19,18 +18,11 @@ import static org.junit.Assert.assertTrue;
 
 public class SurveyTest {
 
-    private static final Path SURVEY_BACKUP = Paths.get((Survey.SURVEY) + ".bak");
     private static final Path SURVEY_PATH = Paths.get(Survey.SURVEY);
 
-    @Before
-    public void backupSurveysFile() throws IOException {
-        Files.copy(SURVEY_PATH, SURVEY_BACKUP, REPLACE_EXISTING);
-    }
-
     @After
-    public void restoreSurveysFile() throws IOException {
-        Files.copy(SURVEY_BACKUP, SURVEY_PATH, REPLACE_EXISTING);
-        Files.delete(SURVEY_BACKUP);
+    public void deleteSurveysFile() throws IOException {
+        Files.deleteIfExists(SURVEY_PATH);
     }
 
     @Test
@@ -106,7 +98,6 @@ public class SurveyTest {
         survey.save();
 
         //Assert
-        Map<Integer, Survey> surveys = Survey.getSurveys();
-        assertEquals(survey,surveys.get(1));
+        assertEquals(survey, Survey.getSurveyById(1));
     }
 }

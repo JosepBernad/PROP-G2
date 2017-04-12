@@ -1,7 +1,6 @@
 package user;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,19 +16,11 @@ import static org.junit.Assert.assertTrue;
 
 public class UserTest {
 
-    private static final Path USERS_BACKUP = Paths.get((User.USERS) + ".bak");
     private static final Path USERS_PATH = Paths.get(User.USERS);
-
-
-    @Before
-    public void backupUsersFile() throws IOException {
-        Files.copy(USERS_PATH, USERS_BACKUP, REPLACE_EXISTING);
-    }
 
     @After
     public void restoreUsersFile() throws IOException {
-        Files.copy(USERS_BACKUP, USERS_PATH, REPLACE_EXISTING);
-        Files.delete(USERS_BACKUP);
+        Files.deleteIfExists(USERS_PATH);
     }
 
     @Test

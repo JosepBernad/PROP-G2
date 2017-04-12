@@ -12,9 +12,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Survey
-{
-    public static final String SURVEY = "src/main/resources/surveys.json";
+public class Survey {
+
+    public static final String SURVEY = "surveys.json";
+
     private Integer id;
     private String name;
     private String description;
@@ -66,8 +67,7 @@ public class Survey
         this.visible = visible;
     }
 
-    public void addQuestion(Question question)
-    {
+    public void addQuestion(Question question) {
         questions.add(question);
     }
 
@@ -77,11 +77,15 @@ public class Survey
 
     public void save() {
         Map<Integer, Survey> surveys = getSurveys();
-        surveys.put(id,this);
+        surveys.put(id, this);
 
-        try (FileWriter file = new FileWriter(SURVEY)) {
-            file.write(new ObjectMapper().writeValueAsString(surveys));
-            file.flush();
+        File file = new File(SURVEY);
+        try {
+            if (!file.exists()) file.createNewFile();
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(new ObjectMapper().writeValueAsString(surveys));
+            fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,11 +93,14 @@ public class Survey
 
     public static Map<Integer, Survey> getSurveys() {
         Map<Integer, Survey> surveys = new HashMap<>();
+
+        File file = new File(SURVEY);
+        if (!file.exists()) return surveys;
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             surveys = mapper.readValue(
-                    new File(SURVEY),
-                    mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
+                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
         } catch (IOException e) {
             e.printStackTrace();
         }
