@@ -1,7 +1,5 @@
 package question;
 
 
-public class SortedQualitativeQuestion extends QualitativeQuestion
-{
-
+public class SortedQualitativeQuestion extends QualitativeQuestion {
 }

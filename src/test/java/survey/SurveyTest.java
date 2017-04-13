@@ -75,14 +75,14 @@ public class SurveyTest {
         // Assert
         Survey expectedSurvey = new Survey();
         expectedSurvey.setId(2);
-        expectedSurvey.setName("Survey2");
+        expectedSurvey.setTitle("Survey2");
         assertEquals(expectedSurvey, survey);
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
         Survey survey = new Survey();
         survey.setId(id);
-        survey.setName(name);
+        survey.setTitle(name);
         expectedSurveys.put(id, survey);
     }
 
@@ -91,7 +91,7 @@ public class SurveyTest {
         //Arrange
         Survey survey = new Survey();
         survey.setId(1);
-        survey.setName("Survey1");
+        survey.setTitle("Survey1");
         survey.setDescription("Description1");
 
         //Act

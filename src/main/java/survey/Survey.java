@@ -17,7 +17,7 @@ public class Survey {
     public static final String SURVEY = "surveys.json";
 
     private Integer id;
-    private String name;
+    private String title;
     private String description;
     private Boolean finished;
     private Boolean visible;
@@ -35,12 +35,12 @@ public class Survey {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -115,7 +115,7 @@ public class Survey {
         Survey survey = (Survey) o;
 
         if (id != null ? !id.equals(survey.id) : survey.id != null) return false;
-        if (name != null ? !name.equals(survey.name) : survey.name != null) return false;
+        if (title != null ? !title.equals(survey.title) : survey.title != null) return false;
         if (description != null ? !description.equals(survey.description) : survey.description != null) return false;
         if (finished != null ? !finished.equals(survey.finished) : survey.finished != null) return false;
         if (visible != null ? !visible.equals(survey.visible) : survey.visible != null) return false;
@@ -125,7 +125,7 @@ public class Survey {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (finished != null ? finished.hashCode() : 0);
         result = 31 * result + (visible != null ? visible.hashCode() : 0);
