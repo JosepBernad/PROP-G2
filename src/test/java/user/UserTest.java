@@ -74,12 +74,33 @@ public class UserTest {
         assertEquals(user, User.getUserByUsername("miqui"));
     }
 
-    @Test(expected = NotValidUsernameException.class)
-    public void test_givenExistingUser_whenSaveUser_withSameUsername_thenThrowsNotValidUsernameException() throws Exception {
+    @Test(expected = DuplicatedUsernameException.class)
+    public void test_givenExistingUser_whenSaveUser_withSameUsername_thenThrowsDuplicatedUsernameException() throws Exception {
         // Arrange
         Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
         User user = new User();
         user.setUsername("pepi");
+        user.setName("Pepi Diaz");
+
+        // Act
+        user.save();
+    }
+
+    @Test(expected = EmptyRequiredAttributeException.class)
+    public void test_givenNewUser_whenSaveUser_withEmptyUserName_thenThrowsEmptyRequiredAttributeException() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setUsername("");
+
+        // Act
+        user.save();
+    }
+
+    @Test(expected = EmptyRequiredAttributeException.class)
+    public void test_givenNewUser_whenSaveUser_withEmptyName_thenThrowsEmptyRequiredAttributeException() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setName("");
 
         // Act
         user.save();

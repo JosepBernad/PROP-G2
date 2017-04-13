@@ -47,10 +47,13 @@ public class User {
         return users;
     }
 
-    public void save() throws NotValidUsernameException {
+    public void save() throws DuplicatedUsernameException, EmptyRequiredAttributeException {
+        if (username == null || username.length() == 0 || name == null || name.length() == 0)
+            throw new EmptyRequiredAttributeException();
+
         Map<String, User> users = getUsers();
 
-        if (users.containsKey(this.username)) throw new NotValidUsernameException();
+        if (users.containsKey(this.username)) throw new DuplicatedUsernameException();
 
         users.put(this.username, this);
 
@@ -86,5 +89,10 @@ public class User {
         int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + name + ", Username: " + username;
     }
 }
