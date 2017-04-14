@@ -87,7 +87,7 @@ public class UserTest {
     }
 
     @Test(expected = EmptyRequiredAttributeException.class)
-    public void test_givenNewUser_whenSaveUser_withEmptyUserName_thenThrowsEmptyRequiredAttributeException() throws Exception {
+    public void test_givenNewUser_whenSaveUser_withEmptyUsername_thenThrowsEmptyRequiredAttributeException() throws Exception {
         // Arrange
         User user = new User();
         user.setUsername("");

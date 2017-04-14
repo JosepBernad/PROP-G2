@@ -13,5 +13,11 @@ public class Option {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
 
+    public Integer getWeight() {
+        return weight;
+    }
 }
