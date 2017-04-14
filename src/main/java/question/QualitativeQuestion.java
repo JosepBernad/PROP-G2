@@ -11,7 +11,6 @@ public abstract class QualitativeQuestion extends Question {
         return options;
     }
 
-    // TODO: test it
     public void addOption(Option option) {
         options.add(option);
     }

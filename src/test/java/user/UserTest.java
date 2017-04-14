@@ -1,5 +1,7 @@
 package user;
 
+import Exceptions.DuplicatedUsernameException;
+import Exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
 import org.junit.Test;
 
@@ -25,7 +27,10 @@ public class UserTest {
 
     @Test
     public void test_givenNoUsers_whenGetUsers_thenReturnsEmptyMap() {
+        // Act
         Map<String, User> users = User.getUsers();
+
+        // Assert
         assertTrue(users.isEmpty());
     }
 

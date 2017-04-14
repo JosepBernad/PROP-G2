@@ -1,11 +1,12 @@
 package survey;
 
 
+import Exceptions.EmptyRequiredAttributeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import question.Question;
+import utils.FileUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 public class Survey {
 
-    public static final String SURVEY = "surveys.json";
+    public static final String SURVEYS = "surveys.json";
 
     private Integer id;
     private String title;
@@ -75,26 +76,18 @@ public class Survey {
         return questions;
     }
 
-    public void save() {
+    public void save() throws EmptyRequiredAttributeException {
+        if (title == null || title.length() == 0) throw new EmptyRequiredAttributeException();
+
         Map<Integer, Survey> surveys = getSurveys();
         surveys.put(id, this);
-
-        File file = new File(SURVEY);
-        try {
-            if (!file.exists()) file.createNewFile();
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(new ObjectMapper().writeValueAsString(surveys));
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtils.saveMapInFile(surveys, SURVEYS);
     }
 
     public static Map<Integer, Survey> getSurveys() {
         Map<Integer, Survey> surveys = new HashMap<>();
 
-        File file = new File(SURVEY);
+        File file = new File(SURVEYS);
         if (!file.exists()) return surveys;
 
         ObjectMapper mapper = new ObjectMapper();

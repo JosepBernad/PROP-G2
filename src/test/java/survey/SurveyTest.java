@@ -1,6 +1,7 @@
 package survey;
 
 
+import Exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
 import org.junit.Test;
 import question.NumericQuestion;
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SurveyTest {
 
-    private static final Path SURVEY_PATH = Paths.get(Survey.SURVEY);
+    private static final Path SURVEY_PATH = Paths.get(Survey.SURVEYS);
 
     @After
     public void deleteSurveysFile() throws IOException {
@@ -87,7 +88,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void test_givenNoSurveys_whenSaveSurvey_withValidSurvey_thenPersistsSurvey() {
+    public void test_givenNoSurveys_whenSaveSurvey_withValidSurvey_thenPersistsSurvey() throws EmptyRequiredAttributeException {
         //Arrange
         Survey survey = new Survey();
         survey.setId(1);
@@ -100,4 +101,15 @@ public class SurveyTest {
         //Assert
         assertEquals(survey, Survey.getSurveyById(1));
     }
+
+    @Test(expected = EmptyRequiredAttributeException.class)
+    public void test_givenNewSurvey_whenSaveSurvey_withEmptyTitle_thenThrowsEmptyRequiredAttributeException() throws Exception {
+        // Arrange
+        Survey survey = new Survey();
+        survey.setTitle("");
+
+        // Act
+        survey.save();
+    }
+
 }

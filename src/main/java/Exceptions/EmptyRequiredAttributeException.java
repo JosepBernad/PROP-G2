@@ -1,4 +1,4 @@
-package user;
+package Exceptions;
 
 public class EmptyRequiredAttributeException extends Exception {
 }

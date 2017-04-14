@@ -1,9 +1,11 @@
 package user;
 
+import Exceptions.DuplicatedUsernameException;
+import Exceptions.EmptyRequiredAttributeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import utils.FileUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +38,6 @@ public class User {
 
         File file = new File(USERS);
         if (!file.exists()) return users;
-
         ObjectMapper mapper = new ObjectMapper();
         try {
             users = mapper.readValue(
@@ -52,21 +53,9 @@ public class User {
             throw new EmptyRequiredAttributeException();
 
         Map<String, User> users = getUsers();
-
         if (users.containsKey(this.username)) throw new DuplicatedUsernameException();
-
         users.put(this.username, this);
-
-        File file = new File(USERS);
-        try {
-            if (!file.exists()) file.createNewFile();
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(new ObjectMapper().writeValueAsString(users));
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        FileUtils.saveMapInFile(users, USERS);
     }
 
     public static User getUserByUsername(String username) {

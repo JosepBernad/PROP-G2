@@ -1,7 +1,7 @@
+import Exceptions.DuplicatedUsernameException;
+import Exceptions.EmptyRequiredAttributeException;
 import question.*;
 import survey.Survey;
-import user.DuplicatedUsernameException;
-import user.EmptyRequiredAttributeException;
 import user.User;
 
 import java.io.BufferedReader;
@@ -26,7 +26,7 @@ public class Main {
     private static final Boolean SORTED = Boolean.TRUE;
     private static BufferedReader br;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, EmptyRequiredAttributeException {
 
         System.out.println(WELCOME_MESSAGE);
 
@@ -59,7 +59,7 @@ public class Main {
         }
     }
 
-    private static void createSurvey() throws IOException {
+    private static void createSurvey() throws IOException, EmptyRequiredAttributeException {
         System.out.println();
         System.out.println("New Survey:");
         Survey survey = new Survey();
