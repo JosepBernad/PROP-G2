@@ -13,15 +13,16 @@ import java.util.Random;
 public class Main {
 
     private static final String WELCOME_MESSAGE = "Welcome to ENQUESTATOR 3000";
-    public static final int CREATE_NEW_USER = 1;
-    private static final int CREATE_NEW_SURVEY = 1;
-    private static final int LIST_EXISTING_SURVEYS = 2;
-    private static final int EXIT = 0;
-    private static final int FREE_QUESTION = 1;
-    private static final int MULTIEVALUATED_UNSORTED_QUALITATIVE_QUESTION = 2;
-    private static final int NUMERIC_QUESTION = 3;
-    private static final int SORTED_QUALITATIVE_QUESTION = 4;
-    private static final int UNSORTED_QUALITATIVE_QUESTION = 5;
+    public static final String CREATE_NEW_USER = "1";
+    private static final String CREATE_NEW_SURVEY = "1";
+    private static final String LIST_EXISTING_SURVEYS = "2";
+    private static final String SHOW_USER_INFO = "3";
+    private static final String EXIT = "0";
+    private static final String FREE_QUESTION = "1";
+    private static final String MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION = "2";
+    private static final String NUMERIC_QUESTION = "3";
+    private static final String SORTED_QUALITATIVE_QUESTION = "4";
+    private static final String UNSORTED_QUALITATIVE_QUESTION = "5";
     private static final Boolean UNSORTED = Boolean.FALSE;
     private static final Boolean SORTED = Boolean.TRUE;
     private static BufferedReader br;
@@ -31,18 +32,17 @@ public class Main {
         System.out.println(WELCOME_MESSAGE);
 
         br = new BufferedReader(new InputStreamReader(System.in));
-        User user = new User();
         System.out.print("Enter the username for the new user: ");
-        user.setUsername(br.readLine());
+        String username = br.readLine();
         System.out.print("Enter the name: ");
-        user.setName(br.readLine());
-
+        String name = br.readLine();
+        User user = new User(username, name);
         saveUser(user);
 
         showMainMenu();
 
-        Integer option = Integer.valueOf(br.readLine());
-        while (option != EXIT) {
+        String option = br.readLine();
+        while (!EXIT.equals(option)) {
             switch (option) {
                 case CREATE_NEW_SURVEY:
                     createSurvey();
@@ -51,11 +51,14 @@ public class Main {
                     Map<Integer, Survey> surveys = Survey.getSurveys();
                     for (Survey survey : surveys.values()) System.out.println(survey.getTitle());
                     break;
+                case SHOW_USER_INFO:
+                    System.out.println(user);
+                    break;
                 default:
                     System.out.println("Invalid option");
             }
             showMainMenu();
-            option = Integer.valueOf(br.readLine());
+            option = br.readLine();
         }
     }
 
@@ -69,8 +72,8 @@ public class Main {
         survey.setDescription(br.readLine());
         System.out.println("Add questions: ");
         showQuestionTypes();
-        Integer option = Integer.valueOf(br.readLine());
-        while (option != EXIT) {
+        String option = br.readLine();
+        while (!EXIT.equals(option)) {
             switch (option) {
                 case FREE_QUESTION:
                     FreeQuestion q1 = new FreeQuestion();
@@ -79,8 +82,8 @@ public class Main {
                     q1.setMaxSize(Integer.valueOf(br.readLine()));
                     survey.addQuestion(q1);
                     break;
-                case MULTIEVALUATED_UNSORTED_QUALITATIVE_QUESTION:
-                    MultievaluatedUnsortedQualitativeQuestion q2 = new MultievaluatedUnsortedQualitativeQuestion();
+                case MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION:
+                    MultivaluedUnsortedQualitativeQuestion q2 = new MultivaluedUnsortedQualitativeQuestion();
                     setQuestionStatement(q2);
                     addOptions(q2, UNSORTED);
                     System.out.print("Enter maximum number of selectable options: ");
@@ -112,7 +115,7 @@ public class Main {
                     System.out.println("Invalid option");
             }
             showQuestionTypes();
-            option = Integer.valueOf(br.readLine());
+            option = br.readLine();
         }
         survey.setId(new Random().nextInt(100));
         survey.save();
@@ -126,20 +129,21 @@ public class Main {
     private static void showMainMenu() {
         System.out.println();
         System.out.println("Choose one of the following options:");
-        System.out.println("1 - Create new survey");
-        System.out.println("2 - List existing surveys");
-        System.out.println("0 - Exit");
+        System.out.println(CREATE_NEW_SURVEY + " - Create new survey");
+        System.out.println(LIST_EXISTING_SURVEYS + " - List existing surveys");
+        System.out.println(SHOW_USER_INFO + " - Show user info");
+        System.out.println(EXIT + " - Exit");
     }
 
     private static void showQuestionTypes() {
         System.out.println();
         System.out.println("Choose one of the following types of questions:");
-        System.out.println("1 - Free Question");
-        System.out.println("2 - Multievaluated Unsorted Question");
-        System.out.println("3 - Numeric Question");
-        System.out.println("4 - Sorted Qualitative Question");
-        System.out.println("5 - Unsorted Qualitative Question");
-        System.out.println("0 - Exit");
+        System.out.println(FREE_QUESTION + " - Free Question");
+        System.out.println(MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION + " - Multivalued Unsorted Qualitative Question");
+        System.out.println(NUMERIC_QUESTION + " - Numeric Question");
+        System.out.println(SORTED_QUALITATIVE_QUESTION + " - Sorted Qualitative Question");
+        System.out.println(UNSORTED_QUALITATIVE_QUESTION + " - Unsorted Qualitative Question");
+        System.out.println(EXIT + " - Exit");
     }
 
     private static void saveUser(User user) throws IOException {

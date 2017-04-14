@@ -1,6 +1,6 @@
 package question;
 
-public class MultievaluatedUnsortedQualitativeQuestion extends UnsortedQualitativeQuestion
+public class MultivaluedUnsortedQualitativeQuestion extends UnsortedQualitativeQuestion
 {
     private Integer nMaxAnswers;
 

@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FreeQuestion.class, name = "FreeQuestion"),
-        @JsonSubTypes.Type(value = MultievaluatedUnsortedQualitativeQuestion.class, name = "MultievaluatedUnsortedQualitativeQuestion"),
+        @JsonSubTypes.Type(value = MultivaluedUnsortedQualitativeQuestion.class, name = "MultivaluedUnsortedQualitativeQuestion"),
         @JsonSubTypes.Type(value = NumericQuestion.class, name = "NumericQuestion"),
         @JsonSubTypes.Type(value = QualitativeQuestion.class, name = "QualitativeQuestion"),
         @JsonSubTypes.Type(value = SortedQualitativeQuestion.class, name = "SortedQualitativeQuestion"),
