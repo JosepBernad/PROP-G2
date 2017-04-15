@@ -13,7 +13,8 @@ import java.util.Random;
 public class Main {
 
     private static final String WELCOME_MESSAGE = "Welcome to ENQUESTATOR 3000";
-    public static final String CREATE_NEW_USER = "1";
+    private static final String CREATE_NEW_USER = "1";
+    private static final String SELECT_EXISTING_USER = "2";
     private static final String CREATE_NEW_SURVEY = "1";
     private static final String LIST_EXISTING_SURVEYS = "2";
     private static final String SHOW_USER_INFO = "3";
@@ -32,12 +33,7 @@ public class Main {
         System.out.println(WELCOME_MESSAGE);
 
         br = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter the username for the new user: ");
-        String username = br.readLine();
-        System.out.print("Enter the name: ");
-        String name = br.readLine();
-        User user = new User(username, name);
-        saveUser(user);
+        User user = selectUser();
 
         showMainMenu();
 
@@ -60,6 +56,42 @@ public class Main {
             showMainMenu();
             option = br.readLine();
         }
+    }
+
+    private static User selectUser() throws IOException {
+        User user = null;
+        while (user == null) {
+            showSelectUserMenu();
+            switch (br.readLine()) {
+                case CREATE_NEW_USER:
+                    System.out.print("Enter the username for the new user: ");
+                    String username = br.readLine();
+                    System.out.print("Enter the name: ");
+                    String name = br.readLine();
+                    user = new User(username, name);
+                    saveUser(user);
+                    break;
+                case SELECT_EXISTING_USER:
+                    System.out.println("Select one of the following users: ");
+                    Map<String, User> users = User.getUsers();
+                    for (User existingUser : users.values()) System.out.println(existingUser.getUsername());
+                    String selectedUser = br.readLine();
+                    if (!users.containsKey(selectedUser)) System.out.println("Not a valid user");
+                    else user = users.get(selectedUser);
+                    break;
+                default:
+                    System.out.println("Invalid option");
+            }
+
+        }
+        return user;
+    }
+
+    private static void showSelectUserMenu() {
+        System.out.println();
+        System.out.println("Choose one of the following options:");
+        System.out.println(CREATE_NEW_USER + " - Create new user");
+        System.out.println(SELECT_EXISTING_USER + " - Select existing user");
     }
 
     private static void createSurvey() throws IOException, EmptyRequiredAttributeException {
