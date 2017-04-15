@@ -4,6 +4,9 @@ public class Option {
     private String value;
     private Integer weight;
 
+    public Option() {
+    }
+
     public Option(String value, Integer weight) {
         this.value = value;
         this.weight = weight;
