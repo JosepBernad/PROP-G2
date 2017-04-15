@@ -80,18 +80,40 @@ public class SurveyTest {
         assertEquals(expectedSurvey, survey);
     }
 
-    private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
+    @Test
+    public void test_givenExistingSurveys_whenSaveSurvey_withNewSurvey_thenPersistsItWithNextID() throws Exception {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
         Survey survey = new Survey();
-        survey.setId(id);
-        survey.setTitle(name);
-        expectedSurveys.put(id, survey);
+        survey.setTitle("Survey");
+        survey.setDescription("Description");
+
+        // Act
+        survey.save();
+
+        // Assert
+        assertEquals(survey, Survey.getSurveyById(4));
     }
 
     @Test
     public void test_givenNoSurveys_whenSaveSurvey_withValidSurvey_thenPersistsSurvey() throws EmptyRequiredAttributeException {
         //Arrange
         Survey survey = new Survey();
-        survey.setId(1);
+        survey.setId(5);
+        survey.setTitle("Survey");
+        survey.setDescription("Description");
+
+        //Act
+        survey.save();
+
+        //Assert
+        assertEquals(survey, Survey.getSurveyById(5));
+    }
+
+    @Test
+    public void test_givenNoSurveys_whenSaveSurvey_withValidSurvey_thenPersistsSurveyWithID1() throws EmptyRequiredAttributeException {
+        //Arrange
+        Survey survey = new Survey();
         survey.setTitle("Survey1");
         survey.setDescription("Description1");
 
@@ -110,6 +132,13 @@ public class SurveyTest {
 
         // Act
         survey.save();
+    }
+
+    private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
+        Survey survey = new Survey();
+        survey.setId(id);
+        survey.setTitle(name);
+        expectedSurveys.put(id, survey);
     }
 
 }

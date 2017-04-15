@@ -8,10 +8,7 @@ import utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Survey {
 
@@ -80,6 +77,10 @@ public class Survey {
         if (title == null || title.length() == 0) throw new EmptyRequiredAttributeException();
 
         Map<Integer, Survey> surveys = getSurveys();
+        if (id == null) {
+            if (surveys.isEmpty()) id = 1;
+            else id = Collections.max(surveys.keySet()) + 1;
+        }
         surveys.put(id, this);
         FileUtils.saveMapInFile(surveys, SURVEYS);
     }
