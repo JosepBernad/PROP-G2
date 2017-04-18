@@ -1,7 +1,6 @@
 package answer;
 
 import question.Option;
-import utils.FileUtils;
 
 import java.util.Set;
 
@@ -17,10 +16,4 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
         this.options = options;
     }
 
-    @Override
-    public void save() {
-        Set<Answer> answers = getAnswers();
-        answers.add(this);
-        FileUtils.saveObjectInFile(answers, ANSWERS);
-    }
 }

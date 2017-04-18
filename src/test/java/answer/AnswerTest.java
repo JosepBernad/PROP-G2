@@ -49,7 +49,7 @@ public class AnswerTest {
     @Test
     public void test_givenNewAnswer_whenSave_thenPersistsIt() {
         //Arrange
-        NumericAnswer answer = new NumericAnswer();
+        Answer answer = new NumericAnswer();
         answer.setQuestionId(1);
         answer.setUsername("pepito");
 
@@ -59,4 +59,5 @@ public class AnswerTest {
         //Assert
         assertTrue(Answer.getAnswers().contains(answer));
     }
+
 }

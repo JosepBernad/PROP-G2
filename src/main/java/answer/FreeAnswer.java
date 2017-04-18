@@ -1,9 +1,5 @@
 package answer;
 
-import utils.FileUtils;
-
-import java.util.Set;
-
 public class FreeAnswer extends Answer {
 
     private String value;
@@ -16,10 +12,4 @@ public class FreeAnswer extends Answer {
         this.value = value;
     }
 
-    @Override
-    public void save() {
-        Set<Answer> answers = getAnswers();
-        answers.add(this);
-        FileUtils.saveObjectInFile(answers, ANSWERS);
-    }
 }

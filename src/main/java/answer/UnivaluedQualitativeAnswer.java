@@ -1,9 +1,6 @@
 package answer;
 
 import question.Option;
-import utils.FileUtils;
-
-import java.util.Set;
 
 public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
 
@@ -17,10 +14,4 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
         this.value = value;
     }
 
-    @Override
-    public void save() {
-        Set<Answer> answers = getAnswers();
-        answers.add(this);
-        FileUtils.saveObjectInFile(answers, ANSWERS);
-    }
 }
