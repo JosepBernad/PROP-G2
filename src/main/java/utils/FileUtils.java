@@ -5,10 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
 
 public class FileUtils {
-    public static void saveMapInFile(Map<?, ?> map, String filename) {
+    public static void saveObjectInFile(Object map, String filename) {
         FileWriter fileWriter = null;
         try {
             File file = new File(filename);

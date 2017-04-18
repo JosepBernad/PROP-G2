@@ -1,8 +1,8 @@
 package survey;
 
 
-import Exceptions.EmptyRequiredAttributeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.EmptyRequiredAttributeException;
 import question.Question;
 import utils.FileUtils;
 
@@ -82,7 +82,7 @@ public class Survey {
             else id = Collections.max(surveys.keySet()) + 1;
         }
         surveys.put(id, this);
-        FileUtils.saveMapInFile(surveys, SURVEYS);
+        FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
 
     public static Map<Integer, Survey> getSurveys() {

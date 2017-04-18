@@ -1,8 +1,8 @@
 package user;
 
-import Exceptions.DuplicatedUsernameException;
-import Exceptions.EmptyRequiredAttributeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import exceptions.DuplicatedUsernameException;
+import exceptions.EmptyRequiredAttributeException;
 import utils.FileUtils;
 
 import java.io.File;
@@ -63,7 +63,7 @@ public class User {
         Map<String, User> users = getUsers();
         if (users.containsKey(this.username)) throw new DuplicatedUsernameException();
         users.put(this.username, this);
-        FileUtils.saveMapInFile(users, USERS);
+        FileUtils.saveObjectInFile(users, USERS);
     }
 
     public static User getUserByUsername(String username) {

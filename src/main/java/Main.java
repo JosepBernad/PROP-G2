@@ -1,5 +1,5 @@
-import Exceptions.DuplicatedUsernameException;
-import Exceptions.EmptyRequiredAttributeException;
+import exceptions.DuplicatedUsernameException;
+import exceptions.EmptyRequiredAttributeException;
 import question.*;
 import survey.Survey;
 import user.User;
@@ -9,15 +9,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
 
-public class Main {
+class Main {
 
     private static final String WELCOME_MESSAGE = "Welcome to ENQUESTATOR 3000";
     private static final String CREATE_NEW_USER = "1";
     private static final String SELECT_EXISTING_USER = "2";
     private static final String CREATE_NEW_SURVEY = "1";
     private static final String LIST_EXISTING_SURVEYS = "2";
-    private static final String SHOW_USER_INFO = "3";
-    private static final String DELETE_SURVEY = "4";
+    private static final String ANSWER_SURVEY = "3";
+    private static final String SHOW_USER_INFO = "4";
     private static final String EXIT = "0";
     private static final String FREE_QUESTION = "1";
     private static final String MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION = "2";
@@ -45,13 +45,21 @@ public class Main {
                     break;
 
                 case LIST_EXISTING_SURVEYS:
-                    Map<Integer, Survey> surveys = Survey.getSurveys();
-                    if (surveys.isEmpty()) System.out.println("Any existing survey");
-                    else {
-                        for (Survey survey : surveys.values()) System.out.println(survey);
+                    for (Survey survey : Survey.getSurveys().values())
+                        System.out.println(survey.getId() + " - " + survey.getTitle());
+                    break;
+                case ANSWER_SURVEY:
+                    System.out.print("Enter survey id: ");
+                    String selectedSurvey = br.readLine();
+                    Survey survey = Survey.getSurveyById(Integer.valueOf(selectedSurvey));
+                    if (survey != null) {
+                        for (Question question : survey.getQuestions()) {
+                            System.out.println(question.getStatement());
+                            System.out.print("Your answer: ");
+                            String answer = br.readLine();
+                        }
                     }
                     break;
-
                 case SHOW_USER_INFO:
                     System.out.println(user);
                     break;
@@ -190,6 +198,7 @@ public class Main {
         System.out.println("Choose one of the following options:");
         System.out.println(CREATE_NEW_SURVEY + " - Create new survey");
         System.out.println(LIST_EXISTING_SURVEYS + " - List existing surveys");
+        System.out.println(ANSWER_SURVEY + " - Answer survey");
         System.out.println(SHOW_USER_INFO + " - Show user info");
         System.out.println(DELETE_SURVEY + " - Delete a survey");
         System.out.println(EXIT + " - Exit");

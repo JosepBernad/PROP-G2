@@ -1,0 +1,17 @@
+[
+  {
+    "type": "NumericAnswer",
+    "questionId": 1,
+    "username": "pepito"
+  },
+  {
+    "type": "NumericAnswer",
+    "questionId": 2,
+    "username": "pepita"
+  },
+  {
+    "type": "NumericAnswer",
+    "questionId": 3,
+    "username": "pepiti"
+  }
+]

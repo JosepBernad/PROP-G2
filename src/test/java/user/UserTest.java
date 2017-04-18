@@ -1,7 +1,7 @@
 package user;
 
-import Exceptions.DuplicatedUsernameException;
-import Exceptions.EmptyRequiredAttributeException;
+import exceptions.DuplicatedUsernameException;
+import exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
 import org.junit.Test;
 

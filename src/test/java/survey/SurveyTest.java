@@ -1,7 +1,7 @@
 package survey;
 
 
-import Exceptions.EmptyRequiredAttributeException;
+import exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
 import org.junit.Test;
 import question.NumericQuestion;

@@ -18,7 +18,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 public abstract class Question {
 
+    private Integer id;
     private String statement;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getStatement() {
         return statement;
