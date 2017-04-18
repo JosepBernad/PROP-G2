@@ -130,4 +130,15 @@ public class Survey {
     public static Survey getSurveyById(Integer id) {
         return getSurveys().get(id);
     }
+
+    public static void delete(Integer id) {
+        Map<Integer, Survey> surveys = getSurveys();
+        surveys.remove(1);
+        FileUtils.saveMapInFile(surveys, SURVEYS);
+    }
+
+    @Override
+    public String toString() {
+        return "Survey " + id + ": " + title;
+    }
 }

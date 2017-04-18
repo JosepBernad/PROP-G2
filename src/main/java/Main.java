@@ -17,6 +17,7 @@ public class Main {
     private static final String CREATE_NEW_SURVEY = "1";
     private static final String LIST_EXISTING_SURVEYS = "2";
     private static final String SHOW_USER_INFO = "3";
+    private static final String DELETE_SURVEY = "4";
     private static final String EXIT = "0";
     private static final String FREE_QUESTION = "1";
     private static final String MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION = "2";
@@ -42,13 +43,34 @@ public class Main {
                 case CREATE_NEW_SURVEY:
                     createSurvey();
                     break;
+
                 case LIST_EXISTING_SURVEYS:
                     Map<Integer, Survey> surveys = Survey.getSurveys();
-                    for (Survey survey : surveys.values()) System.out.println(survey.getTitle());
+                    if (surveys.isEmpty()) System.out.println("Any existing survey");
+                    else {
+                        for (Survey survey : surveys.values()) System.out.println(survey);
+                    }
                     break;
+
                 case SHOW_USER_INFO:
                     System.out.println(user);
                     break;
+
+                case DELETE_SURVEY:
+                    Map<Integer, Survey> s = Survey.getSurveys();
+                    if (s.isEmpty()) System.out.println("Any existing survey");
+                    else {
+                        System.out.println("There are the following surveys:");
+                        for (Survey survey : s.values()) System.out.println(survey);
+                        System.out.println("Which survey do you want to delete?");
+                        int id = Integer.valueOf(br.readLine());
+                        if (s.containsKey(id)) {
+                            Survey.delete(id);
+                            System.out.println("Survey deleted successfully!");
+                        } else System.out.println("Not a valid number for a survey");
+                    }
+                    break;
+
                 default:
                     System.out.println("Invalid option");
             }
@@ -70,6 +92,7 @@ public class Main {
                     user = new User(username, name);
                     saveUser(user);
                     break;
+
                 case SELECT_EXISTING_USER:
                     System.out.println("Select one of the following users: ");
                     Map<String, User> users = User.getUsers();
@@ -78,6 +101,7 @@ public class Main {
                     if (!users.containsKey(selectedUser)) System.out.println("Not a valid user");
                     else user = users.get(selectedUser);
                     break;
+
                 default:
                     System.out.println("Invalid option");
             }
@@ -113,6 +137,7 @@ public class Main {
                     q1.setMaxSize(Integer.valueOf(br.readLine()));
                     survey.addQuestion(q1);
                     break;
+
                 case MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION:
                     MultivaluedUnsortedQualitativeQuestion q2 = new MultivaluedUnsortedQualitativeQuestion();
                     setQuestionStatement(q2);
@@ -121,6 +146,7 @@ public class Main {
                     q2.setnMaxAnswers(Integer.valueOf(br.readLine()));
                     survey.addQuestion(q2);
                     break;
+
                 case NUMERIC_QUESTION:
                     NumericQuestion q3 = new NumericQuestion();
                     setQuestionStatement(q3);
@@ -130,18 +156,21 @@ public class Main {
                     q3.setMax(Integer.valueOf(br.readLine()));
                     survey.addQuestion(q3);
                     break;
+
                 case SORTED_QUALITATIVE_QUESTION:
                     SortedQualitativeQuestion q4 = new SortedQualitativeQuestion();
                     setQuestionStatement(q4);
                     addOptions(q4, SORTED);
                     survey.addQuestion(q4);
                     break;
+
                 case UNSORTED_QUALITATIVE_QUESTION:
                     UnsortedQualitativeQuestion q5 = new UnsortedQualitativeQuestion();
                     setQuestionStatement(q5);
                     addOptions(q5, UNSORTED);
                     survey.addQuestion(q5);
                     break;
+
                 default:
                     System.out.println("Invalid option");
             }
@@ -162,6 +191,7 @@ public class Main {
         System.out.println(CREATE_NEW_SURVEY + " - Create new survey");
         System.out.println(LIST_EXISTING_SURVEYS + " - List existing surveys");
         System.out.println(SHOW_USER_INFO + " - Show user info");
+        System.out.println(DELETE_SURVEY + " - Delete a survey");
         System.out.println(EXIT + " - Exit");
     }
 

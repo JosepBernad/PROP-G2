@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class SurveyTest {
@@ -132,6 +133,18 @@ public class SurveyTest {
 
         // Act
         survey.save();
+    }
+
+    @Test
+    public void test_givenExistingSurveys_whenDeletesSurvey_withValidSurveyId_thenDeletesSurvey() throws IOException {
+        //Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+
+        //Act
+        Survey.delete(1);
+
+        //Assert
+        assertFalse(Survey.getSurveys().containsKey(1));
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
