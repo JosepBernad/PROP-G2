@@ -17,7 +17,8 @@ class Main {
     private static final String CREATE_NEW_SURVEY = "1";
     private static final String LIST_EXISTING_SURVEYS = "2";
     private static final String ANSWER_SURVEY = "3";
-    private static final String SHOW_USER_INFO = "4";
+    private static final String DELETE_SURVEY = "4";
+    private static final String SHOW_USER_INFO = "5";
     private static final String EXIT = "0";
     private static final String FREE_QUESTION = "1";
     private static final String MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION = "2";
@@ -45,8 +46,7 @@ class Main {
                     break;
 
                 case LIST_EXISTING_SURVEYS:
-                    for (Survey survey : Survey.getSurveys().values())
-                        System.out.println(survey.getId() + " - " + survey.getTitle());
+                    listSurveys();
                     break;
                 case ANSWER_SURVEY:
                     System.out.print("Enter survey id: ");
@@ -65,18 +65,7 @@ class Main {
                     break;
 
                 case DELETE_SURVEY:
-                    Map<Integer, Survey> s = Survey.getSurveys();
-                    if (s.isEmpty()) System.out.println("Any existing survey");
-                    else {
-                        System.out.println("There are the following surveys:");
-                        for (Survey survey : s.values()) System.out.println(survey);
-                        System.out.println("Which survey do you want to delete?");
-                        int id = Integer.valueOf(br.readLine());
-                        if (s.containsKey(id)) {
-                            Survey.delete(id);
-                            System.out.println("Survey deleted successfully!");
-                        } else System.out.println("Not a valid number for a survey");
-                    }
+                    deleteSurvey();
                     break;
 
                 default:
@@ -84,6 +73,29 @@ class Main {
             }
             showMainMenu();
             option = br.readLine();
+        }
+    }
+
+    private static void deleteSurvey() throws IOException {
+        Map<Integer, Survey> s = Survey.getSurveys();
+        if (s.isEmpty()) System.out.println("Any existing survey");
+        else {
+            System.out.println("There are the following surveys:");
+            for (Survey survey : s.values()) System.out.println(survey);
+            System.out.println("Which survey do you want to delete?");
+            int id = Integer.valueOf(br.readLine());
+            if (s.containsKey(id)) {
+                Survey.delete(id);
+                System.out.println("Survey deleted successfully!");
+            } else System.out.println("Not a valid number for a survey");
+        }
+    }
+
+    private static void listSurveys() {
+        Map<Integer, Survey> surveys = Survey.getSurveys();
+        if (surveys.isEmpty()) System.out.println("Any existing survey");
+        else {
+            for (Survey survey : surveys.values()) System.out.println(survey);
         }
     }
 
@@ -199,8 +211,8 @@ class Main {
         System.out.println(CREATE_NEW_SURVEY + " - Create new survey");
         System.out.println(LIST_EXISTING_SURVEYS + " - List existing surveys");
         System.out.println(ANSWER_SURVEY + " - Answer survey");
-        System.out.println(SHOW_USER_INFO + " - Show user info");
         System.out.println(DELETE_SURVEY + " - Delete a survey");
+        System.out.println(SHOW_USER_INFO + " - Show user info");
         System.out.println(EXIT + " - Exit");
     }
 

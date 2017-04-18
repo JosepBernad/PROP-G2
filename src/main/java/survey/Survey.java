@@ -133,8 +133,8 @@ public class Survey {
 
     public static void delete(Integer id) {
         Map<Integer, Survey> surveys = getSurveys();
-        surveys.remove(1);
-        FileUtils.saveMapInFile(surveys, SURVEYS);
+        surveys.remove(id);
+        FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
 
     @Override
