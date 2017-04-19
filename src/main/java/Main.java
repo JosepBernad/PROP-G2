@@ -49,16 +49,7 @@ class Main {
                     listSurveys();
                     break;
                 case ANSWER_SURVEY:
-                    System.out.print("Enter survey id: ");
-                    String selectedSurvey = br.readLine();
-                    Survey survey = Survey.getSurveyById(Integer.valueOf(selectedSurvey));
-                    if (survey != null) {
-                        for (Question question : survey.getQuestions()) {
-                            System.out.println(question.getStatement());
-                            System.out.print("Your answer: ");
-                            String answer = br.readLine();
-                        }
-                    }
+                    answerSurvey();
                     break;
                 case SHOW_USER_INFO:
                     System.out.println(user);
@@ -73,6 +64,19 @@ class Main {
             }
             showMainMenu();
             option = br.readLine();
+        }
+    }
+
+    private static void answerSurvey() throws IOException {
+        System.out.print("Enter survey id: ");
+        String selectedSurvey = br.readLine();
+        Survey survey = Survey.getSurveyById(Integer.valueOf(selectedSurvey));
+        if (survey != null) {
+            for (Question question : survey.getQuestions()) {
+                System.out.println(question.getStatement());
+                System.out.print("Your answer: ");
+                question.makeAnAnswer();
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package question;
 
+import answer.Answer;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -36,4 +37,6 @@ public abstract class Question {
     public void setStatement(String statement) {
         this.statement = statement;
     }
+
+    public abstract Answer makeAnAnswer();
 }
