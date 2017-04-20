@@ -1,11 +1,7 @@
 package question;
 
-import answer.Answer;
 import answer.FreeAnswer;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import exceptions.InvalidSizeException;
 
 public class FreeQuestion extends Question {
 
@@ -19,15 +15,11 @@ public class FreeQuestion extends Question {
         this.maxSize = maxSize;
     }
 
-    @Override
-    public Answer makeAnAnswer() {
+    public FreeAnswer makeAnAnswer(String value) throws InvalidSizeException {
+        if (value.length() > maxSize) throw new InvalidSizeException();
         FreeAnswer freeAnswer = new FreeAnswer();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            freeAnswer.setValue(br.readLine());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        if (value.isEmpty()) value = null;
+        freeAnswer.setValue(value);
         return freeAnswer;
     }
 }

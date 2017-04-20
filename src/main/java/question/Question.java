@@ -38,5 +38,4 @@ public abstract class Question {
         this.statement = statement;
     }
 
-    public abstract Answer makeAnAnswer();
 }

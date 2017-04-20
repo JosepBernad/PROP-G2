@@ -4,14 +4,14 @@ import question.Option;
 
 public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
 
-    private Option value;
+    private Option option;
 
-    public Option getValue() {
-        return value;
+    public Option getOption() {
+        return option;
     }
 
-    public void setValue(Option value) {
-        this.value = value;
+    public void setOption(Option option) {
+        this.option = option;
     }
 
 }

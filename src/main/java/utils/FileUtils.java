@@ -7,13 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileUtils {
-    public static void saveObjectInFile(Object map, String filename) {
+    public static void saveObjectInFile(Object o, String filename) {
         FileWriter fileWriter = null;
         try {
             File file = new File(filename);
             fileWriter = new FileWriter(file);
             if (!file.exists()) file.createNewFile();
-            fileWriter.write(new ObjectMapper().writeValueAsString(map));
+            fileWriter.write(new ObjectMapper().writeValueAsString(o));
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

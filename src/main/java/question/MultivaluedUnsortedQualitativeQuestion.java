@@ -1,15 +1,11 @@
 package question;
 
-import answer.Answer;
 import answer.MultivaluedQualitativeAnswer;
+import exceptions.TooMuchOptionsException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashSet;
 import java.util.Set;
 
-public class MultivaluedUnsortedQualitativeQuestion extends UnsortedQualitativeQuestion {
+public class MultivaluedUnsortedQualitativeQuestion extends QualitativeQuestion {
     private Integer nMaxAnswers;
 
     public Integer getnMaxAnswers() {
@@ -20,17 +16,10 @@ public class MultivaluedUnsortedQualitativeQuestion extends UnsortedQualitativeQ
         this.nMaxAnswers = nMaxAnswers;
     }
 
-    @Override
-    public Answer makeAnAnswer() {
+    public MultivaluedQualitativeAnswer makeAnAnswer(Set<Option> options) throws TooMuchOptionsException {
+        if (options.size() > nMaxAnswers) throw new TooMuchOptionsException();
         MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = new MultivaluedQualitativeAnswer();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            Set<Option> options = new HashSet<>();
-            options.add(new Option(br.readLine()));
-            multivaluedQualitativeAnswer.setOptions(options);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        multivaluedQualitativeAnswer.setOptions(options);
         return multivaluedQualitativeAnswer;
     }
 }

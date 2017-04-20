@@ -1,11 +1,7 @@
 package question;
 
-import answer.Answer;
 import answer.NumericAnswer;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import exceptions.NotInRangeException;
 
 public class NumericQuestion extends Question {
 
@@ -28,15 +24,10 @@ public class NumericQuestion extends Question {
         this.max = max;
     }
 
-    @Override
-    public Answer makeAnAnswer() {
+    public NumericAnswer makeAnAnswer(Integer value) throws NotInRangeException {
+        if (value < min || value > max) throw new NotInRangeException();
         NumericAnswer numericAnswer = new NumericAnswer();
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            numericAnswer.setValue(br.read());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        numericAnswer.setValue(value);
         return numericAnswer;
     }
 }
