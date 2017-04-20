@@ -1,5 +1,9 @@
+import answer.FreeAnswer;
+import answer.NumericAnswer;
+import answer.UnivaluedQualitativeAnswer;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotInRangeException;
 import question.*;
 import survey.Survey;
 import user.User;
@@ -74,10 +78,41 @@ class Main {
         if (survey != null) {
             for (Question question : survey.getQuestions()) {
                 System.out.println(question.getStatement());
-                System.out.print("Your answer: ");
-                question.makeAnAnswer();
+                if (question instanceof NumericQuestion) {
+                    NumericAnswer numericAnswer = getNumericAnswer((NumericQuestion) question);
+                }
+                else if (question instanceof FreeQuestion) {
+                    FreeAnswer freeAnswer = getFreeAnswer((FreeQuestion) question);
+                }
+                else if (question instanceof SortedQualitativeQuestion) {
+                    UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluatedQualitativeAnswer((SortedQualitativeQuestion) question);
+                }
             }
         }
+    }
+
+    private static UnivaluedQualitativeAnswer getUnivaluatedQualitativeAnswer(SortedQualitativeQuestion question) {
+        System.out.println("Select one of the following options");
+        for (Option option : question.getOptions()) System.out.println(option.getValue());
+        return null;
+    }
+
+    private static FreeAnswer getFreeAnswer(FreeQuestion question) throws IOException {
+        System.out.println("Enter your answer, max characters: " + question.getMaxSize());
+        FreeAnswer freeAnswer = new FreeAnswer();
+        freeAnswer.setValue(br.readLine());
+        return freeAnswer;
+    }
+
+    private static NumericAnswer getNumericAnswer(NumericQuestion question) throws IOException {
+        System.out.println("Enter a number between " + question.getMin().toString() + " and " + question.getMax().toString() + ":");
+        NumericAnswer numericAnswer = null;
+        try {
+            numericAnswer = question.makeAnAnswer(Integer.valueOf(br.readLine()));
+        } catch (NotInRangeException e) {
+            e.printStackTrace();
+        }
+        return numericAnswer;
     }
 
     private static void deleteSurvey() throws IOException {
