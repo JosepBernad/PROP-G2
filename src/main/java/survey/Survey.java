@@ -66,7 +66,19 @@ public class Survey {
     }
 
     public void addQuestion(Question question) {
+        if (question.getId() == null)
+            question.setId(getMaxId(questions) + 1);
         questions.add(question);
+    }
+
+    private int getMaxId(Set<Question> questions) {
+        int max = 1;
+        for (Question question : questions) {
+            Integer id = question.getId();
+            if (id != null && id > max)
+                max = id;
+        }
+        return max;
     }
 
     public Set<Question> getQuestions() {
@@ -141,4 +153,5 @@ public class Survey {
     public String toString() {
         return "Survey " + id + ": " + title;
     }
+
 }

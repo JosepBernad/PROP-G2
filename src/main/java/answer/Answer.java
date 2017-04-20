@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -84,8 +85,8 @@ public abstract class Answer {
         saveAnswersInFile(answers, ANSWERS);
     }
 
-    private void saveAnswersInFile(Set<Answer> answers, String filename) {
-
+    public static void saveAnswersInFile(Set<Answer> answers, String filename) {
+        answers.addAll(getAnswers());
         FileWriter fileWriter = null;
         try {
             File file = new File(filename);
@@ -93,7 +94,7 @@ public abstract class Answer {
             if (!file.exists()) file.createNewFile();
             ObjectMapper mapper = new ObjectMapper();
             JavaType type = mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class);
-            fileWriter.write(mapper.writerFor(type).writeValueAsString(answers));
+            fileWriter.write(mapper.enable(SerializationFeature.INDENT_OUTPUT).writerFor(type).writeValueAsString(answers));
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

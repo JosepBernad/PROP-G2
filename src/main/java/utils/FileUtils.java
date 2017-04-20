@@ -13,7 +13,7 @@ public class FileUtils {
             File file = new File(filename);
             fileWriter = new FileWriter(file);
             if (!file.exists()) file.createNewFile();
-            fileWriter.write(new ObjectMapper().writeValueAsString(o));
+            fileWriter.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(o));
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
