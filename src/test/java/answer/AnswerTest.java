@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
@@ -39,25 +41,56 @@ public class AnswerTest {
         assertEquals(expectedAnswers, answers);
     }
 
-    private void addAnswerToSet(Set<Answer> expectedAnswers, Integer questionId, String username) {
+    private void addAnswerToSet(Set<Answer> answers, Integer questionId, String username) {
         Answer answer = new NumericAnswer();
         answer.setQuestionId(questionId);
         answer.setUsername(username);
-        expectedAnswers.add(answer);
+        answers.add(answer);
     }
 
     @Test
     public void test_givenNewAnswer_whenSave_thenPersistsIt() {
-        //Arrange
+        // Arrange
         Answer answer = new NumericAnswer();
         answer.setQuestionId(1);
         answer.setUsername("pepito");
 
-        //Act
+        // Act
         answer.save();
 
-        //Assert
+        // Assert
         assertTrue(Answer.getAnswers().contains(answer));
+    }
+
+    @Test
+    public void test_givenSetOfAnswers_whenGetOrderedById_thenReturnsListOfAnswersOrderedByQuestionId() {
+        // Arrange
+        Set<Answer> answers = new HashSet<>();
+        addAnswerToSet(answers, 1, "");
+        addAnswerToSet(answers, 3, "");
+        addAnswerToSet(answers, 4, "");
+        addAnswerToSet(answers, 2, "");
+
+        // Act
+        List<Answer> orderedById = Answer.getOrderedById(answers);
+
+        // Assert
+        Answer answer1 = new NumericAnswer();
+        answer1.setQuestionId(1);
+        answer1.setUsername("");
+        Answer answer2 = new NumericAnswer();
+        answer2.setQuestionId(2);
+        answer2.setUsername("");
+        Answer answer3 = new NumericAnswer();
+        answer3.setQuestionId(3);
+        answer3.setUsername("");
+        Answer answer4 = new NumericAnswer();
+        answer4.setQuestionId(4);
+        answer4.setUsername("");
+        List<Answer> expectedList = Arrays.asList(answer1, answer2, answer3, answer4);
+
+        assertEquals(expectedList, orderedById);
+
     }
 
 }
