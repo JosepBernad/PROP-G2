@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import question.Question;
+import survey.Survey;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -108,10 +108,28 @@ public abstract class Answer {
         }
     }
 
-    public static List<Answer> getAnswersByUsernameAndSurveyID(String username, Integer surveyId)
-    {
-        return null;
+    public static List<Answer> getAnswersByUsernameAndSurveyID(String username, Integer surveyId) {
+        Set<Answer> answers = getAnswers();
+        Set<Integer> questions = new HashSet<>();
+        for (Question question : Survey.getSurveyById(surveyId).getQuestions())
+            questions.add(question.getId());
+
+        for (Answer answer : answers)
+            if (!answer.getUsername().equals(username) || !questions.contains(answer.getQuestionId()))
+                answers.remove(answer);
+
+
+        List<Answer> list = getOrderedById(answers);
+
+        return list;
     }
 
-    public abstract Double calculateDistance(Answer answer);
+    static List<Answer> getOrderedById(Set<Answer> answers) {
+        List<Answer> list = new ArrayList<>();
+        list.addAll(answers);
+        list.sort(Comparator.comparing(Answer::getQuestionId));
+        return list;
+    }
+
+    //public abstract Double calculateDistance(Answer answer);
 }
