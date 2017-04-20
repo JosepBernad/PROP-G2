@@ -1,4 +1,5 @@
 import answer.FreeAnswer;
+import answer.MultivaluedQualitativeAnswer;
 import answer.NumericAnswer;
 import answer.UnivaluedQualitativeAnswer;
 import exceptions.DuplicatedUsernameException;
@@ -12,7 +13,7 @@ import user.User;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Map;
+import java.util.*;
 
 class Main {
 
@@ -81,21 +82,59 @@ class Main {
                 System.out.println(question.getStatement());
                 if (question instanceof NumericQuestion) {
                     NumericAnswer numericAnswer = getNumericAnswer((NumericQuestion) question);
-                }
-                else if (question instanceof FreeQuestion) {
+                } else if (question instanceof FreeQuestion) {
                     FreeAnswer freeAnswer = getFreeAnswer((FreeQuestion) question);
+                } else if (question instanceof SortedQualitativeQuestion) {
+                    UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluedQualitativeAnswer((SortedQualitativeQuestion) question);
+                } else if (question instanceof UnsortedQualitativeQuestion) {
+                    UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluatedQualitativeAnswer((UnsortedQualitativeQuestion) question);
+                } else if (question instanceof MultivaluedUnsortedQualitativeQuestion) {
+                    MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = getMultivaluedQualitativeAnswer((MultivaluedUnsortedQualitativeQuestion) question);
                 }
-                else if (question instanceof SortedQualitativeQuestion) {
-                    UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluatedQualitativeAnswer((SortedQualitativeQuestion) question);
-                }
+
             }
         }
     }
 
-    private static UnivaluedQualitativeAnswer getUnivaluatedQualitativeAnswer(SortedQualitativeQuestion question) {
+    private static MultivaluedQualitativeAnswer getMultivaluedQualitativeAnswer(MultivaluedUnsortedQualitativeQuestion question) throws IOException {
+        System.out.println("Select max. " + question.getnMaxAnswers() + "of the following options");
+        List<Option> options = new ArrayList<>();
+        options.addAll(question.getOptions());
+        int i = 0;
+        for (Option option : options) System.out.print(++i + ". " + option.getValue());
+        Set<Option> opt = new HashSet<>();
+        i = 0;
+        do {
+            Integer s = Integer.valueOf(br.readLine());
+            opt.add(options.get(s));
+            ++i;
+        } while (i < question.getnMaxAnswers());
+        MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = new MultivaluedQualitativeAnswer();
+        multivaluedQualitativeAnswer.setOptions(opt);
+        return multivaluedQualitativeAnswer;
+    }
+
+    private static UnivaluedQualitativeAnswer getUnivaluatedQualitativeAnswer(UnsortedQualitativeQuestion question) throws IOException {
         System.out.println("Select one of the following options");
-        for (Option option : question.getOptions()) System.out.println(option.getValue());
-        return null;
+        int i = 0;
+        List<String> optionsValuesOrderedByWeight = question.optionsValuesOrderedByWeight();
+        for (String value : optionsValuesOrderedByWeight) System.out.println(++i + ". " + value);
+        Integer s = Integer.valueOf(br.readLine());
+        Option opt = new Option(optionsValuesOrderedByWeight.get(s - 1));
+        UnivaluedQualitativeAnswer univaluedQualitativeAnswer = new UnivaluedQualitativeAnswer();
+        univaluedQualitativeAnswer.setOption(opt);
+        return univaluedQualitativeAnswer;
+    }
+
+    private static UnivaluedQualitativeAnswer getUnivaluedQualitativeAnswer(SortedQualitativeQuestion question) throws IOException {
+        System.out.println("Select one of the following options");
+        int i = 1;
+        for (String value : question.optionsValuesOrderedByWeight()) System.out.println(++i + ". " + value);
+        Integer s = Integer.valueOf(br.readLine());
+        Option opt = new Option(question.optionsValuesOrderedByWeight().get(s - 1), s - 1);
+        UnivaluedQualitativeAnswer univaluedQualitativeAnswer = new UnivaluedQualitativeAnswer();
+        univaluedQualitativeAnswer.setOption(opt);
+        return univaluedQualitativeAnswer;
     }
 
     private static FreeAnswer getFreeAnswer(FreeQuestion question) throws IOException {

@@ -3,10 +3,7 @@ package question;
 
 import exceptions.RepeatedOptionWeightException;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public abstract class QualitativeQuestion extends Question {
     private Set<Option> options = new HashSet<>();
@@ -20,13 +17,14 @@ public abstract class QualitativeQuestion extends Question {
     }
 
     public void addOption(Option option) throws RepeatedOptionWeightException {
-        for (Option opt: options)
-            if (opt.getWeight().equals(option.getWeight()))
-                throw new RepeatedOptionWeightException();
+        if (option.getWeight() != null)
+            for (Option opt : options)
+                if (opt.getWeight().equals(option.getWeight()))
+                    throw new RepeatedOptionWeightException();
         options.add(option);
     }
 
-    public List<String> getOptionsValuesOrderedByWeight() {
+    public List<String> optionsValuesOrderedByWeight() {
         String[] values = new String[options.size()];
         for (Option option : options) {
             values[option.getWeight()] = option.getValue();

@@ -32,7 +32,7 @@ public class QualitativeQuestionTest {
         qualitativeQuestion.setOptions(options);
 
         // Act
-        List<String> returnedList = qualitativeQuestion.getOptionsValuesOrderedByWeight();
+        List<String> returnedList = qualitativeQuestion.optionsValuesOrderedByWeight();
 
         // Assert
         List<String> expectedList = createList("Poc", "Mitja", "Molt");
@@ -61,5 +61,22 @@ public class QualitativeQuestionTest {
         // Act
         qualitativeQuestion.addOption(option1);
         qualitativeQuestion.addOption(option2);
+    }
+
+    @Test
+    public void test_givenQualitativeQuestion_whenAddOptio_withoutWeight_thenAddItToTheOptionSet() throws RepeatedOptionWeightException {
+        // Arrange
+        UnsortedQualitativeQuestion unsortedQualitativeQuestion = new UnsortedQualitativeQuestion();
+        Option option = new Option("option");
+        Option option2 = new Option("option");
+
+        // Act
+        unsortedQualitativeQuestion.addOption(option);
+        unsortedQualitativeQuestion.addOption(option2);
+
+        // Assert
+        assertTrue(unsortedQualitativeQuestion.getOptions().contains(option));
+        assertTrue(unsortedQualitativeQuestion.getOptions().contains(option2));
+
     }
 }
