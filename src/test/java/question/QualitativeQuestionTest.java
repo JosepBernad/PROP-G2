@@ -1,5 +1,6 @@
 package question;
 
+import exceptions.RepeatedOptionWeightException;
 import org.junit.Test;
 
 import java.util.*;
@@ -10,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 public class QualitativeQuestionTest {
 
     @Test
-    public void givenQualitativeQuestion_whenAddNewOption_withValidOption_thenAddQuestion() {
+    public void test_givenQualitativeQuestion_whenAddOption_withValidOption_thenAddQuestion() throws RepeatedOptionWeightException {
         // Arrange
         QualitativeQuestion qualitativeQuestion = new SortedQualitativeQuestion();
         Option option = new Option("value", 1);
@@ -48,5 +49,17 @@ public class QualitativeQuestionTest {
         List<String> list = new ArrayList<>();
         list.addAll(Arrays.asList(value));
         return list;
+    }
+
+    @Test(expected = RepeatedOptionWeightException.class)
+    public void test_givenQualitativeQuestion_whenAddOption_withRepeatedWeight_thenThrowsRepeatedOptionWeightException() throws RepeatedOptionWeightException {
+        // Arrange
+        QualitativeQuestion qualitativeQuestion = new SortedQualitativeQuestion();
+        Option option1 = new Option("option1",1);
+        Option option2 = new Option("option2",1);
+
+        // Act
+        qualitativeQuestion.addOption(option1);
+        qualitativeQuestion.addOption(option2);
     }
 }

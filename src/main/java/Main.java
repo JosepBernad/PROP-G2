@@ -4,6 +4,7 @@ import answer.UnivaluedQualitativeAnswer;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
 import exceptions.NotInRangeException;
+import exceptions.RepeatedOptionWeightException;
 import question.*;
 import survey.Survey;
 import user.User;
@@ -33,7 +34,7 @@ class Main {
     private static final Boolean SORTED = Boolean.TRUE;
     private static BufferedReader br;
 
-    public static void main(String[] args) throws IOException, EmptyRequiredAttributeException {
+    public static void main(String[] args) throws Exception {
 
         System.out.println(WELCOME_MESSAGE);
 
@@ -176,7 +177,7 @@ class Main {
         System.out.println(SELECT_EXISTING_USER + " - Select existing user");
     }
 
-    private static void createSurvey() throws IOException, EmptyRequiredAttributeException {
+    private static void createSurvey() throws Exception {
         System.out.println();
         System.out.println("New Survey:");
         Survey survey = new Survey();
@@ -279,7 +280,7 @@ class Main {
         }
     }
 
-    private static void addOptions(QualitativeQuestion question, Boolean sorted) throws IOException {
+    private static void addOptions(QualitativeQuestion question, Boolean sorted) throws IOException, RepeatedOptionWeightException {
         System.out.print("Enter option's value: ");
         String value = br.readLine();
         Option option;
