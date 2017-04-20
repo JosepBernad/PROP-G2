@@ -23,7 +23,7 @@ public class kMeans
         Double sum = 0D;
 
         while (it1.hasNext() && it2.hasNext())
-            0 += it1.next().calculateDistance(it2.next());
+            sum += it1.next().calculateDistance(it2.next());
 
         return sum/user1Answers.size();
     }

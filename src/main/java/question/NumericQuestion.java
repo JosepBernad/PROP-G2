@@ -28,6 +28,8 @@ public class NumericQuestion extends Question {
         if (value < min || value > max) throw new NotInRangeException();
         NumericAnswer numericAnswer = new NumericAnswer();
         numericAnswer.setValue(value);
+        numericAnswer.setMax(max);
+        numericAnswer.setMin(min);
         return numericAnswer;
     }
 }

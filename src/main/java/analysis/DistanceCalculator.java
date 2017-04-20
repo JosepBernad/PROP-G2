@@ -5,22 +5,22 @@ import java.util.Set;
 
 public class DistanceCalculator {
 
-    static double calculateNumeric(int a, int b, int max, int min) {
+    public static double calculateNumeric(int a, int b, int max, int min) {
         return Math.abs(a - b) / (max - min);
     }
 
-    static double calculateSortedUnivaluedQualitative(int a, int b, int nValues) {
+    public static double calculateSortedUnivaluedQualitative(int a, int b, int nValues) {
         return Math.abs(a - b) / (nValues - 1);
     }
 
-    static double calculateUnsortedUnivaluedQualitative(String a, String b) {
+    public static double calculateUnsortedUnivaluedQualitative(String a, String b) {
         if (a.equals(b))
             return 1;
         else
             return 0;
     }
 
-    static double calculateUnsortedMultivaluedQualitative(Set<String> a, Set<String> b) {
+    public static double calculateUnsortedMultivaluedQualitative(Set<String> a, Set<String> b) {
         Set<String> intersection = new HashSet<>();
         intersection.addAll(a);
         intersection.retainAll(b);
@@ -30,7 +30,7 @@ public class DistanceCalculator {
         return 1 - intersection.size() / union.size();
     }
 
-    static double calculateFreeQuestion(String a, String b) {
+    public static double calculateFreeQuestion(String a, String b) {
         return computeLevenshteinDistance(a, b) / Math.max(a.length(), b.length());
     }
 

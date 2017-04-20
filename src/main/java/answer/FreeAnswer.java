@@ -1,5 +1,7 @@
 package answer;
 
+import analysis.DistanceCalculator;
+
 public class FreeAnswer extends Answer {
 
     private String value;
@@ -12,4 +14,8 @@ public class FreeAnswer extends Answer {
         this.value = value;
     }
 
+    @Override
+    public Double calculateDistance(Answer answer) {
+        return DistanceCalculator.calculateFreeQuestion(value, ((FreeAnswer) answer).getValue());
+    }
 }

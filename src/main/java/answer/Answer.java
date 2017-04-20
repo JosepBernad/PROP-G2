@@ -24,6 +24,7 @@ import java.util.Set;
         @JsonSubTypes.Type(value = NumericAnswer.class, name = "NumericAnswer"),
         @JsonSubTypes.Type(value = QualitativeAnswer.class, name = "QualitativeAnswer"),
         @JsonSubTypes.Type(value = UnivaluedQualitativeAnswer.class, name = "UnivaluedQualitativeAnswer")})
+
 public abstract class Answer {
 
     public static final String ANSWERS = "answers.json";
