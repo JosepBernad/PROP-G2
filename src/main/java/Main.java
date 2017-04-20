@@ -74,24 +74,29 @@ class Main {
     }
 
     private static void answerSurvey() throws IOException {
-        System.out.print("Enter survey id: ");
-        String selectedSurvey = br.readLine();
-        Survey survey = Survey.getSurveyById(Integer.valueOf(selectedSurvey));
-        if (survey != null) {
-            for (Question question : survey.getQuestions()) {
-                System.out.println(question.getStatement());
-                if (question instanceof NumericQuestion) {
-                    NumericAnswer numericAnswer = getNumericAnswer((NumericQuestion) question);
-                } else if (question instanceof FreeQuestion) {
-                    FreeAnswer freeAnswer = getFreeAnswer((FreeQuestion) question);
-                } else if (question instanceof SortedQualitativeQuestion) {
-                    UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluedQualitativeAnswer((SortedQualitativeQuestion) question);
-                } else if (question instanceof UnsortedQualitativeQuestion) {
-                    UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluatedQualitativeAnswer((UnsortedQualitativeQuestion) question);
-                } else if (question instanceof MultivaluedUnsortedQualitativeQuestion) {
-                    MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = getMultivaluedQualitativeAnswer((MultivaluedUnsortedQualitativeQuestion) question);
+        Map<Integer, Survey> s = Survey.getSurveys();
+        if (s.isEmpty()) System.out.println("Any existing survey");
+        else {
+            System.out.println("There are the following surveys:");
+            for (Survey survey : s.values()) System.out.println(survey);
+            System.out.print("Enter survey id: ");
+            String selectedSurvey = br.readLine();
+            Survey survey = Survey.getSurveyById(Integer.valueOf(selectedSurvey));
+            if (survey != null) {
+                for (Question question : survey.getQuestions()) {
+                    System.out.println(question.getStatement());
+                    if (question instanceof NumericQuestion) {
+                        NumericAnswer numericAnswer = getNumericAnswer((NumericQuestion) question);
+                    } else if (question instanceof FreeQuestion) {
+                        FreeAnswer freeAnswer = getFreeAnswer((FreeQuestion) question);
+                    } else if (question instanceof SortedQualitativeQuestion) {
+                        UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluedQualitativeAnswer((SortedQualitativeQuestion) question);
+                    } else if (question instanceof UnsortedQualitativeQuestion) {
+                        UnivaluedQualitativeAnswer univaluedQualitativeAnswer = getUnivaluatedQualitativeAnswer((UnsortedQualitativeQuestion) question);
+                    } else if (question instanceof MultivaluedUnsortedQualitativeQuestion) {
+                        MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = getMultivaluedQualitativeAnswer((MultivaluedUnsortedQualitativeQuestion) question);
+                    }
                 }
-
             }
         }
     }
