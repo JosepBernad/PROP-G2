@@ -151,7 +151,7 @@ public class Survey {
 
     @Override
     public String toString() {
-        return "Survey " + id + ": " + title;
+        return "id:  " + id + " - title: " + title;
     }
 
 }

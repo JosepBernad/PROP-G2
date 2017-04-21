@@ -1,6 +1,5 @@
 package question;
 
-import answer.Answer;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
