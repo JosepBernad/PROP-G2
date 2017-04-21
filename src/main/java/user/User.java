@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    public static final String USERS = "users.json";
+    static final String USERS = "users.json";
 
     private String username;
     private String name;

@@ -1,6 +1,7 @@
 package drivers.answer;
 
 import answer.Answer;
+import utils.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,15 +38,13 @@ public class AnswerDriver {
     }
 
     private static void getAnswersBySurveyAndUsername() throws IOException {
-        System.out.println("Enter username:");
-        String username = br.readLine();
-        System.out.println("Enter surveyId:");
-        Integer surveyId = Integer.valueOf(br.readLine());
+        String username = IOUtils.askForString("Enter username");
+        Integer surveyId = IOUtils.askForInt("Enter survey id");
         List<Answer> answers = Answer.getAnswersByUsernameAndSurveyID(username, surveyId);
-        for (Answer answer : answers) System.out.println(answer);
+        for (Answer answer : answers) IOUtils.printContent(answer);
     }
 
     private static void listAnswers() {
-        for (Answer answer : Answer.getAnswers()) System.out.println(answer);
+        for (Answer answer : Answer.getAnswers()) IOUtils.printContent(answer);
     }
 }

@@ -6,6 +6,7 @@ import exceptions.RepeatedOptionWeightException;
 import question.*;
 import survey.Survey;
 import user.User;
+import utils.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,13 +33,13 @@ public class SurveyDriver {
     public static void main(String[] args) throws Exception {
         String option;
         do {
-            System.out.println(LIST_SURVEYS + " - List surveys");
-            System.out.println(CREATE_SURVEY + " - Create survey");
-            System.out.println(DELETE_SURVEY + " - Delete survey");
-            System.out.println(ANSWER_SURVEY + " - Answer survey");
-            System.out.println(EXIT + " - Exit");
+            IOUtils.printLine(LIST_SURVEYS + " - List surveys");
+            IOUtils.printLine(CREATE_SURVEY + " - Create survey");
+            IOUtils.printLine(DELETE_SURVEY + " - Delete survey");
+            IOUtils.printLine(ANSWER_SURVEY + " - Answer survey");
+            IOUtils.printLine(EXIT + " - Exit");
             br = new BufferedReader(new InputStreamReader(System.in));
-            option = br.readLine();
+            option = IOUtils.askForString("Enter your option");
             switch (option) {
                 case LIST_SURVEYS:
                     listSurveys();
@@ -59,23 +60,20 @@ public class SurveyDriver {
     }
 
     private static void createSurvey() throws Exception {
-        System.out.println();
-        System.out.println("New Survey:");
+        IOUtils.drawLine();
+        IOUtils.printLine("New Survey:");
         Survey survey = new Survey();
-        System.out.print("Enter survey's title: ");
-        survey.setTitle(br.readLine());
-        System.out.print("Enter survey's description: ");
-        survey.setDescription(br.readLine());
-        System.out.println("Add questions: ");
+        survey.setTitle(IOUtils.askForString("Enter survey's title"));
+        survey.setDescription(IOUtils.askForString("Enter survey's description"));
+        IOUtils.printLine("Add questions: ");
         showQuestionTypes();
-        String option = br.readLine();
+        String option = IOUtils.askForString("Enter your option");
         while (!EXIT.equals(option)) {
             switch (option) {
                 case FREE_QUESTION:
                     FreeQuestion q1 = new FreeQuestion();
                     setQuestionStatement(q1);
-                    System.out.print("Enter answer's maximum size: ");
-                    q1.setMaxSize(Integer.valueOf(br.readLine()));
+                    q1.setMaxSize(IOUtils.askForInt("Enter answer's maximum size"));
                     survey.addQuestion(q1);
                     break;
 
@@ -83,18 +81,15 @@ public class SurveyDriver {
                     MultivaluedUnsortedQualitativeQuestion q2 = new MultivaluedUnsortedQualitativeQuestion();
                     setQuestionStatement(q2);
                     addOptions(q2, UNSORTED);
-                    System.out.print("Enter maximum number of selectable options: ");
-                    q2.setnMaxAnswers(Integer.valueOf(br.readLine()));
+                    q2.setnMaxAnswers(IOUtils.askForInt("Enter maximum number of selectable options"));
                     survey.addQuestion(q2);
                     break;
 
                 case NUMERIC_QUESTION:
                     NumericQuestion q3 = new NumericQuestion();
                     setQuestionStatement(q3);
-                    System.out.print("Enter answer's minimum value: ");
-                    q3.setMin(Integer.valueOf(br.readLine()));
-                    System.out.print("Enter answer's maximum value: ");
-                    q3.setMax(Integer.valueOf(br.readLine()));
+                    q3.setMin(IOUtils.askForInt("Enter answer's minimum value"));
+                    q3.setMax(IOUtils.askForInt("Enter answer's maximum value"));
                     survey.addQuestion(q3);
                     break;
 
@@ -113,33 +108,29 @@ public class SurveyDriver {
                     break;
 
                 default:
-                    System.out.println("Invalid option");
+                    IOUtils.printLine("Invalid option");
             }
             showQuestionTypes();
-            option = br.readLine();
+            option = IOUtils.askForString("Enter your option");
         }
         survey.save();
     }
 
     private static void setQuestionStatement(Question question) throws IOException {
-        System.out.println("Enter question's statement: ");
-        question.setStatement(br.readLine());
+        question.setStatement(IOUtils.askForString("Enter question's statement"));
     }
 
     private static void addOptions(QualitativeQuestion question, Boolean sorted) throws IOException, RepeatedOptionWeightException {
-        System.out.print("Enter option's value: ");
-        String value = br.readLine();
+        String value = IOUtils.askForString("Enter option's value: ");
         Option option;
         if (sorted) {
-            System.out.print("Enter option's weight: ");
-            option = new Option(value, Integer.valueOf(br.readLine()));
+            option = new Option(value, IOUtils.askForInt("Enter option's weight: "));
         } else {
             option = new Option(value);
         }
         question.addOption(option);
 
-        System.out.println("¿Would you like to add another option? (Y/N)");
-        String c = br.readLine();
+        String c = IOUtils.askForString("¿Would you like to add another option? (Y/N)");
         if ("Y".equals(c) || "y".equals(c)) addOptions(question, sorted);
     }
 
@@ -156,24 +147,23 @@ public class SurveyDriver {
 
     private static void deleteSurvey() throws IOException {
         Map<Integer, Survey> s = Survey.getSurveys();
-        if (s.isEmpty()) System.out.println("Any existing survey");
+        if (s.isEmpty()) IOUtils.printLine("Any existing survey");
         else {
-            System.out.println("There are the following surveys:");
-            for (Survey survey : s.values()) System.out.println(survey);
-            System.out.println("Which survey do you want to delete?");
-            int id = Integer.valueOf(br.readLine());
+            IOUtils.printLine("There are the following surveys:");
+            for (Survey survey : s.values()) IOUtils.printContent(survey);
+            int id = IOUtils.askForInt("Which survey do you want to delete?");
             if (s.containsKey(id)) {
                 Survey.delete(id);
-                System.out.println("Survey deleted successfully!");
-            } else System.out.println("Not a valid number for a survey");
+                IOUtils.printLine("Survey deleted successfully!");
+            } else IOUtils.printLine("Not a valid number for a survey");
         }
     }
 
     private static void listSurveys() {
         Map<Integer, Survey> surveys = Survey.getSurveys();
-        if (surveys.isEmpty()) System.out.println("Any existing survey");
+        if (surveys.isEmpty()) IOUtils.printContent("Any existing survey");
         else {
-            for (Survey survey : surveys.values()) System.out.println(survey);
+            for (Survey survey : surveys.values()) IOUtils.printContent(survey);
         }
     }
 
@@ -181,17 +171,15 @@ public class SurveyDriver {
         Map<Integer, Survey> s = Survey.getSurveys();
         if (s.isEmpty()) System.out.println("Any existing survey");
         else {
-            System.out.print("Enter username: ");
-            user = User.getUserByUsername(br.readLine());
-            System.out.println("There are the following surveys:");
-            for (Survey survey : s.values()) System.out.println(survey);
-            System.out.print("Enter survey id: ");
-            String selectedSurvey = br.readLine();
-            Survey survey = Survey.getSurveyById(Integer.valueOf(selectedSurvey));
+            user = User.getUserByUsername(IOUtils.askForString("Enter username"));
+            IOUtils.printLine("There are the following surveys");
+            for (Survey survey : s.values()) IOUtils.printContent(survey);
+            Integer integer = IOUtils.askForInt("Enter survey id");
+            Survey survey = Survey.getSurveyById(integer);
             if (survey != null) {
                 HashSet<Answer> answers = new HashSet<>();
                 for (Question question : survey.getQuestions()) {
-                    System.out.println(question.getStatement());
+                    IOUtils.printLine(question.getStatement());
                     if (question instanceof NumericQuestion) {
                         NumericAnswer numericAnswer = getNumericAnswer((NumericQuestion) question);
                         answers.add(numericAnswer);
@@ -209,24 +197,28 @@ public class SurveyDriver {
                         answers.add(multivaluedQualitativeAnswer);
                     }
                 }
-                Answer.saveAnswersInFile(answers,Answer.ANSWERS);
+                Answer.saveAnswersInFile(answers, Answer.ANSWERS);
             }
         }
     }
 
     private static MultivaluedQualitativeAnswer getMultivaluedQualitativeAnswer(MultivaluedUnsortedQualitativeQuestion question) throws IOException {
-        System.out.println("Select max. " + question.getnMaxAnswers() + " of the following options:");
+        IOUtils.printLine("Select max. " + question.getnMaxAnswers() + " of the following options");
         List<Option> options = new ArrayList<>();
         options.addAll(question.getOptions());
         int i = 0;
-        for (Option option : options) System.out.println(++i + ". " + option.getValue());
+        for (Option option : options) IOUtils.printLine(++i + ". " + option.getValue());
         Set<Option> opt = new HashSet<>();
         i = 0;
+        boolean exit = false;
         do {
-            Integer s = Integer.valueOf(br.readLine());
-            opt.add(options.get(s-1));
-            ++i;
-        } while (i < question.getnMaxAnswers());
+            Integer s = IOUtils.askForInt("Enter id or 0 to finish");
+            if (s == 0) exit = true;
+            else {
+                opt.add(options.get(s - 1));
+                ++i;
+            }
+        } while (!exit && i < question.getnMaxAnswers());
         MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = new MultivaluedQualitativeAnswer();
         multivaluedQualitativeAnswer.setOptions(opt);
         multivaluedQualitativeAnswer.setQuestionId(question.getId());
@@ -235,7 +227,7 @@ public class SurveyDriver {
     }
 
     private static UnivaluedQualitativeAnswer getUnivaluatedQualitativeAnswer(UnsortedQualitativeQuestion question) throws IOException {
-        System.out.println("Select one of the following options");
+        IOUtils.printLine("Select one of the following options");
         int i = 0;
         List<Option> optionsValuesOrderedByWeight = new ArrayList<>();
         optionsValuesOrderedByWeight.addAll(question.getOptions());
@@ -249,7 +241,7 @@ public class SurveyDriver {
     }
 
     private static UnivaluedQualitativeAnswer getUnivaluedQualitativeAnswer(SortedQualitativeQuestion question) throws IOException {
-        System.out.println("Select one of the following options");
+        IOUtils.printLine("Select one of the following options");
         int i = 0;
         for (String value : question.optionsValuesOrderedByWeight()) System.out.println(++i + ". " + value);
         Integer s = Integer.valueOf(br.readLine());
@@ -262,26 +254,25 @@ public class SurveyDriver {
     }
 
     private static FreeAnswer getFreeAnswer(FreeQuestion question) throws IOException {
-        System.out.println("Enter your answer, max characters: " + question.getMaxSize());
         FreeAnswer freeAnswer = new FreeAnswer();
-        freeAnswer.setValue(br.readLine());
+        freeAnswer.setValue(IOUtils.askForString("Enter your answer, max characters " + question.getMaxSize()));
         freeAnswer.setQuestionId(question.getId());
         freeAnswer.setUsername(user.getUsername());
         return freeAnswer;
     }
 
     private static NumericAnswer getNumericAnswer(NumericQuestion question) throws IOException {
-        System.out.println("Enter a number between " + question.getMin().toString() + " and " + question.getMax().toString() + ":");
+        Integer value = IOUtils.askForIntInRange("Enter a number between " + question.getMin().toString() + " and " + question.getMax().toString(), question.getMin(), question.getMax());
         NumericAnswer numericAnswer = null;
         try {
-            numericAnswer = question.makeAnAnswer(Integer.valueOf(br.readLine()));
+            numericAnswer = question.makeAnAnswer(value);
+            numericAnswer.setQuestionId(question.getId());
+            numericAnswer.setMin(question.getMin());
+            numericAnswer.setMax(question.getMax());
+            numericAnswer.setUsername(user.getUsername());
         } catch (NotInRangeException e) {
             e.printStackTrace();
         }
-        numericAnswer.setQuestionId(question.getId());
-        numericAnswer.setMin(question.getMin());
-        numericAnswer.setMax(question.getMax());
-        numericAnswer.setUsername(user.getUsername());
         return numericAnswer;
     }
 }

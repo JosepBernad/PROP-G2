@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Survey {
 
-    public static final String SURVEYS = "surveys.json";
+    static final String SURVEYS = "surveys.json";
 
     private Integer id;
     private String title;

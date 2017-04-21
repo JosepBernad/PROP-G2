@@ -1,6 +1,7 @@
 package drivers.user;
 
 import user.User;
+import utils.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -39,25 +40,22 @@ public class UserDriver {
     }
 
     private static void getUserByUsername() throws Exception {
-        System.out.print("Enter username: ");
-        User user = User.getUserByUsername(br.readLine());
-        if (user == null) System.out.println("User not found");
-        else System.out.println(user);
+        String username = IOUtils.askForString("Enter username");
+        User user = User.getUserByUsername(username);
+        if (user == null) IOUtils.printContent("User not found");
+        else IOUtils.printContent(user);
     }
 
     private static void createUser() throws Exception {
-        System.out.print("Enter username: ");
-        String username = br.readLine();
-        System.out.print("Enter name: ");
-        String name = br.readLine();
+        String username = IOUtils.askForString("Enter username");
+        String name = IOUtils.askForString("Enter name");
         User user = new User(username, name);
         user.save();
     }
 
     private static void showAllUsers() {
-        for (User user : User.getUsers().values()) {
-            System.out.println(user);
-        }
+        for (User user : User.getUsers().values())
+            IOUtils.printContent(user);
     }
 
 }
