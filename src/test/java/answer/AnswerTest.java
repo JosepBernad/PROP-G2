@@ -1,7 +1,10 @@
 package answer;
 
+import exceptions.ResourceNotFoundException;
 import org.junit.After;
 import org.junit.Test;
+import survey.Survey;
+import user.User;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,10 +22,14 @@ import static org.junit.Assert.assertTrue;
 public class AnswerTest {
 
     private static final Path ANSWERS_PATH = Paths.get(Answer.ANSWERS);
+    private static final Path USERS_PATH = Paths.get(User.USERS);
+    private static final Path SURVEYS_PATH = Paths.get(Survey.SURVEYS);
 
     @After
-    public void restoreUsersFile() throws IOException {
+    public void restoreFiles() throws IOException {
         Files.deleteIfExists(ANSWERS_PATH);
+        Files.deleteIfExists(USERS_PATH);
+        Files.deleteIfExists(SURVEYS_PATH);
     }
 
     @Test
@@ -75,22 +82,38 @@ public class AnswerTest {
         List<Answer> orderedById = Answer.getOrderedById(answers);
 
         // Assert
-        Answer answer1 = new NumericAnswer();
-        answer1.setQuestionId(1);
-        answer1.setUsername("");
-        Answer answer2 = new NumericAnswer();
-        answer2.setQuestionId(2);
-        answer2.setUsername("");
-        Answer answer3 = new NumericAnswer();
-        answer3.setQuestionId(3);
-        answer3.setUsername("");
-        Answer answer4 = new NumericAnswer();
-        answer4.setQuestionId(4);
-        answer4.setUsername("");
+        Answer answer1 = createAnswerWithIdAndEmptyUsername(1);
+        Answer answer2 = createAnswerWithIdAndEmptyUsername(2);
+        Answer answer3 = createAnswerWithIdAndEmptyUsername(3);
+        Answer answer4 = createAnswerWithIdAndEmptyUsername(4);
         List<Answer> expectedList = Arrays.asList(answer1, answer2, answer3, answer4);
 
         assertEquals(expectedList, orderedById);
+    }
 
+    @Test(expected = ResourceNotFoundException.class)
+    public void test_whenGetAnswersBySurveyAndUsername_withNonExistingSurvey_thenThrowsResourceNotFoundException() throws Exception {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleUsers.json"), USERS_PATH, REPLACE_EXISTING);
+
+        // Act
+        Answer.getAnswersByUsernameAndSurveyID("pepi", 1);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void test_whenGetAnswersBySurveyAndUsername_withNonExistingUser_thenThrowsResourceNotFoundException() throws Exception {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEYS_PATH, REPLACE_EXISTING);
+
+        // Act
+        Answer.getAnswersByUsernameAndSurveyID("pepi", 1);
+    }
+
+    private Answer createAnswerWithIdAndEmptyUsername(Integer questionId) {
+        Answer answer = new NumericAnswer();
+        answer.setQuestionId(questionId);
+        answer.setUsername("");
+        return answer;
     }
 
 }

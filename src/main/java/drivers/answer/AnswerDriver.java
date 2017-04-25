@@ -4,7 +4,6 @@ import answer.Answer;
 import utils.IOUtils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class AnswerDriver {
         } while (!option.equals(EXIT));
     }
 
-    private static void getAnswersBySurveyAndUsername() throws IOException {
+    private static void getAnswersBySurveyAndUsername() throws Exception {
         String username = IOUtils.askForString("Enter username");
         Integer surveyId = IOUtils.askForInt("Enter survey id");
         List<Answer> answers = Answer.getAnswersByUsernameAndSurveyID(username, surveyId);

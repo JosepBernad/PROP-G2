@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import exceptions.ResourceNotFoundException;
 import question.Question;
 import survey.Survey;
+import user.User;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,22 +33,6 @@ public abstract class Answer {
     private String username;
     private Integer questionId;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
-    }
-
     public static Set<Answer> getAnswers() {
         Set<Answer> answers = new HashSet<>();
 
@@ -61,30 +47,6 @@ public abstract class Answer {
             e.printStackTrace();
         }
         return answers;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Answer answer = (Answer) o;
-
-        if (username != null ? !username.equals(answer.username) : answer.username != null) return false;
-        return questionId != null ? questionId.equals(answer.questionId) : answer.questionId == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = username != null ? username.hashCode() : 0;
-        result = 31 * result + (questionId != null ? questionId.hashCode() : 0);
-        return result;
-    }
-
-    public void save() {
-        Set<Answer> answers = getAnswers();
-        answers.add(this);
-        saveAnswersInFile(answers, ANSWERS);
     }
 
     public static void saveAnswersInFile(Set<Answer> answers, String filename) {
@@ -109,10 +71,13 @@ public abstract class Answer {
         }
     }
 
-    public static List<Answer> getAnswersByUsernameAndSurveyID(String username, Integer surveyId) {
+    public static List<Answer> getAnswersByUsernameAndSurveyID(String username, Integer surveyId) throws Exception {
+        Survey survey = Survey.getSurveyById(surveyId);
+        if (User.getUserByUsername(username) == null) throw new ResourceNotFoundException();
         Set<Answer> answers = getAnswers();
         Set<Integer> questions = new HashSet<>();
-        for (Question question : Survey.getSurveyById(surveyId).getQuestions())
+        if (survey == null) throw new ResourceNotFoundException();
+        for (Question question : survey.getQuestions())
             questions.add(question.getId());
 
         for (Answer answer : answers)
@@ -128,6 +93,46 @@ public abstract class Answer {
         list.addAll(answers);
         list.sort(Comparator.comparing(Answer::getQuestionId));
         return list;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Integer getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Answer answer = (Answer) o;
+
+        if (username != null ? !username.equals(answer.username) : answer.username != null) return false;
+        return questionId != null ? questionId.equals(answer.questionId) : answer.questionId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (questionId != null ? questionId.hashCode() : 0);
+        return result;
+    }
+
+    public void save() {
+        Set<Answer> answers = getAnswers();
+        answers.add(this);
+        saveAnswersInFile(answers, ANSWERS);
     }
 
     public abstract Double calculateDistance(Answer answer);

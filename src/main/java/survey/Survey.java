@@ -12,7 +12,7 @@ import java.util.*;
 
 public class Survey {
 
-    static final String SURVEYS = "surveys.json";
+    public static final String SURVEYS = "surveys.json";
 
     private Integer id;
     private String title;
@@ -23,6 +23,32 @@ public class Survey {
 
     public Survey() {
         questions = new HashSet<>();
+    }
+
+    public static Map<Integer, Survey> getSurveys() {
+        Map<Integer, Survey> surveys = new HashMap<>();
+
+        File file = new File(SURVEYS);
+        if (!file.exists()) return surveys;
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            surveys = mapper.readValue(
+                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return surveys;
+    }
+
+    public static Survey getSurveyById(Integer id) {
+        return getSurveys().get(id);
+    }
+
+    public static void delete(Integer id) {
+        Map<Integer, Survey> surveys = getSurveys();
+        surveys.remove(id);
+        FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
 
     public Integer getId() {
@@ -97,22 +123,6 @@ public class Survey {
         FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
 
-    public static Map<Integer, Survey> getSurveys() {
-        Map<Integer, Survey> surveys = new HashMap<>();
-
-        File file = new File(SURVEYS);
-        if (!file.exists()) return surveys;
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            surveys = mapper.readValue(
-                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return surveys;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -137,16 +147,6 @@ public class Survey {
         result = 31 * result + (visible != null ? visible.hashCode() : 0);
         result = 31 * result + (questions != null ? questions.hashCode() : 0);
         return result;
-    }
-
-    public static Survey getSurveyById(Integer id) {
-        return getSurveys().get(id);
-    }
-
-    public static void delete(Integer id) {
-        Map<Integer, Survey> surveys = getSurveys();
-        surveys.remove(id);
-        FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
 
     @Override

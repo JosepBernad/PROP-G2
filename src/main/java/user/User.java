@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    static final String USERS = "users.json";
+    public static final String USERS = "users.json";
 
     private String username;
     private String name;
@@ -22,6 +22,25 @@ public class User {
     public User(String username, String name) {
         this.username = username;
         this.name = name;
+    }
+
+    public static Map<String, User> getUsers() {
+        Map<String, User> users = new HashMap<>();
+
+        File file = new File(USERS);
+        if (!file.exists()) return users;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            users = mapper.readValue(
+                    file, mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static User getUserByUsername(String username) {
+        return getUsers().get(username);
     }
 
     public String getUsername() {
@@ -40,22 +59,6 @@ public class User {
         this.name = name;
     }
 
-
-    public static Map<String, User> getUsers() {
-        Map<String, User> users = new HashMap<>();
-
-        File file = new File(USERS);
-        if (!file.exists()) return users;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            users = mapper.readValue(
-                    file, mapper.getTypeFactory().constructMapType(Map.class, String.class, User.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
-
     public void save() throws DuplicatedUsernameException, EmptyRequiredAttributeException {
         if (username == null || username.length() == 0 || name == null || name.length() == 0)
             throw new EmptyRequiredAttributeException();
@@ -64,10 +67,6 @@ public class User {
         if (users.containsKey(this.username)) throw new DuplicatedUsernameException();
         users.put(this.username, this);
         FileUtils.saveObjectInFile(users, USERS);
-    }
-
-    public static User getUserByUsername(String username) {
-        return getUsers().get(username);
     }
 
     @Override
