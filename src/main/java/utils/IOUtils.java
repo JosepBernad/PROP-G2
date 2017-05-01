@@ -35,6 +35,23 @@ public class IOUtils {
         }
     }
 
+    public static Double askForDoubleInRange(String text, double min, double max) {
+        printQuestion(text);
+        while (true) {
+            String strResponse = scan.nextLine();
+            if (strResponse.matches(NUMBER_REGEX)) {
+                double response = Double.parseDouble(strResponse);
+                if (response >= min && response <= max) {
+                    return response;
+                }
+                System.out.println("Input out of range, try it again.");
+            } else {
+                System.out.println("Invalid input, try it again.");
+                printQuestion(text);
+            }
+        }
+    }
+
     private static void printQuestion(String text) {
         System.out.print(text + ": ");
     }

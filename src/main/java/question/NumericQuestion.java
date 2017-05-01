@@ -24,7 +24,7 @@ public class NumericQuestion extends Question {
         this.max = max;
     }
 
-    public NumericAnswer makeAnAnswer(Integer value) throws NotInRangeException {
+    public NumericAnswer makeAnAnswer(Double value) throws NotInRangeException {
         if (value < min || value > max) throw new NotInRangeException();
         NumericAnswer numericAnswer = new NumericAnswer();
         numericAnswer.setValue(value);

@@ -166,7 +166,7 @@ class Main {
         System.out.println("Enter a number between " + question.getMin().toString() + " and " + question.getMax().toString() + ":");
         NumericAnswer numericAnswer = null;
         try {
-            numericAnswer = question.makeAnAnswer(Integer.valueOf(br.readLine()));
+            numericAnswer = question.makeAnAnswer(Double.valueOf(br.readLine()));
         } catch (NotInRangeException e) {
             e.printStackTrace();
         }

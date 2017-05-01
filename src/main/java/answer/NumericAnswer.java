@@ -2,15 +2,27 @@ package answer;
 
 import analysis.DistanceCalculator;
 
+import java.util.List;
+
 public class NumericAnswer extends Answer {
 
-    private Integer value;
+    private Double value;
 
-    public Integer getValue() {
+    public static NumericAnswer calculateCentroid(List<NumericAnswer> answers) {
+        Double sum = 0D;
+        for (NumericAnswer answer : answers)
+            sum += answer.getValue();
+
+        NumericAnswer numericAnswer = new NumericAnswer();
+        numericAnswer.setValue(sum / answers.size());
+        return numericAnswer;
+    }
+
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
@@ -18,19 +30,5 @@ public class NumericAnswer extends Answer {
     public Double calculateDistance(Answer answer) {
         return DistanceCalculator.calculateDistance(this, (NumericAnswer) answer);
     }
-
-
-//    public static Answer calculateCentroid(List<Answer> answers) {
-//        Float suma = 0F;
-//        for (Answer answer : answers) {
-//            NumericAnswer numericAnswer = (NumericAnswer) answer;
-//            suma += numericAnswer.getValue();
-//        }
-//
-//        NumericAnswer numericAnswer = new NumericAnswer();
-//        Float v = suma / answers.size();
-//        numericAnswer.setValue(v);
-//        return numericAnswer;
-//    }
 
 }

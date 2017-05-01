@@ -16,7 +16,7 @@ public class NumericQuestionTest {
         numericQuestion.setMax(7);
 
         // Act
-        numericQuestion.makeAnAnswer(-3);
+        numericQuestion.makeAnAnswer(-3D);
     }
 
     @Test(expected = NotInRangeException.class)
@@ -27,7 +27,7 @@ public class NumericQuestionTest {
         numericQuestion.setMax(7);
 
         // Act
-        numericQuestion.makeAnAnswer(8);
+        numericQuestion.makeAnAnswer(8D);
     }
 
     @Test
@@ -38,9 +38,9 @@ public class NumericQuestionTest {
         numericQuestion.setMax(7);
 
         // Act
-        NumericAnswer numericAnswer = numericQuestion.makeAnAnswer(4);
+        NumericAnswer numericAnswer = numericQuestion.makeAnAnswer(4D);
 
         // Assert
-        assertEquals((Integer) 4, numericAnswer.getValue());
+        assertEquals((Double) 4D, numericAnswer.getValue());
     }
 }

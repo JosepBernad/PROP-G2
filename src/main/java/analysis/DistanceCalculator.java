@@ -17,8 +17,8 @@ public class DistanceCalculator {
         Integer surveyId = answer1.getSurveyId();
         Integer questionId = answer1.getQuestionId();
         NumericQuestion question = (NumericQuestion) Survey.getSurveyById(surveyId).getQuestion(questionId);
-        Integer value1 = answer1.getValue();
-        Integer value2 = answer2.getValue();
+        Double value1 = answer1.getValue();
+        Double value2 = answer2.getValue();
         return calculateNumeric(value1, value2, question.getMax(), question.getMin());
     }
 
@@ -48,7 +48,7 @@ public class DistanceCalculator {
         return DistanceCalculator.calculateFreeQuestion(value1, value2);
     }
 
-    private static double calculateNumeric(int a, int b, int max, int min) {
+    private static double calculateNumeric(double a, double b, int max, int min) {
         return Math.abs(a - b) / (max - min);
     }
 

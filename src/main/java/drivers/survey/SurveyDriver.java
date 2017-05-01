@@ -262,7 +262,7 @@ public class SurveyDriver {
     }
 
     private static NumericAnswer getNumericAnswer(NumericQuestion question) throws IOException {
-        Integer value = IOUtils.askForIntInRange("Enter a number between " + question.getMin().toString() + " and " + question.getMax().toString(), question.getMin(), question.getMax());
+        Double value = IOUtils.askForDoubleInRange("Enter a number between " + question.getMin().toString() + " and " + question.getMax().toString(), question.getMin(), question.getMax());
         NumericAnswer numericAnswer = null;
         try {
             numericAnswer = question.makeAnAnswer(value);
