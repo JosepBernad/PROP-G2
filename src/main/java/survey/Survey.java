@@ -19,10 +19,10 @@ public class Survey {
     private String description;
     private Boolean finished;
     private Boolean visible;
-    private Set<Question> questions;
+    private List<Question> questions;
 
     public Survey() {
-        questions = new HashSet<>();
+        questions = new ArrayList<>();
     }
 
     public static Map<Integer, Survey> getSurveys() {
@@ -91,24 +91,18 @@ public class Survey {
         this.visible = visible;
     }
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
     public void addQuestion(Question question) {
         if (question.getId() == null)
             question.setId(getMaxId(questions) + 1);
         questions.add(question);
     }
 
-    private int getMaxId(Set<Question> questions) {
-        int max = 1;
-        for (Question question : questions) {
-            Integer id = question.getId();
-            if (id != null && id > max)
-                max = id;
-        }
-        return max;
-    }
-
-    public Set<Question> getQuestions() {
-        return questions;
+    public Question getQuestion(Integer i) {
+        return questions.get(i);
     }
 
     public void save() throws EmptyRequiredAttributeException {
@@ -121,6 +115,10 @@ public class Survey {
         }
         surveys.put(id, this);
         FileUtils.saveObjectInFile(surveys, SURVEYS);
+    }
+
+    private int getMaxId(List<Question> questions) {
+        return questions.size();
     }
 
     @Override

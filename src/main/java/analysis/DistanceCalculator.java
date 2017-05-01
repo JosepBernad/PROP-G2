@@ -1,11 +1,54 @@
 package analysis;
 
+import answer.FreeAnswer;
+import answer.MultivaluedQualitativeAnswer;
+import answer.NumericAnswer;
+import answer.UnivaluedQualitativeAnswer;
+import question.NumericQuestion;
+import question.QualitativeQuestion;
+import survey.Survey;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class DistanceCalculator {
 
-    public static double calculateNumeric(int a, int b, int max, int min) {
+    public static Double calculateDistance(NumericAnswer answer1, NumericAnswer answer2) {
+        Integer surveyId = answer1.getSurveyId();
+        Integer questionId = answer1.getQuestionId();
+        NumericQuestion question = (NumericQuestion) Survey.getSurveyById(surveyId).getQuestion(questionId);
+        Integer value1 = answer1.getValue();
+        Integer value2 = answer2.getValue();
+        return calculateNumeric(value1, value2, question.getMax(), question.getMin());
+    }
+
+    public static Double calculateDistance(MultivaluedQualitativeAnswer answer1, MultivaluedQualitativeAnswer answer2) {
+        Set<String> values1 = answer1.getValues();
+        Set<String> values2 = answer2.getValues();
+        return calculateUnsortedMultivaluedQualitative(values1, values2);
+    }
+
+    public static Double calculateDistanceUnsorted(UnivaluedQualitativeAnswer answer1, UnivaluedQualitativeAnswer answer2) {
+        String value1 = answer1.getOption().getValue();
+        String value2 = answer2.getOption().getValue();
+        return calculateUnsortedUnivaluedQualitative(value1, value2);
+    }
+
+    public static Double calculateDistanceSorted(UnivaluedQualitativeAnswer answer1, UnivaluedQualitativeAnswer answer2) {
+        Integer weight1 = answer1.getOption().getWeight();
+        Integer weight2 = answer2.getOption().getWeight();
+        QualitativeQuestion question = (QualitativeQuestion) Survey.getSurveyById(answer1.getSurveyId()).getQuestion(answer1.getQuestionId());
+        Integer nValues = question.getOptions().size();
+        return calculateSortedUnivaluedQualitative(weight1, weight2, nValues);
+    }
+
+    public static Double calculateDistance(FreeAnswer answer1, FreeAnswer answer2) {
+        String value1 = answer1.getValue();
+        String value2 = answer2.getValue();
+        return DistanceCalculator.calculateFreeQuestion(value1, value2);
+    }
+
+    private static double calculateNumeric(int a, int b, int max, int min) {
         return Math.abs(a - b) / (max - min);
     }
 
@@ -13,14 +56,14 @@ public class DistanceCalculator {
         return Math.abs(a - b) / (nValues - 1);
     }
 
-    public static double calculateUnsortedUnivaluedQualitative(String a, String b) {
+    private static double calculateUnsortedUnivaluedQualitative(String a, String b) {
         if (a.equals(b))
             return 1;
         else
             return 0;
     }
 
-    public static double calculateUnsortedMultivaluedQualitative(Set<String> a, Set<String> b) {
+    private static double calculateUnsortedMultivaluedQualitative(Set<String> a, Set<String> b) {
         Set<String> intersection = new HashSet<>();
         intersection.addAll(a);
         intersection.retainAll(b);
@@ -30,10 +73,9 @@ public class DistanceCalculator {
         return 1 - intersection.size() / union.size();
     }
 
-    public static double calculateFreeQuestion(String a, String b) {
+    private static double calculateFreeQuestion(String a, String b) {
         return computeLevenshteinDistance(a, b) / Math.max(a.length(), b.length());
     }
-
 
     private static int computeLevenshteinDistance(String a, String b) {
         char[] charA = a.toCharArray();

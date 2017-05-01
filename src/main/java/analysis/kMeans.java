@@ -2,27 +2,26 @@ package analysis;
 
 
 import answer.Answer;
+import answer.Answer.AnswerCollection;
+import question.Question;
+import survey.Survey;
 
-import java.util.Iterator;
 import java.util.List;
 
-
-public class kMeans
-{
-    private  Integer surveyId;
+public class kMeans {
+    private Integer surveyId;
+    private AnswerCollection answerCollection;
 
     private double distanceBetweenUsers(String username1, String username2) throws Exception {
-        List<Answer> user1Answers = Answer.getAnswersByUsernameAndSurveyID(username1, surveyId);
-        List<Answer> user2Answers = Answer.getAnswersByUsernameAndSurveyID(username2, surveyId);
-
-        Iterator<Answer> it1 = user1Answers.iterator();
-        Iterator<Answer> it2 = user2Answers.iterator();
+        List<Question> questions = Survey.getSurveyById(surveyId).getQuestions();
 
         Double sum = 0D;
-
-        while (it1.hasNext() && it2.hasNext())
-            sum += it1.next().calculateDistance(it2.next());
-
-        return sum/user1Answers.size();
+        for (Question question : questions) {
+            Integer questionId = question.getId();
+            Answer answer1 = answerCollection.getAnswer(surveyId, username1, questionId);
+            Answer answer2 = answerCollection.getAnswer(surveyId, username2, questionId);
+            sum += answer1.calculateDistance(answer2);
+        }
+        return sum / questions.size();
     }
 }

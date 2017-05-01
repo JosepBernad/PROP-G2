@@ -18,15 +18,15 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
         this.options = options;
     }
 
-    @Override
-    public Double calculateDistance(Answer answer) {
-        return DistanceCalculator.calculateUnsortedMultivaluedQualitative(getValues(), ((MultivaluedQualitativeAnswer) answer).getValues());
-    }
-
-    private Set<String> getValues() {
+    public Set<String> getValues() {
         Set<String> values = new HashSet<>();
         for (Option option : options)
             values.add(option.getValue());
         return values;
+    }
+
+    @Override
+    public Double calculateDistance(Answer answer) {
+        return DistanceCalculator.calculateDistance(this, (MultivaluedQualitativeAnswer) answer);
     }
 }

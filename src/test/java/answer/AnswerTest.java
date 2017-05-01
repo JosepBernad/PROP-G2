@@ -59,6 +59,7 @@ public class AnswerTest {
     public void test_givenNewAnswer_whenSave_thenPersistsIt() {
         // Arrange
         Answer answer = new NumericAnswer();
+        answer.setSurveyId(1);
         answer.setQuestionId(1);
         answer.setUsername("pepito");
 

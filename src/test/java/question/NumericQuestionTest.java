@@ -1,8 +1,6 @@
 package question;
 
-import answer.FreeAnswer;
 import answer.NumericAnswer;
-import exceptions.InvalidSizeException;
 import exceptions.NotInRangeException;
 import org.junit.Test;
 

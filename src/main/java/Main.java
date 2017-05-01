@@ -101,7 +101,7 @@ class Main {
                         answers.add(multivaluedQualitativeAnswer);
                     }
                 }
-                Answer.saveAnswersInFile(answers,Answer.ANSWERS);
+                Answer.saveAnswersInFile(answers);
             }
         }
     }
@@ -172,8 +172,6 @@ class Main {
         }
         numericAnswer.setUsername(user.getUsername());
         numericAnswer.setQuestionId(question.getId());
-        numericAnswer.setMin(question.getMin());
-        numericAnswer.setMax(question.getMax());
         return numericAnswer;
     }
 

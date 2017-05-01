@@ -1,6 +1,7 @@
 package question;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(
@@ -9,12 +10,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "type")
 
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = FreeQuestion.class, name = "FreeQuestion"),
-        @JsonSubTypes.Type(value = MultivaluedUnsortedQualitativeQuestion.class, name = "MultivaluedUnsortedQualitativeQuestion"),
-        @JsonSubTypes.Type(value = NumericQuestion.class, name = "NumericQuestion"),
-        @JsonSubTypes.Type(value = QualitativeQuestion.class, name = "QualitativeQuestion"),
-        @JsonSubTypes.Type(value = SortedQualitativeQuestion.class, name = "SortedQualitativeQuestion"),
-        @JsonSubTypes.Type(value = UnsortedQualitativeQuestion.class, name = "UnsortedQualitativeQuestion")})
+        @Type(value = FreeQuestion.class),
+        @Type(value = MultivaluedUnsortedQualitativeQuestion.class),
+        @Type(value = NumericQuestion.class),
+        @Type(value = QualitativeQuestion.class),
+        @Type(value = SortedQualitativeQuestion.class),
+        @Type(value = UnsortedQualitativeQuestion.class)})
 
 public abstract class Question {
 

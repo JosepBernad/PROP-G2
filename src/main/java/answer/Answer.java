@@ -1,6 +1,7 @@
 package answer;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,15 +22,16 @@ import java.util.*;
         property = "type")
 
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = FreeAnswer.class, name = "FreeAnswer"),
-        @JsonSubTypes.Type(value = MultivaluedQualitativeAnswer.class, name = "MultivaluedQualitativeAnswer"),
-        @JsonSubTypes.Type(value = NumericAnswer.class, name = "NumericAnswer"),
-        @JsonSubTypes.Type(value = QualitativeAnswer.class, name = "QualitativeAnswer"),
-        @JsonSubTypes.Type(value = UnivaluedQualitativeAnswer.class, name = "UnivaluedQualitativeAnswer")})
+        @Type(value = FreeAnswer.class),
+        @Type(value = MultivaluedQualitativeAnswer.class),
+        @Type(value = NumericAnswer.class),
+        @Type(value = QualitativeAnswer.class),
+        @Type(value = UnivaluedQualitativeAnswer.class)})
 
 public abstract class Answer {
 
     public static final String ANSWERS = "answers.json";
+    private Integer surveyId;
     private String username;
     private Integer questionId;
 
@@ -49,11 +51,11 @@ public abstract class Answer {
         return answers;
     }
 
-    public static void saveAnswersInFile(Set<Answer> answers, String filename) {
+    public static void saveAnswersInFile(Set<Answer> answers) {
         answers.addAll(getAnswers());
         FileWriter fileWriter = null;
         try {
-            File file = new File(filename);
+            File file = new File(ANSWERS);
             fileWriter = new FileWriter(file);
             if (!file.exists()) file.createNewFile();
             ObjectMapper mapper = new ObjectMapper();
@@ -84,7 +86,6 @@ public abstract class Answer {
             if (!answer.getUsername().equals(username) || !questions.contains(answer.getQuestionId()))
                 answers.remove(answer);
 
-
         return getOrderedById(answers);
     }
 
@@ -93,6 +94,14 @@ public abstract class Answer {
         list.addAll(answers);
         list.sort(Comparator.comparing(Answer::getQuestionId));
         return list;
+    }
+
+    public Integer getSurveyId() {
+        return surveyId;
+    }
+
+    public void setSurveyId(Integer surveyId) {
+        this.surveyId = surveyId;
     }
 
     public String getUsername() {
@@ -132,8 +141,35 @@ public abstract class Answer {
     public void save() {
         Set<Answer> answers = getAnswers();
         answers.add(this);
-        saveAnswersInFile(answers, ANSWERS);
+        saveAnswersInFile(answers);
     }
 
     public abstract Double calculateDistance(Answer answer);
+
+    public static class AnswerCollection {
+        Map<Integer, Map<String, Map<Integer, Answer>>> answers = new HashMap<>();
+
+        public void addAnswer(Answer answer) {
+            Integer surveyId = answer.getSurveyId();
+            String username = answer.getUsername();
+            Integer questionId = answer.getQuestionId();
+
+            if (!answers.containsKey(surveyId)) answers.put(surveyId, new HashMap<>());
+            if (!answers.get(surveyId).containsKey(username)) answers.get(surveyId).put(username, new HashMap<>());
+            answers.get(surveyId).get(username).put(questionId, answer);
+        }
+
+        public Answer getAnswer(Integer surveyId, String username, Integer questionId) {
+            return answers.get(surveyId).get(username).get(questionId);
+        }
+
+        public Set<Answer> toSet() {
+            HashSet<Answer> answers = new HashSet<>();
+            for (Map<String, Map<Integer, Answer>> map : this.answers.values())
+                for (Map<Integer, Answer> map2 : map.values())
+                    answers.addAll(map2.values());
+
+            return answers;
+        }
+    }
 }

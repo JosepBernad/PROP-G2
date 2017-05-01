@@ -4,7 +4,9 @@ package survey;
 import exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
 import org.junit.Test;
+import question.FreeQuestion;
 import question.NumericQuestion;
+import question.Question;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,9 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SurveyTest {
 
@@ -145,6 +145,20 @@ public class SurveyTest {
 
         //Assert
         assertFalse(Survey.getSurveys().containsKey(1));
+    }
+
+    @Test
+    public void test_givenSurveyWithQuestions_whenGetQuestion_withValidQuestionIndex_thenReturnsQuestion() {
+        // Arrange
+        Survey survey = new Survey();
+        FreeQuestion freeQuestion = new FreeQuestion();
+        survey.addQuestion(freeQuestion);
+
+        // Act
+        Question q = survey.getQuestion(0);
+
+        // Assert
+        assertEquals(freeQuestion, q);
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {

@@ -197,7 +197,7 @@ public class SurveyDriver {
                         answers.add(multivaluedQualitativeAnswer);
                     }
                 }
-                Answer.saveAnswersInFile(answers, Answer.ANSWERS);
+                Answer.saveAnswersInFile(answers);
             }
         }
     }
@@ -267,8 +267,7 @@ public class SurveyDriver {
         try {
             numericAnswer = question.makeAnAnswer(value);
             numericAnswer.setQuestionId(question.getId());
-            numericAnswer.setMin(question.getMin());
-            numericAnswer.setMax(question.getMax());
+            numericAnswer.setSurveyId(1);
             numericAnswer.setUsername(user.getUsername());
         } catch (NotInRangeException e) {
             e.printStackTrace();
