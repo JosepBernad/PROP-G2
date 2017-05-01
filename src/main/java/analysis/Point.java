@@ -15,4 +15,8 @@ public class Point {
     public Answer getCoordinate(Integer variable) {
         return coordinates.get(variable);
     }
+
+    public Integer getNumOfCoordinates() {
+        return coordinates.size();
+    }
 }

@@ -163,6 +163,10 @@ public abstract class Answer {
             return answers.get(surveyId).get(username).get(questionId);
         }
 
+        public Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
+            return answers.get(surveyId);
+        }
+
         public Set<Answer> toSet() {
             HashSet<Answer> answers = new HashSet<>();
             for (Map<String, Map<Integer, Answer>> map : this.answers.values())
