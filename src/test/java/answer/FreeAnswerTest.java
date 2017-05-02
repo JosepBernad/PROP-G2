@@ -29,4 +29,14 @@ public class FreeAnswerTest {
         assertEquals(Arrays.asList(expectedWords), words);
     }
 
+    @Test
+    public void test_whenParseSentence_withSentenceWithCommas_thenReturnsListWithoutCommas() {
+        String sentence = "My name, is Sergio,";
+
+        List<String> words = FreeAnswer.parseSentence(sentence);
+
+        String[] expectedWords = new String[]{"my", "name", "is", "sergio"};
+        assertEquals(Arrays.asList(expectedWords), words);
+    }
+
 }

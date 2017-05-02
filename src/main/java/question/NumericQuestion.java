@@ -12,7 +12,8 @@ public class NumericQuestion extends Question {
         return min;
     }
 
-    public void setMin(Integer min) {
+    public void setMin(Integer min) throws NotInRangeException {
+        if (max != null && min > max) throw new NotInRangeException();
         this.min = min;
     }
 
@@ -20,7 +21,8 @@ public class NumericQuestion extends Question {
         return max;
     }
 
-    public void setMax(Integer max) {
+    public void setMax(Integer max) throws NotInRangeException {
+        if (min != null && max < min) throw new NotInRangeException();
         this.max = max;
     }
 

@@ -2,6 +2,7 @@ package question;
 
 import answer.FreeAnswer;
 import exceptions.InvalidSizeException;
+import exceptions.NotInRangeException;
 
 public class FreeQuestion extends Question {
 
@@ -11,7 +12,8 @@ public class FreeQuestion extends Question {
         return maxSize;
     }
 
-    public void setMaxSize(Integer maxSize) {
+    public void setMaxSize(Integer maxSize) throws NotInRangeException {
+        if (maxSize <= 0) throw new NotInRangeException();
         this.maxSize = maxSize;
     }
 

@@ -40,7 +40,7 @@ public class FreeAnswer extends Answer {
 
     // TODO: discard functional words
     static List<String> parseSentence(String s) {
-        String[] words = s.replaceAll("[.]", "").toLowerCase().split("\\s+");
+        String[] words = s.replaceAll("[.,]", "").toLowerCase().split("\\s+");
         return Arrays.asList(words);
     }
 
