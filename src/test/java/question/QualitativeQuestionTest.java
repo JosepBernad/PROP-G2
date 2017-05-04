@@ -1,5 +1,7 @@
 package question;
 
+import answer.UnivaluedQualitativeAnswer;
+import exceptions.NotValidOptionException;
 import exceptions.RepeatedOptionWeightException;
 import org.junit.Test;
 
@@ -64,7 +66,7 @@ public class QualitativeQuestionTest {
     }
 
     @Test
-    public void test_givenQualitativeQuestion_whenAddOptio_withoutWeight_thenAddItToTheOptionSet() throws RepeatedOptionWeightException {
+    public void test_givenQualitativeQuestion_whenAddOption_withoutWeight_thenAddItToTheOptionSet() throws RepeatedOptionWeightException {
         // Arrange
         UnsortedQualitativeQuestion unsortedQualitativeQuestion = new UnsortedQualitativeQuestion();
         Option option = new Option("option");
@@ -77,6 +79,30 @@ public class QualitativeQuestionTest {
         // Assert
         assertTrue(unsortedQualitativeQuestion.getOptions().contains(option));
         assertTrue(unsortedQualitativeQuestion.getOptions().contains(option2));
+    }
 
+    @Test
+    public void test_givenQualitativeQuestion_whenMakeAnAnswer_withValidOption_thenReturnUnivaluedQualitativeAnswer() throws Exception {
+        // Arrange
+        QualitativeQuestion qualitativeQuestion = new SortedQualitativeQuestion();
+        Option option = new Option("verd", 2);
+        qualitativeQuestion.addOption(option);
+
+        // Act
+        UnivaluedQualitativeAnswer univaluedQualitativeAnswer = qualitativeQuestion.makeAnAnswer(option);
+
+        // Assert
+        Option expectedOption = new Option("verd", 2);
+        assertEquals(expectedOption, univaluedQualitativeAnswer.getOption());
+    }
+
+    @Test(expected = NotValidOptionException.class)
+    public void test_givenQualitativeQuestion_whenMakeAnAnswer_withNotValidOption_thenThrowsNotValidOptionException() throws NotValidOptionException {
+        // Arrange
+        QualitativeQuestion qualitativeQuestion = new SortedQualitativeQuestion();
+        Option option = new Option("verd", 2);
+
+        // Act
+        qualitativeQuestion.makeAnAnswer(option);
     }
 }

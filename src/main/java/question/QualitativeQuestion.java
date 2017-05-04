@@ -1,9 +1,14 @@
 package question;
 
 
+import answer.UnivaluedQualitativeAnswer;
+import exceptions.NotValidOptionException;
 import exceptions.RepeatedOptionWeightException;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class QualitativeQuestion extends Question {
     private Set<Option> options = new HashSet<>();
@@ -30,5 +35,13 @@ public abstract class QualitativeQuestion extends Question {
             values[option.getWeight()] = option.getValue();
         }
         return Arrays.asList(values);
+    }
+
+    public UnivaluedQualitativeAnswer makeAnAnswer(Option option) throws NotValidOptionException {
+        if (!getOptions().contains(option)) throw new NotValidOptionException();
+
+        UnivaluedQualitativeAnswer univaluedQualitativeAnswer = new UnivaluedQualitativeAnswer();
+        univaluedQualitativeAnswer.setOption(option);
+        return univaluedQualitativeAnswer;
     }
 }

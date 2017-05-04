@@ -1,7 +1,6 @@
 package question;
 
 import answer.UnivaluedQualitativeAnswer;
-import exceptions.NotValidOptionException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -21,15 +20,5 @@ public class SortedQualitativeQuestionTest {
         // Assert
         Option expectedOption = new Option("verd", 2);
         assertEquals(expectedOption, univaluedQualitativeAnswer.getOption());
-    }
-
-    @Test(expected = NotValidOptionException.class)
-    public void test_givenSortedQualitativeQuestion_whenMakeAnAnswer_withNotValidOption_thenThrowsNotValidOptionException() throws NotValidOptionException {
-        // Arrange
-        SortedQualitativeQuestion sortedQualitativeQuestion = new SortedQualitativeQuestion();
-        Option option = new Option("verd", 2);
-
-        // Act
-        sortedQualitativeQuestion.makeAnAnswer(option);
     }
 }

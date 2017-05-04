@@ -1,7 +1,10 @@
 package question;
 
+import answer.NumericAnswer;
 import exceptions.NotInRangeException;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class NumericQuestionTest {
 
@@ -45,5 +48,20 @@ public class NumericQuestionTest {
 
         // Act
         numericQuestion.setMax(1);
+    }
+
+    @Test
+    public void test_givenNumericQuestion_whenMakeAnAnswer_withValidValue_thenReturnsAnswerWithQuestionId() throws NotInRangeException {
+        // Arrange
+        NumericQuestion numericQuestion = new NumericQuestion();
+        numericQuestion.setId(1);
+        numericQuestion.setMin(2);
+        numericQuestion.setMax(4);
+
+        // Act
+        NumericAnswer numericAnswer = numericQuestion.makeAnAnswer(3D);
+
+        // Assert
+        assertEquals((Integer) 1, numericAnswer.getQuestionId());
     }
 }

@@ -29,6 +29,7 @@ public class NumericQuestion extends Question {
     public NumericAnswer makeAnAnswer(Double value) throws NotInRangeException {
         if (value < min || value > max) throw new NotInRangeException();
         NumericAnswer numericAnswer = new NumericAnswer();
+        numericAnswer.setQuestionId(getId());
         numericAnswer.setValue(value);
         return numericAnswer;
     }
