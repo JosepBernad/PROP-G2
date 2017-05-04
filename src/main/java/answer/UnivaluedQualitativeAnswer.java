@@ -2,6 +2,8 @@ package answer;
 
 import analysis.DistanceCalculator;
 import question.Option;
+import question.QualitativeQuestion;
+import survey.Survey;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +50,7 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
     public Double calculateDistance(Answer answer) {
         if (option.getWeight() == null)
             return DistanceCalculator.calculateDistanceUnsorted(this, (UnivaluedQualitativeAnswer) answer);
-        return DistanceCalculator.calculateDistanceSorted(this, (UnivaluedQualitativeAnswer) answer);
+        QualitativeQuestion question = (QualitativeQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
+        return DistanceCalculator.calculateDistanceSorted(this, (UnivaluedQualitativeAnswer) answer, question);
     }
 }

@@ -6,17 +6,13 @@ import answer.NumericAnswer;
 import answer.UnivaluedQualitativeAnswer;
 import question.NumericQuestion;
 import question.QualitativeQuestion;
-import survey.Survey;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class DistanceCalculator {
 
-    public static Double calculateDistance(NumericAnswer answer1, NumericAnswer answer2) {
-        Integer surveyId = answer1.getSurveyId();
-        Integer questionId = answer1.getQuestionId();
-        NumericQuestion question = (NumericQuestion) Survey.getSurveyById(surveyId).getQuestion(questionId);
+    public static Double calculateDistance(NumericAnswer answer1, NumericAnswer answer2, NumericQuestion question) {
         Double value1 = answer1.getValue();
         Double value2 = answer2.getValue();
         return calculateNumeric(value1, value2, question.getMax(), question.getMin());
@@ -34,10 +30,9 @@ public class DistanceCalculator {
         return calculateUnsortedUnivaluedQualitative(value1, value2);
     }
 
-    public static Double calculateDistanceSorted(UnivaluedQualitativeAnswer answer1, UnivaluedQualitativeAnswer answer2) {
+    public static Double calculateDistanceSorted(UnivaluedQualitativeAnswer answer1, UnivaluedQualitativeAnswer answer2, QualitativeQuestion question) {
         Integer weight1 = answer1.getOption().getWeight();
         Integer weight2 = answer2.getOption().getWeight();
-        QualitativeQuestion question = (QualitativeQuestion) Survey.getSurveyById(answer1.getSurveyId()).getQuestion(answer1.getQuestionId());
         Integer nValues = question.getOptions().size();
         return calculateSortedUnivaluedQualitative(weight1, weight2, nValues);
     }
@@ -45,14 +40,14 @@ public class DistanceCalculator {
     public static Double calculateDistance(FreeAnswer answer1, FreeAnswer answer2) {
         String value1 = answer1.getValue();
         String value2 = answer2.getValue();
-        return DistanceCalculator.calculateFreeQuestion(value1, value2);
+        return calculateFreeQuestion(value1, value2);
     }
 
     private static double calculateNumeric(double a, double b, int max, int min) {
         return Math.abs(a - b) / (max - min);
     }
 
-    public static double calculateSortedUnivaluedQualitative(int a, int b, int nValues) {
+    private static double calculateSortedUnivaluedQualitative(int a, int b, int nValues) {
         return Math.abs(a - b) / (nValues - 1);
     }
 

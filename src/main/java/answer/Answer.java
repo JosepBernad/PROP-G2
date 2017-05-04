@@ -30,7 +30,7 @@ import java.util.*;
 
 public abstract class Answer {
 
-    public static final String ANSWERS = "answers.json";
+    static final String ANSWERS = "answers.json";
     private Integer surveyId;
     private String username;
     private Integer questionId;

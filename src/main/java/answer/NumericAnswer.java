@@ -1,6 +1,8 @@
 package answer;
 
 import analysis.DistanceCalculator;
+import question.NumericQuestion;
+import survey.Survey;
 
 import java.util.List;
 
@@ -28,7 +30,8 @@ public class NumericAnswer extends Answer {
 
     @Override
     public Double calculateDistance(Answer answer) {
-        return DistanceCalculator.calculateDistance(this, (NumericAnswer) answer);
+        NumericQuestion question = (NumericQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
+        return DistanceCalculator.calculateDistance(this, (NumericAnswer) answer, question);
     }
 
 }
