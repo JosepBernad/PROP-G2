@@ -54,6 +54,6 @@ public class FreeAnswer extends Answer {
 
     @Override
     public Double calculateDistance(Answer answer) {
-        return DistanceCalculator.calculateDistance(this, (FreeAnswer) answer);
+        return DistanceCalculator.calculateFreeQuestion(this.getValue(), ((FreeAnswer) answer).getValue());
     }
 }

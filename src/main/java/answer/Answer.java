@@ -138,12 +138,6 @@ public abstract class Answer {
         return result;
     }
 
-    public void save() {
-        Set<Answer> answers = getAnswers();
-        answers.add(this);
-        saveAnswersInFile(answers);
-    }
-
     public abstract Double calculateDistance(Answer answer);
 
     public static class AnswerCollection {

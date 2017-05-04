@@ -49,8 +49,8 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
     @Override
     public Double calculateDistance(Answer answer) {
         if (option.getWeight() == null)
-            return DistanceCalculator.calculateDistanceUnsorted(this, (UnivaluedQualitativeAnswer) answer);
+            return DistanceCalculator.calculateUnsortedUnivaluedQualitative(this.getOption().getValue(), ((UnivaluedQualitativeAnswer) answer).getOption().getValue());
         QualitativeQuestion question = (QualitativeQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
-        return DistanceCalculator.calculateDistanceSorted(this, (UnivaluedQualitativeAnswer) answer, question);
+        return DistanceCalculator.calculateSortedUnivaluedQualitative(this.getOption().getWeight(), ((UnivaluedQualitativeAnswer) answer).getOption().getWeight(), question.getOptions().size());
     }
 }

@@ -31,7 +31,7 @@ public class NumericAnswer extends Answer {
     @Override
     public Double calculateDistance(Answer answer) {
         NumericQuestion question = (NumericQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
-        return DistanceCalculator.calculateDistance(this, (NumericAnswer) answer, question);
+        return DistanceCalculator.calculateNumeric(getValue(), ((NumericAnswer) answer).getValue(), question.getMax(), question.getMin());
     }
 
 }

@@ -56,15 +56,18 @@ public class AnswerTest {
     }
 
     @Test
-    public void test_givenNewAnswer_whenSave_thenPersistsIt() {
+    public void test_givenNewAnswer_whenSaveAnswersInFile_thenPersistsIt() {
         // Arrange
         Answer answer = new NumericAnswer();
         answer.setSurveyId(1);
         answer.setQuestionId(1);
         answer.setUsername("pepito");
 
+        Set<Answer> answers = new HashSet<>();
+        answers.add(answer);
+        
         // Act
-        answer.save();
+        Answer.saveAnswersInFile(answers);
 
         // Assert
         assertTrue(Answer.getAnswers().contains(answer));
