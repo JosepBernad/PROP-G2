@@ -10,14 +10,11 @@ public class DistanceCalculator {
     }
 
     public static double calculateSortedUnivaluedQualitative(int a, int b, int nValues) {
-        return Math.abs(a - b) / (nValues - 1);
+        return Math.abs(a - b) / (nValues - 1D);
     }
 
     public static double calculateUnsortedUnivaluedQualitative(String a, String b) {
-        if (a.equals(b))
-            return 1;
-        else
-            return 0;
+        return a.equals(b) ? 0 : 1;
     }
 
     public static double calculateUnsortedMultivaluedQualitative(Set<String> a, Set<String> b) {
@@ -27,7 +24,7 @@ public class DistanceCalculator {
         Set<String> union = new HashSet<>();
         union.addAll(a);
         union.addAll(b);
-        return 1 - intersection.size() / union.size();
+        return 1 - (double) intersection.size() / union.size();
     }
 
     public static double calculateFreeQuestion(String a, String b) {
