@@ -25,7 +25,7 @@ public class MultivaluedQualitativeAnswerTest {
     }
 
     @Test
-    public void test_givenMultivaluedQualitativeAnswerFromSortedQuestion_whenCalculateDistance_withAnotherUnivaluedQualitativeAnswer_thenReturnsMaxDistance() throws Exception {
+    public void test_givenMultivaluedQualitativeAnswerFromSortedQuestion_whenCalculateDistance_withAnotherMultivaluedQualitativeAnswer_thenReturnsMaxDistance() throws Exception {
         // Arrange
         Survey survey = new Survey();
         survey.setTitle("title");
@@ -62,7 +62,7 @@ public class MultivaluedQualitativeAnswerTest {
     }
 
     @Test
-    public void test_givenMultivaluedQualitativeAnswerFromSortedQuestion_whenCalculateDistance_withAnotherUnivaluedQualitativeAnswer_thenReturnsDistance() throws Exception {
+    public void test_givenMultivaluedQualitativeAnswerFromSortedQuestion_whenCalculateDistance_withAnotherMultivaluedQualitativeAnswer_thenReturnsDistance() throws Exception {
         // Arrange
         Survey survey = new Survey();
         survey.setTitle("title");
@@ -99,7 +99,7 @@ public class MultivaluedQualitativeAnswerTest {
     }
 
     @Test
-    public void test_givenMultivaluedQualitativeAnswerFromSortedQuestion_whenCalculateDistance_withAnotherUnivaluedQualitativeAnswer_thenReturnsMinimumDistance() throws Exception {
+    public void test_givenMultivaluedQualitativeAnswerFromSortedQuestion_whenCalculateDistance_withAnotherMultivaluedQualitativeAnswer_thenReturnsMinimumDistance() throws Exception {
         // Arrange
         Survey survey = new Survey();
         survey.setTitle("title");

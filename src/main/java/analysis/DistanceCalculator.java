@@ -31,7 +31,7 @@ public class DistanceCalculator {
         return computeLevenshteinDistance(a, b) / Math.max(a.length(), b.length());
     }
 
-    private static int computeLevenshteinDistance(String a, String b) {
+    private static double computeLevenshteinDistance(String a, String b) {
         char[] charA = a.toCharArray();
         char[] charB = b.toCharArray();
         int[][] distance = new int[charA.length + 1][charB.length + 1];
