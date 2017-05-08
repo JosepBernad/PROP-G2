@@ -30,7 +30,7 @@ import java.util.*;
 
 public abstract class Answer {
 
-    static final String ANSWERS = "answers.json";
+    public static final String ANSWERS = "answers.json";
     private Integer surveyId;
     private String username;
     private Integer questionId;
@@ -82,11 +82,13 @@ public abstract class Answer {
         for (Question question : survey.getQuestions())
             questions.add(question.getId());
 
-        for (Answer answer : answers)
-            if (!answer.getUsername().equals(username) || !questions.contains(answer.getQuestionId()))
-                answers.remove(answer);
+        Set<Answer> userAnswers = new HashSet<>();
 
-        return getOrderedById(answers);
+        for (Answer answer : answers)
+            if (answer.getUsername().equals(username) && questions.contains(answer.getQuestionId()))
+                userAnswers.add(answer);
+
+        return getOrderedById(userAnswers);
     }
 
     static List<Answer> getOrderedById(Set<Answer> answers) {

@@ -6,12 +6,13 @@ import answer.Answer.AnswerCollection;
 
 import java.util.*;
 
-public class kMeans {
+public class KMeans {
+    public static final int MAX_ITERATIONS = 1;
     private Integer surveyId;
     private AnswerCollection answerCollection;
     private Integer nCoordinates;
 
-    public kMeans(Integer surveyId, AnswerCollection answerCollection, Integer nCoordinates) {
+    public KMeans(Integer surveyId, AnswerCollection answerCollection, Integer nCoordinates) {
         this.surveyId = surveyId;
         this.answerCollection = answerCollection;
         this.nCoordinates = nCoordinates;
@@ -26,7 +27,7 @@ public class kMeans {
         Collections.fill(hasChanges, Boolean.TRUE);
 
         int i = 0;
-        while (i < 100) {
+        while (i < MAX_ITERATIONS) {
             prepareClusters(clusters);
             assignPoints(clusters, points);
             recalcCentroids(clusters);

@@ -1,0 +1,154 @@
+[
+  {
+    "type": "FreeAnswer",
+    "surveyId": 1,
+    "username": "User4",
+    "questionId": 1,
+    "value": "pep"
+  },
+  {
+    "type": "NumericAnswer",
+    "surveyId": 1,
+    "username": "User4",
+    "questionId": 2,
+    "value": 70.0
+  },
+  {
+    "type": "FreeAnswer",
+    "surveyId": 1,
+    "username": "User3",
+    "questionId": 1,
+    "value": "josep"
+  },
+  {
+    "type": "MultivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User4",
+    "questionId": 3,
+    "options": [
+      {
+        "value": "yellow",
+        "weight": null
+      }
+    ]
+  },
+  {
+    "type": "NumericAnswer",
+    "surveyId": 1,
+    "username": "User3",
+    "questionId": 2,
+    "value": 20.0
+  },
+  {
+    "type": "FreeAnswer",
+    "surveyId": 1,
+    "username": "User2",
+    "questionId": 1,
+    "value": "pepo"
+  },
+  {
+    "type": "UnivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User4",
+    "questionId": 4,
+    "option": {
+      "value": "low",
+      "weight": null
+    }
+  },
+  {
+    "type": "MultivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User3",
+    "questionId": 3,
+    "options": [
+      {
+        "value": "blue",
+        "weight": null
+      },
+      {
+        "value": "red",
+        "weight": null
+      }
+    ]
+  },
+  {
+    "type": "NumericAnswer",
+    "surveyId": 1,
+    "username": "User2",
+    "questionId": 2,
+    "value": 12.0
+  },
+  {
+    "type": "FreeAnswer",
+    "surveyId": 1,
+    "username": "User1",
+    "questionId": 1,
+    "value": "pepe"
+  },
+  {
+    "type": "UnivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User3",
+    "questionId": 4,
+    "option": {
+      "value": "medium",
+      "weight": null
+    }
+  },
+  {
+    "type": "MultivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User2",
+    "questionId": 3,
+    "options": [
+      {
+        "value": "green",
+        "weight": null
+      },
+      {
+        "value": "red",
+        "weight": null
+      }
+    ]
+  },
+  {
+    "type": "NumericAnswer",
+    "surveyId": 1,
+    "username": "User1",
+    "questionId": 2,
+    "value": 30.0
+  },
+  {
+    "type": "UnivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User2",
+    "questionId": 4,
+    "option": {
+      "value": "low",
+      "weight": null
+    }
+  },
+  {
+    "type": "MultivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User1",
+    "questionId": 3,
+    "options": [
+      {
+        "value": "blue",
+        "weight": null
+      }
+    ]
+  },
+  {
+    "type": "UnivaluedQualitativeAnswer",
+    "surveyId": 1,
+    "username": "User1",
+    "questionId": 4,
+    "option": {
+      "value": "high",
+      "weight": null
+    }
+  }
+]
