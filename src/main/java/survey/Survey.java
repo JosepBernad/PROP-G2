@@ -152,4 +152,17 @@ public class Survey {
         return "id:  " + id + " - title: " + title;
     }
 
+    public static void importSurveys(String jsonPath) {
+        Map<Integer, Survey> surveys = new HashMap<>();
+
+        File file = new File(jsonPath);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            surveys = mapper.readValue(
+                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FileUtils.saveObjectInFile(surveys, SURVEYS);
+    }
 }

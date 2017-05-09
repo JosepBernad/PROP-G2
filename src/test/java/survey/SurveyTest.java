@@ -1,13 +1,16 @@
 package survey;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import question.FreeQuestion;
 import question.NumericQuestion;
 import question.Question;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -159,6 +162,36 @@ public class SurveyTest {
 
         // Assert
         assertEquals(freeQuestion, q);
+    }
+
+    @Test
+    public void test_givenNonSurveys_whenImportSurveys_withValidJsonFile_thenPersistsSurveys() {
+        //Arrange
+        String surveyPath = "src/test/resources/SampleSurveys.json";
+
+        //Act
+        Survey.importSurveys(surveyPath);
+
+        //Assert
+        assertNotNull(Survey.getSurveyById(1));
+        assertNotNull(Survey.getSurveyById(2));
+        assertNotNull(Survey.getSurveyById(3));
+    }
+
+    @Ignore
+    @Test
+    public void test_givenExistingSurveys_whenImportSurveys_withValidJsonFile_thenPersistsAllSurveys() throws IOException {
+        //Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+        String surveyPath = "src/test/resources/Kme.json";
+
+        //Act
+        Survey.importSurveys(surveyPath);
+
+        //Assert
+        assertNotNull(Survey.getSurveyById(1));
+        assertNotNull(Survey.getSurveyById(2));
+        assertNotNull(Survey.getSurveyById(3));
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
