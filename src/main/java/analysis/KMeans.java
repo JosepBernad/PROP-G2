@@ -7,7 +7,7 @@ import answer.Answer.AnswerCollection;
 import java.util.*;
 
 public class KMeans {
-    public static final int MAX_ITERATIONS = 1;
+    public static final int MAX_ITERATIONS = 100;
     private Integer surveyId;
     private AnswerCollection answerCollection;
     private Integer nCoordinates;
@@ -54,7 +54,7 @@ public class KMeans {
 
     private void recalcCentroids(List<Cluster> clusters) {
         for (Cluster c : clusters) {
-            Point centroid = new Point();
+            Point centroid = new Point(nCoordinates);
             for (int i = 0; i < nCoordinates; ++i) {
                 List<Answer> answers = new ArrayList<>();
                 for (Point p : c.getPoints()) {
@@ -98,7 +98,7 @@ public class KMeans {
         List<Point> points = new ArrayList<>();
         Map<String, Map<Integer, Answer>> answers = answerCollection.getAnswersBySurveyId(surveyId);
         for (String username : answers.keySet()) {
-            Point point = new Point();
+            Point point = new Point(nCoordinates);
             for (Integer questionId : answers.get(username).keySet())
                 point.addCoordinate(questionId, answers.get(username).get(questionId));
             points.add(point);
@@ -115,6 +115,7 @@ public class KMeans {
             Set<Point> pointSet = new HashSet<>();
             pointSet.add(point);
             cluster.setPoints(pointSet);
+            clusters.add(cluster);
         }
         return clusters;
     }
@@ -123,7 +124,9 @@ public class KMeans {
         Double sum = 0D;
         Integer numOfCoordinates = p.getNumOfCoordinates();
         for (int i = 0; i < numOfCoordinates; ++i) {
-            sum += p.getCoordinate(i).calculateDistance(t.getCoordinate(i));
+            Answer coordinateP = p.getCoordinate(i);
+            Answer coordinateT = t.getCoordinate(i);
+            sum += coordinateP.calculateDistance(coordinateT);
         }
         return sum / numOfCoordinates;
     }

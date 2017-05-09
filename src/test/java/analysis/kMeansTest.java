@@ -3,7 +3,6 @@ package analysis;
 import answer.Answer;
 import answer.Answer.AnswerCollection;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import survey.Survey;
 import user.User;
@@ -31,7 +30,7 @@ public class kMeansTest {
         Files.deleteIfExists(USER_PATH);
     }
 
-    @Ignore
+    //    @Ignore
     @Test
     public void test() throws Exception {
         // Arrange
@@ -58,7 +57,7 @@ public class kMeansTest {
         List<Cluster> calc = kMeans.calc(2);
 
         // Assert
-        assertTrue(calc.size() == 3);
+        assertTrue(calc.size() == 2);
     }
 
     private void addAnswers(AnswerCollection answerCollection, List<Answer> answers) {

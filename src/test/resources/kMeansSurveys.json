@@ -8,20 +8,20 @@
     "questions": [
       {
         "type": "FreeQuestion",
-        "id": 1,
+        "id": 0,
         "statement": "Name",
         "maxSize": 255
       },
       {
         "type": "NumericQuestion",
-        "id": 2,
+        "id": 1,
         "statement": "Age",
         "min": 5,
         "max": 80
       },
       {
         "type": "MultivaluedUnsortedQualitativeQuestion",
-        "id": 3,
+        "id": 2,
         "statement": "Color",
         "options": [
           {
@@ -45,7 +45,7 @@
       },
       {
         "type": "UnsortedQualitativeQuestion",
-        "id": 4,
+        "id": 3,
         "statement": "Rate",
         "options": [
           {
