@@ -1,6 +1,7 @@
 package answer;
 
 import analysis.DistanceCalculator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import question.Option;
 
 import java.util.*;
@@ -46,6 +47,7 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
         this.options = options;
     }
 
+    @JsonIgnore
     public Set<String> getValues() {
         Set<String> values = new HashSet<>();
         for (Option option : options)

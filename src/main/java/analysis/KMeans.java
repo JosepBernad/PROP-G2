@@ -6,12 +6,13 @@ import answer.Answer.AnswerCollection;
 
 import java.util.*;
 
-public class kMeans {
+public class KMeans {
+    public static final int MAX_ITERATIONS = 100;
     private Integer surveyId;
     private AnswerCollection answerCollection;
     private Integer nCoordinates;
 
-    public kMeans(Integer surveyId, AnswerCollection answerCollection, Integer nCoordinates) {
+    public KMeans(Integer surveyId, AnswerCollection answerCollection, Integer nCoordinates) {
         this.surveyId = surveyId;
         this.answerCollection = answerCollection;
         this.nCoordinates = nCoordinates;
@@ -26,7 +27,7 @@ public class kMeans {
         Collections.fill(hasChanges, Boolean.TRUE);
 
         int i = 0;
-        while (i < 100) {
+        while (i < MAX_ITERATIONS) {
             prepareClusters(clusters);
             assignPoints(clusters, points);
             recalcCentroids(clusters);
@@ -53,7 +54,7 @@ public class kMeans {
 
     private void recalcCentroids(List<Cluster> clusters) {
         for (Cluster c : clusters) {
-            Point centroid = new Point();
+            Point centroid = new Point(nCoordinates);
             for (int i = 0; i < nCoordinates; ++i) {
                 List<Answer> answers = new ArrayList<>();
                 for (Point p : c.getPoints()) {
@@ -97,7 +98,7 @@ public class kMeans {
         List<Point> points = new ArrayList<>();
         Map<String, Map<Integer, Answer>> answers = answerCollection.getAnswersBySurveyId(surveyId);
         for (String username : answers.keySet()) {
-            Point point = new Point();
+            Point point = new Point(nCoordinates);
             for (Integer questionId : answers.get(username).keySet())
                 point.addCoordinate(questionId, answers.get(username).get(questionId));
             points.add(point);
@@ -114,6 +115,7 @@ public class kMeans {
             Set<Point> pointSet = new HashSet<>();
             pointSet.add(point);
             cluster.setPoints(pointSet);
+            clusters.add(cluster);
         }
         return clusters;
     }
@@ -122,7 +124,9 @@ public class kMeans {
         Double sum = 0D;
         Integer numOfCoordinates = p.getNumOfCoordinates();
         for (int i = 0; i < numOfCoordinates; ++i) {
-            sum += p.getCoordinate(i).calculateDistance(t.getCoordinate(i));
+            Answer coordinateP = p.getCoordinate(i);
+            Answer coordinateT = t.getCoordinate(i);
+            sum += coordinateP.calculateDistance(coordinateT);
         }
         return sum / numOfCoordinates;
     }

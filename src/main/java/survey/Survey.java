@@ -97,7 +97,7 @@ public class Survey {
 
     public void addQuestion(Question question) {
         if (question.getId() == null)
-            question.setId(getMaxId(questions) + 1);
+            question.setId(getMaxId(questions));
         questions.add(question);
     }
 
