@@ -98,7 +98,7 @@ public class KMeans {
         List<Point> points = new ArrayList<>();
         Map<String, Map<Integer, Answer>> answers = answerCollection.getAnswersBySurveyId(surveyId);
         for (String username : answers.keySet()) {
-            Point point = new Point(nCoordinates);
+            Point point = new UserPoint(nCoordinates, username);
             for (Integer questionId : answers.get(username).keySet())
                 point.addCoordinate(questionId, answers.get(username).get(questionId));
             points.add(point);

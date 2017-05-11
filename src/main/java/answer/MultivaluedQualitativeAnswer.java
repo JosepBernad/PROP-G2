@@ -21,21 +21,21 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
             }
         }
 
-        Option mode = null;
+        Set<Option> mode = new HashSet<>();
         Integer max = 0;
 
         for (Option option : occurrences.keySet()) {
             Integer integer = occurrences.get(option);
-            if (integer > max) {
-                mode = option;
+            if (integer.equals(max)) mode.add(option);
+            else if (integer > max) {
+                mode.clear();
+                mode.add(option);
                 max = integer;
             }
         }
 
         MultivaluedQualitativeAnswer multivaluedQualitativeAnswer = new MultivaluedQualitativeAnswer();
-        Set<Option> options = new HashSet<>();
-        options.add(mode);
-        multivaluedQualitativeAnswer.setOptions(options);
+        multivaluedQualitativeAnswer.setOptions(mode);
         return multivaluedQualitativeAnswer;
     }
 
