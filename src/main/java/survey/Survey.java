@@ -163,6 +163,8 @@ public class Survey {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        surveys.putAll(getSurveys());
         FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
 }

@@ -178,12 +178,11 @@ public class SurveyTest {
         assertNotNull(Survey.getSurveyById(3));
     }
 
-    @Ignore
     @Test
     public void test_givenExistingSurveys_whenImportSurveys_withValidJsonFile_thenPersistsAllSurveys() throws IOException {
         //Arrange
         Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
-        String surveyPath = "src/test/resources/Kme.json";
+        String surveyPath = "src/test/resources/SampleSurveys2.json";
 
         //Act
         Survey.importSurveys(surveyPath);
@@ -192,6 +191,7 @@ public class SurveyTest {
         assertNotNull(Survey.getSurveyById(1));
         assertNotNull(Survey.getSurveyById(2));
         assertNotNull(Survey.getSurveyById(3));
+        assertNotNull(Survey.getSurveyById(8));
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {
