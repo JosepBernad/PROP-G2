@@ -2,25 +2,21 @@ package analysis;
 
 
 import answer.*;
-import answer.Answer.AnswerCollection;
 
 import java.util.*;
 
 public class KMeans {
-    public static final int MAX_ITERATIONS = 100;
     private Integer surveyId;
-    private AnswerCollection answerCollection;
     private Integer nCoordinates;
 
-    public KMeans(Integer surveyId, AnswerCollection answerCollection, Integer nCoordinates) {
+    public KMeans(Integer surveyId, Integer nCoordinates) {
         this.surveyId = surveyId;
-        this.answerCollection = answerCollection;
         this.nCoordinates = nCoordinates;
     }
 
     public List<Cluster> calc(int k) {
 
-        List<Point> points = createPoints();
+        List<UserPoint> points = createPoints();
 
         List<Cluster> clusters = selectClusters(k, points);
 
@@ -38,8 +34,8 @@ public class KMeans {
         return b;
     }
 
-    private void assignPoints(List<Cluster> clusters, List<Point> points) {
-        for (Point p : points) {
+    private void assignPoints(List<Cluster> clusters, List<UserPoint> points) {
+        for (UserPoint p : points) {
             Cluster nearest = clusters.get(0);
             Double minimumDistance = Double.MAX_VALUE;
             for (Cluster cluster : clusters) {
@@ -97,11 +93,12 @@ public class KMeans {
         for (Cluster c : clusters) c.getPoints().clear();
     }
 
-    private List<Point> createPoints() {
-        List<Point> points = new ArrayList<>();
-        Map<String, Map<Integer, Answer>> answers = answerCollection.getAnswersBySurveyId(surveyId);
+    private List<UserPoint> createPoints() {
+        List<UserPoint> points = new ArrayList<>();
+        Map<String, Map<Integer, Answer>> answers = Answer.getAnswersBySurveyId(surveyId);
+
         for (String username : answers.keySet()) {
-            Point point = new UserPoint(nCoordinates, username);
+            UserPoint point = new UserPoint(nCoordinates, username);
             for (Integer questionId : answers.get(username).keySet())
                 point.addCoordinate(questionId, answers.get(username).get(questionId));
             points.add(point);
@@ -109,14 +106,13 @@ public class KMeans {
         return points;
     }
 
-    private List<Cluster> selectClusters(int k, List<Point> points) {
+    private List<Cluster> selectClusters(int k, List<UserPoint> points) {
         List<Cluster> clusters = new ArrayList<>();
         for (int i = 0; i < k; ++i) {
             Cluster cluster = new Cluster();
             Point point = points.get(i);
             cluster.setCentroid(point);
-            Set<Point> pointSet = new HashSet<>();
-            pointSet.add(point);
+            Set<UserPoint> pointSet = new HashSet<>();
             cluster.setPoints(pointSet);
             clusters.add(cluster);
         }

@@ -98,6 +98,23 @@ public abstract class Answer {
         return list;
     }
 
+    public static Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
+        Map<String, Map<Integer, Answer>> map = new HashMap<>();
+
+        Set<Answer> answers = getAnswers();
+
+        for (Answer answer : answers) {
+            if (answer.getSurveyId().equals(surveyId)) {
+                String username = answer.getUsername();
+                Integer questionId = answer.getQuestionId();
+                if (!map.containsKey(username)) map.put(username, new HashMap<>());
+                map.get(username).put(questionId, answer);
+            }
+        }
+
+        return map;
+    }
+
     public Integer getSurveyId() {
         return surveyId;
     }
@@ -141,35 +158,4 @@ public abstract class Answer {
     }
 
     public abstract Double calculateDistance(Answer answer);
-
-    public static class AnswerCollection {
-        Map<Integer, Map<String, Map<Integer, Answer>>> answers = new HashMap<>();
-
-        public void addAnswer(Answer answer) {
-            Integer surveyId = answer.getSurveyId();
-            String username = answer.getUsername();
-            Integer questionId = answer.getQuestionId();
-
-            if (!answers.containsKey(surveyId)) answers.put(surveyId, new HashMap<>());
-            if (!answers.get(surveyId).containsKey(username)) answers.get(surveyId).put(username, new HashMap<>());
-            answers.get(surveyId).get(username).put(questionId, answer);
-        }
-
-        public Answer getAnswer(Integer surveyId, String username, Integer questionId) {
-            return answers.get(surveyId).get(username).get(questionId);
-        }
-
-        public Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
-            return answers.get(surveyId);
-        }
-
-        public Set<Answer> toSet() {
-            HashSet<Answer> answers = new HashSet<>();
-            for (Map<String, Map<Integer, Answer>> map : this.answers.values())
-                for (Map<Integer, Answer> map2 : map.values())
-                    answers.addAll(map2.values());
-
-            return answers;
-        }
-    }
 }

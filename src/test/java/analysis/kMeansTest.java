@@ -1,7 +1,6 @@
 package analysis;
 
 import answer.Answer;
-import answer.Answer.AnswerCollection;
 import org.junit.After;
 import org.junit.Test;
 import survey.Survey;
@@ -39,28 +38,14 @@ public class kMeansTest {
 
         Integer surveyId = 1;
         Integer nCoordinates = 4;
-        AnswerCollection answerCollection = new AnswerCollection();
-        List<Answer> user1 = Answer.getAnswersByUsernameAndSurveyID("User1", 1);
-        List<Answer> user2 = Answer.getAnswersByUsernameAndSurveyID("User2", 1);
-        List<Answer> user3 = Answer.getAnswersByUsernameAndSurveyID("User3", 1);
-        List<Answer> user4 = Answer.getAnswersByUsernameAndSurveyID("User4", 1);
 
-        addAnswers(answerCollection, user1);
-        addAnswers(answerCollection, user2);
-        addAnswers(answerCollection, user3);
-        addAnswers(answerCollection, user4);
-
-        KMeans kMeans = new KMeans(surveyId, answerCollection, nCoordinates);
+        KMeans kMeans = new KMeans(surveyId, nCoordinates);
 
         // Act
-        List<Cluster> calc = kMeans.calc(3);
+        List<Cluster> calc = kMeans.calc(2);
 
         // Assert
-        assertEquals(3, calc.size());
+        assertEquals(2, calc.size());
     }
 
-    private void addAnswers(AnswerCollection answerCollection, List<Answer> answers) {
-        for (Answer answer : answers)
-            answerCollection.addAnswer(answer);
-    }
 }
