@@ -1,16 +1,14 @@
 package survey;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.EmptyRequiredAttributeException;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import question.FreeQuestion;
 import question.NumericQuestion;
 import question.Question;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,10 +44,10 @@ public class SurveyTest {
 
     @Test
     public void test_givenNoSurveys_whenGetSurveys_thenReturnEmptyMap() {
-        //Act
+        // Act
         Map<Integer,Survey> surveys = Survey.getSurveys();
 
-        //Assert
+        // Assert
         assertTrue(surveys.isEmpty());
     }
 
@@ -101,30 +99,30 @@ public class SurveyTest {
 
     @Test
     public void test_givenNoSurveys_whenSaveSurvey_withValidSurvey_thenPersistsSurvey() throws EmptyRequiredAttributeException {
-        //Arrange
+        // Arrange
         Survey survey = new Survey();
         survey.setId(5);
         survey.setTitle("Survey");
         survey.setDescription("Description");
 
-        //Act
+        // Act
         survey.save();
 
-        //Assert
+        // Assert
         assertEquals(survey, Survey.getSurveyById(5));
     }
 
     @Test
     public void test_givenNoSurveys_whenSaveSurvey_withValidSurvey_thenPersistsSurveyWithID1() throws EmptyRequiredAttributeException {
-        //Arrange
+        // Arrange
         Survey survey = new Survey();
         survey.setTitle("Survey1");
         survey.setDescription("Description1");
 
-        //Act
+        // Act
         survey.save();
 
-        //Assert
+        // Assert
         assertEquals(survey, Survey.getSurveyById(1));
     }
 
@@ -140,13 +138,13 @@ public class SurveyTest {
 
     @Test
     public void test_givenExistingSurveys_whenDeletesSurvey_withValidSurveyId_thenDeletesSurvey() throws IOException {
-        //Arrange
+        // Arrange
         Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
 
-        //Act
+        // Act
         Survey.delete(1);
 
-        //Assert
+        // Assert
         assertFalse(Survey.getSurveys().containsKey(1));
     }
 
@@ -165,14 +163,14 @@ public class SurveyTest {
     }
 
     @Test
-    public void test_givenNonSurveys_whenImportSurveys_withValidJsonFile_thenPersistsSurveys() {
-        //Arrange
+    public void test_givenNonSurveys_whenImportSurveys_withValidJsonFile_thenPersistsSurveys() throws FileNotFoundException {
+        // Arrange
         String surveyPath = "src/test/resources/SampleSurveys.json";
 
-        //Act
+        // Act
         Survey.importSurveys(surveyPath);
 
-        //Assert
+        // Assert
         assertNotNull(Survey.getSurveyById(1));
         assertNotNull(Survey.getSurveyById(2));
         assertNotNull(Survey.getSurveyById(3));
@@ -180,18 +178,28 @@ public class SurveyTest {
 
     @Test
     public void test_givenExistingSurveys_whenImportSurveys_withValidJsonFile_thenPersistsAllSurveys() throws IOException {
-        //Arrange
+        // Arrange
         Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
         String surveyPath = "src/test/resources/SampleSurveys2.json";
 
-        //Act
+        // Act
         Survey.importSurveys(surveyPath);
 
-        //Assert
+        // Assert
         assertNotNull(Survey.getSurveyById(1));
         assertNotNull(Survey.getSurveyById(2));
         assertNotNull(Survey.getSurveyById(3));
         assertNotNull(Survey.getSurveyById(8));
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    public void test_givenExistingSurveys_whenImportSurveys_withInvalidPath_thenThrowsInvalidPathException() throws IOException {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+        String surveyPath = "src/test/resources/InvalidPath.json";
+
+        // Act
+        Survey.importSurveys(surveyPath);
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {

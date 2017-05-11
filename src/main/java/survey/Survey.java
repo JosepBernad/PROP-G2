@@ -7,6 +7,7 @@ import question.Question;
 import utils.FileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -152,10 +153,10 @@ public class Survey {
         return "id:  " + id + " - title: " + title;
     }
 
-    public static void importSurveys(String jsonPath) {
+    public static void importSurveys(String jsonPath) throws FileNotFoundException {
         Map<Integer, Survey> surveys = new HashMap<>();
-
         File file = new File(jsonPath);
+        if (!file.exists()) throw new FileNotFoundException();
         ObjectMapper mapper = new ObjectMapper();
         try {
             surveys = mapper.readValue(
