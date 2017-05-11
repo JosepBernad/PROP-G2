@@ -23,17 +23,19 @@ public class KMeans {
         List<Point> points = createPoints();
 
         List<Cluster> clusters = selectClusters(k, points);
-        List<Boolean> hasChanges = new ArrayList<>(k);
-        Collections.fill(hasChanges, Boolean.TRUE);
 
-        int i = 0;
-        while (i < MAX_ITERATIONS) {
+        while (hasChanges(clusters)) {
             prepareClusters(clusters);
             assignPoints(clusters, points);
             recalcCentroids(clusters);
-            ++i;
         }
         return clusters;
+    }
+
+    private boolean hasChanges(List<Cluster> clusters) {
+        Boolean b = false;
+        for (Cluster cluster : clusters) b |= cluster.getHasChanges();
+        return b;
     }
 
     private void assignPoints(List<Cluster> clusters, List<Point> points) {
@@ -63,6 +65,7 @@ public class KMeans {
                 Answer answer = calculateCentroid(answers);
                 centroid.addCoordinate(i, answer);
             }
+            c.setHasChanges(!c.getCentroid().equals(centroid));
             c.setCentroid(centroid);
         }
 

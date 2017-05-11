@@ -6,6 +6,11 @@ public class Cluster {
 
     private Point centroid;
     private Set<Point> points;
+    private Boolean hasChanges;
+
+    public Cluster() {
+        hasChanges = true;
+    }
 
     public Point getCentroid() {
         return centroid;
@@ -21,5 +26,13 @@ public class Cluster {
 
     public void setPoints(Set<Point> points) {
         this.points = points;
+    }
+
+    public Boolean getHasChanges() {
+        return hasChanges;
+    }
+
+    public void setHasChanges(Boolean hasChanges) {
+        this.hasChanges = hasChanges;
     }
 }

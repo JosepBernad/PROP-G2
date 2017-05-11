@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class kMeansTest {
 
@@ -30,9 +30,8 @@ public class kMeansTest {
         Files.deleteIfExists(USER_PATH);
     }
 
-    //    @Ignore
     @Test
-    public void test() throws Exception {
+    public void test_kmeans_with2clusters() throws Exception {
         // Arrange
         Files.copy(Paths.get("src/test/resources/kMeansAnswers.json"), ANSWER_PATH, REPLACE_EXISTING);
         Files.copy(Paths.get("src/test/resources/kMeansSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
@@ -54,10 +53,10 @@ public class kMeansTest {
         KMeans kMeans = new KMeans(surveyId, answerCollection, nCoordinates);
 
         // Act
-        List<Cluster> calc = kMeans.calc(2);
+        List<Cluster> calc = kMeans.calc(3);
 
         // Assert
-        assertTrue(calc.size() == 2);
+        assertEquals(3, calc.size());
     }
 
     private void addAnswers(AnswerCollection answerCollection, List<Answer> answers) {
