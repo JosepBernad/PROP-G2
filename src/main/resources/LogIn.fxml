@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+
+
+<GridPane fx:controller="Main"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+    <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
+
+    <Text text="LogIn"
+          GridPane.columnIndex="0" GridPane.rowIndex="0"
+          GridPane.columnSpan="2"/>
+
+    <Label text="User Name:"
+           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+    <TextField fx:id="usernameField"
+               GridPane.columnIndex="1" GridPane.rowIndex="1" />
+    <Label text="Password:"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+    <PasswordField fx:id="passwordField"
+                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Button fx:id="logInButton"
+            text="Log In"
+            GridPane.columnIndex="1" GridPane.rowIndex="3"
+            onAction= "#signUpButtonPressed" />
+
+    <Label text=""
+           GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <Label text="No account?"
+           GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <Button fx:id="signUpButton"
+            text="Sign Up"
+            GridPane.columnIndex="1" GridPane.rowIndex="6"
+            onAction= "#logInButtonPressed"/>
+
+</GridPane>
