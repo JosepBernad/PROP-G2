@@ -10,16 +10,12 @@ import exceptions.ResourceNotFoundException;
 import question.Question;
 import survey.Survey;
 import user.User;
-import utils.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-
-import static survey.Survey.SURVEYS;
-import static survey.Survey.getSurveys;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -120,6 +116,24 @@ public abstract class Answer {
         return map;
     }
 
+    public static void importAnswers(String jsonPath) throws FileNotFoundException {
+        Set<Answer> answers = new HashSet<>();
+
+        File file = new File(jsonPath);
+
+        if(!file.exists()) throw new FileNotFoundException();
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            answers = mapper.readValue(
+                    file, mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        saveAnswersInFile(answers);
+    }
+
     public Integer getSurveyId() {
         return surveyId;
     }
@@ -164,18 +178,4 @@ public abstract class Answer {
 
     public abstract Double calculateDistance(Answer answer);
 
-    public static void importAnswers(String jsonPath) throws FileNotFoundException {
-        Set<Answer> answers = new HashSet<>();
-        File file = new File(jsonPath);
-        if (!file.exists()) throw new FileNotFoundException();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            answers = mapper.readValue(
-                    file, mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        saveAnswersInFile(answers);
-    }
 }
