@@ -163,7 +163,7 @@ public class SurveyTest {
     }
 
     @Test
-    public void test_givenNonSurveys_whenImportSurveys_withValidJsonFile_thenPersistsSurveys() throws FileNotFoundException {
+    public void test_givenNonSurveys_whenImportSurveys_withValidJsonFile_thenPersistsSurveys() throws IOException {
         // Arrange
         String surveyPath = "src/test/resources/SampleSurveys.json";
 

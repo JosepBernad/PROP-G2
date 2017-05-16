@@ -1,0 +1,16 @@
+[
+  {
+    "type": "NumericAnswer",
+    "surveyId": 1,
+    "username": "pepito",
+    "questionId": 0,
+    "value": "100.0"
+  },
+  {
+    "type": "NumericAnswer",
+    "surveyId": 1,
+    "username": "pepita",
+    "questionId": 0,
+    "value": "200.0"
+  }
+]
