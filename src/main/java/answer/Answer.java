@@ -164,11 +164,10 @@ public abstract class Answer {
 
     public abstract Double calculateDistance(Answer answer);
 
-    public static void importAnswers(String jsonPath) throws IOException {
+    public static void importAnswers(String jsonPath) throws FileNotFoundException {
         Set<Answer> answers = new HashSet<>();
-
         File file = new File(jsonPath);
-
+        if (!file.exists()) throw new FileNotFoundException();
         ObjectMapper mapper = new ObjectMapper();
         try {
             answers = mapper.readValue(

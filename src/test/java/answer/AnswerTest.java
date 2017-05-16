@@ -141,6 +141,16 @@ public class AnswerTest {
         assertTrue(Answer.getAnswers().contains(n2));
     }
 
+    @Test(expected = FileNotFoundException.class)
+    public void test_givenExistingAnswers_whenImportAnswers_withInvalidPath_thenThrowsFileNotFoundException() throws IOException {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/SampleAnswers2.json"), ANSWERS_PATH, REPLACE_EXISTING);
+        String answerPath = "src/test/resources/InvalidPath.json";
+
+        // Act
+        Answer.importAnswers(answerPath);
+    }
+
     private Answer createAnswerWithIdAndEmptyUsername(Integer questionId) {
         Answer answer = new NumericAnswer();
         answer.setQuestionId(questionId);

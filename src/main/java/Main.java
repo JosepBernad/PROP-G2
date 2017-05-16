@@ -23,6 +23,7 @@ class Main {
     private static final String DELETE_SURVEY = "4";
     private static final String SHOW_USER_INFO = "5";
     private static final String IMPORT_SURVEYS = "6";
+    private static final String IMPORT_ANSWERS = "7";
     private static final String EXIT = "0";
     private static final String FREE_QUESTION = "1";
     private static final String MULTIVALUED_UNSORTED_QUALITATIVE_QUESTION = "2";
@@ -64,6 +65,9 @@ class Main {
                 case IMPORT_SURVEYS:
                     importSurvey();
                     break;
+                case IMPORT_ANSWERS:
+                    importAnswer();
+                    break;
                 default:
                     System.out.println("Invalid option");
             }
@@ -75,6 +79,11 @@ class Main {
     private static void importSurvey() throws IOException {
         System.out.println("Enter the path of the json survey file that you want to import:");
         Survey.importSurveys(br.readLine());
+    }
+
+    private static void importAnswer() throws IOException {
+        System.out.println("Enter the path of the json answer file that you want to import:");
+        Answer.importAnswers(br.readLine());
     }
 
     private static void answerSurvey() throws IOException {
@@ -319,6 +328,7 @@ class Main {
         System.out.println(DELETE_SURVEY + " - Delete a survey");
         System.out.println(SHOW_USER_INFO + " - Show user info");
         System.out.println(IMPORT_SURVEYS + " - Import surveys");
+        System.out.println(IMPORT_ANSWERS + " - Import answers");
         System.out.println(EXIT + " - Exit");
     }
 
