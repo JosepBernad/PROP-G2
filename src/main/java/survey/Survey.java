@@ -7,6 +7,7 @@ import question.Question;
 import utils.FileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -97,7 +98,7 @@ public class Survey {
 
     public void addQuestion(Question question) {
         if (question.getId() == null)
-            question.setId(getMaxId(questions) + 1);
+            question.setId(getMaxId(questions));
         questions.add(question);
     }
 
@@ -152,4 +153,19 @@ public class Survey {
         return "id:  " + id + " - title: " + title;
     }
 
+    public static void importSurveys(String jsonPath) throws FileNotFoundException {
+        Map<Integer, Survey> surveys = new HashMap<>();
+        File file = new File(jsonPath);
+        if (!file.exists()) throw new FileNotFoundException();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            surveys = mapper.readValue(
+                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        surveys.putAll(getSurveys());
+        FileUtils.saveObjectInFile(surveys, SURVEYS);
+    }
 }

@@ -2,10 +2,12 @@ package answer;
 
 import exceptions.ResourceNotFoundException;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import survey.Survey;
 import user.User;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +19,7 @@ import java.util.Set;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class AnswerTest {
@@ -111,6 +114,31 @@ public class AnswerTest {
 
         // Act
         Answer.getAnswersByUsernameAndSurveyID("pepi", 1);
+    }
+
+    @Test
+    public void test_givenNonAnswers_whenImportAnswers_withValidJsonFile_thenPersistsAnswers() throws IOException {
+        // Arrange
+        String jsonPath = "src/test/resources/SampleAnswers2.json";
+
+        NumericAnswer n1 = new NumericAnswer();
+        n1.setSurveyId(1);
+        n1.setUsername("pepito");
+        n1.setQuestionId(0);
+        n1.setValue(100.0);
+
+        NumericAnswer n2 = new NumericAnswer();
+        n2.setSurveyId(1);
+        n2.setUsername("pepita");
+        n2.setQuestionId(0);
+        n2.setValue(200.0);
+
+        // Act
+        Answer.importAnswers(jsonPath);
+
+        // Assert
+        assertTrue(Answer.getAnswers().contains(n1));
+        assertTrue(Answer.getAnswers().contains(n2));
     }
 
     private Answer createAnswerWithIdAndEmptyUsername(Integer questionId) {

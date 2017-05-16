@@ -2,41 +2,40 @@ package analysis;
 
 
 import answer.*;
-import answer.Answer.AnswerCollection;
 
 import java.util.*;
 
-public class kMeans {
+public class KMeans {
     private Integer surveyId;
-    private AnswerCollection answerCollection;
     private Integer nCoordinates;
 
-    public kMeans(Integer surveyId, AnswerCollection answerCollection, Integer nCoordinates) {
+    public KMeans(Integer surveyId, Integer nCoordinates) {
         this.surveyId = surveyId;
-        this.answerCollection = answerCollection;
         this.nCoordinates = nCoordinates;
     }
 
     public List<Cluster> calc(int k) {
 
-        List<Point> points = createPoints();
+        List<UserPoint> points = createPoints();
 
         List<Cluster> clusters = selectClusters(k, points);
-        List<Boolean> hasChanges = new ArrayList<>(k);
-        Collections.fill(hasChanges, Boolean.TRUE);
 
-        int i = 0;
-        while (i < 100) {
+        while (hasChanges(clusters)) {
             prepareClusters(clusters);
             assignPoints(clusters, points);
             recalcCentroids(clusters);
-            ++i;
         }
         return clusters;
     }
 
-    private void assignPoints(List<Cluster> clusters, List<Point> points) {
-        for (Point p : points) {
+    private boolean hasChanges(List<Cluster> clusters) {
+        Boolean b = false;
+        for (Cluster cluster : clusters) b |= cluster.getHasChanges();
+        return b;
+    }
+
+    private void assignPoints(List<Cluster> clusters, List<UserPoint> points) {
+        for (UserPoint p : points) {
             Cluster nearest = clusters.get(0);
             Double minimumDistance = Double.MAX_VALUE;
             for (Cluster cluster : clusters) {
@@ -53,7 +52,7 @@ public class kMeans {
 
     private void recalcCentroids(List<Cluster> clusters) {
         for (Cluster c : clusters) {
-            Point centroid = new Point();
+            Point centroid = new Point(nCoordinates);
             for (int i = 0; i < nCoordinates; ++i) {
                 List<Answer> answers = new ArrayList<>();
                 for (Point p : c.getPoints()) {
@@ -62,6 +61,7 @@ public class kMeans {
                 Answer answer = calculateCentroid(answers);
                 centroid.addCoordinate(i, answer);
             }
+            c.setHasChanges(!c.getCentroid().equals(centroid));
             c.setCentroid(centroid);
         }
 
@@ -93,11 +93,12 @@ public class kMeans {
         for (Cluster c : clusters) c.getPoints().clear();
     }
 
-    private List<Point> createPoints() {
-        List<Point> points = new ArrayList<>();
-        Map<String, Map<Integer, Answer>> answers = answerCollection.getAnswersBySurveyId(surveyId);
+    private List<UserPoint> createPoints() {
+        List<UserPoint> points = new ArrayList<>();
+        Map<String, Map<Integer, Answer>> answers = Answer.getAnswersBySurveyId(surveyId);
+
         for (String username : answers.keySet()) {
-            Point point = new Point();
+            UserPoint point = new UserPoint(nCoordinates, username);
             for (Integer questionId : answers.get(username).keySet())
                 point.addCoordinate(questionId, answers.get(username).get(questionId));
             points.add(point);
@@ -105,15 +106,15 @@ public class kMeans {
         return points;
     }
 
-    private List<Cluster> selectClusters(int k, List<Point> points) {
+    private List<Cluster> selectClusters(int k, List<UserPoint> points) {
         List<Cluster> clusters = new ArrayList<>();
         for (int i = 0; i < k; ++i) {
             Cluster cluster = new Cluster();
             Point point = points.get(i);
             cluster.setCentroid(point);
-            Set<Point> pointSet = new HashSet<>();
-            pointSet.add(point);
+            Set<UserPoint> pointSet = new HashSet<>();
             cluster.setPoints(pointSet);
+            clusters.add(cluster);
         }
         return clusters;
     }
@@ -122,7 +123,9 @@ public class kMeans {
         Double sum = 0D;
         Integer numOfCoordinates = p.getNumOfCoordinates();
         for (int i = 0; i < numOfCoordinates; ++i) {
-            sum += p.getCoordinate(i).calculateDistance(t.getCoordinate(i));
+            Answer coordinateP = p.getCoordinate(i);
+            Answer coordinateT = t.getCoordinate(i);
+            sum += coordinateP.calculateDistance(coordinateT);
         }
         return sum / numOfCoordinates;
     }

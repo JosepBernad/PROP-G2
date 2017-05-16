@@ -1,0 +1,67 @@
+{
+  "1": {
+    "id": 1,
+    "title": "Survey1",
+    "description": "Survey1",
+    "finished": null,
+    "visible": null,
+    "questions": [
+      {
+        "type": "FreeQuestion",
+        "id": 0,
+        "statement": "Name",
+        "maxSize": 255
+      },
+      {
+        "type": "NumericQuestion",
+        "id": 1,
+        "statement": "Age",
+        "min": 5,
+        "max": 80
+      },
+      {
+        "type": "MultivaluedUnsortedQualitativeQuestion",
+        "id": 2,
+        "statement": "Color",
+        "options": [
+          {
+            "value": "blue",
+            "weight": null
+          },
+          {
+            "value": "green",
+            "weight": null
+          },
+          {
+            "value": "red",
+            "weight": null
+          },
+          {
+            "value": "yellow",
+            "weight": null
+          }
+        ],
+        "nMaxAnswers": 4
+      },
+      {
+        "type": "UnsortedQualitativeQuestion",
+        "id": 3,
+        "statement": "Rate",
+        "options": [
+          {
+            "value": "high",
+            "weight": null
+          },
+          {
+            "value": "medium",
+            "weight": null
+          },
+          {
+            "value": "low",
+            "weight": null
+          }
+        ]
+      }
+    ]
+  }
+}

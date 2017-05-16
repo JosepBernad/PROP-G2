@@ -2,10 +2,9 @@ package answer;
 
 import analysis.DistanceCalculator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class FreeAnswer extends Answer {
 
@@ -38,10 +37,36 @@ public class FreeAnswer extends Answer {
         return freeAnswer;
     }
 
-    // TODO: discard functional words
     static List<String> parseSentence(String s) {
-        String[] words = s.replaceAll("[.,]", "").toLowerCase().split("\\s+");
-        return Arrays.asList(words);
+        String[] parsed = s.replaceAll("[.,]", "").toLowerCase().split("\\s+");
+        List<String> strings = new ArrayList<>(Arrays.asList(parsed));
+        Set<String> functionalWords = getFunctionalWords();
+        strings.removeAll(functionalWords);
+        return strings;
+    }
+
+    private static Set<String> getFunctionalWords() {
+        Set<String> strings = new HashSet<>();
+        strings.addAll(getWordsFromFile("empty.eng"));
+        strings.addAll(getWordsFromFile("empty.sp"));
+        strings.addAll(getWordsFromFile("empty.cat"));
+        return strings;
+    }
+
+    private static Set<String> getWordsFromFile(String filename) {
+        Set<String> strings = new HashSet<>();
+        ClassLoader classLoader = FreeAnswer.class.getClassLoader();
+        File file = new File(classLoader.getResource(filename).getFile());
+        Scanner s = null;
+        try {
+            s = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        while (s.hasNext())
+            strings.add(s.next());
+        s.close();
+        return strings;
     }
 
     public String getValue() {

@@ -30,7 +30,7 @@ import java.util.*;
 
 public abstract class Answer {
 
-    static final String ANSWERS = "answers.json";
+    public static final String ANSWERS = "answers.json";
     private Integer surveyId;
     private String username;
     private Integer questionId;
@@ -82,11 +82,13 @@ public abstract class Answer {
         for (Question question : survey.getQuestions())
             questions.add(question.getId());
 
-        for (Answer answer : answers)
-            if (!answer.getUsername().equals(username) || !questions.contains(answer.getQuestionId()))
-                answers.remove(answer);
+        Set<Answer> userAnswers = new HashSet<>();
 
-        return getOrderedById(answers);
+        for (Answer answer : answers)
+            if (answer.getUsername().equals(username) && questions.contains(answer.getQuestionId()))
+                userAnswers.add(answer);
+
+        return getOrderedById(userAnswers);
     }
 
     static List<Answer> getOrderedById(Set<Answer> answers) {
@@ -94,6 +96,39 @@ public abstract class Answer {
         list.addAll(answers);
         list.sort(Comparator.comparing(Answer::getQuestionId));
         return list;
+    }
+
+    public static Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
+        Map<String, Map<Integer, Answer>> map = new HashMap<>();
+
+        Set<Answer> answers = getAnswers();
+
+        for (Answer answer : answers) {
+            if (answer.getSurveyId().equals(surveyId)) {
+                String username = answer.getUsername();
+                Integer questionId = answer.getQuestionId();
+                if (!map.containsKey(username)) map.put(username, new HashMap<>());
+                map.get(username).put(questionId, answer);
+            }
+        }
+
+        return map;
+    }
+
+    public static void importAnswers(String jsonPath) throws IOException {
+        Set<Answer> answers = new HashSet<>();
+
+        File file = new File(jsonPath);
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            answers = mapper.readValue(
+                    file, mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        saveAnswersInFile(answers);
     }
 
     public Integer getSurveyId() {
@@ -139,35 +174,4 @@ public abstract class Answer {
     }
 
     public abstract Double calculateDistance(Answer answer);
-
-    public static class AnswerCollection {
-        Map<Integer, Map<String, Map<Integer, Answer>>> answers = new HashMap<>();
-
-        public void addAnswer(Answer answer) {
-            Integer surveyId = answer.getSurveyId();
-            String username = answer.getUsername();
-            Integer questionId = answer.getQuestionId();
-
-            if (!answers.containsKey(surveyId)) answers.put(surveyId, new HashMap<>());
-            if (!answers.get(surveyId).containsKey(username)) answers.get(surveyId).put(username, new HashMap<>());
-            answers.get(surveyId).get(username).put(questionId, answer);
-        }
-
-        public Answer getAnswer(Integer surveyId, String username, Integer questionId) {
-            return answers.get(surveyId).get(username).get(questionId);
-        }
-
-        public Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
-            return answers.get(surveyId);
-        }
-
-        public Set<Answer> toSet() {
-            HashSet<Answer> answers = new HashSet<>();
-            for (Map<String, Map<Integer, Answer>> map : this.answers.values())
-                for (Map<Integer, Answer> map2 : map.values())
-                    answers.addAll(map2.values());
-
-            return answers;
-        }
-    }
 }

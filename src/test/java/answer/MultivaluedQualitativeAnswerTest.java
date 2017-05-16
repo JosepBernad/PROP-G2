@@ -10,8 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -136,6 +135,39 @@ public class MultivaluedQualitativeAnswerTest {
 
         // Assert
         assertEquals((Double) 0D, distance);
+    }
+
+    @Test
+    public void test_whenCalculateCentroid_withListOfAnswers_thenReturnsSubset() throws Exception {
+        // Arrange
+        Option blue = new Option("blue");
+        Option red = new Option("red");
+        Option green = new Option("green");
+        Option yellow = new Option("yellow");
+
+        MultivaluedQualitativeAnswer answer1 = new MultivaluedQualitativeAnswer();
+        answer1.setOptions(createSet(blue, red));
+        MultivaluedQualitativeAnswer answer2 = new MultivaluedQualitativeAnswer();
+        answer2.setOptions(createSet(blue, red, yellow));
+        MultivaluedQualitativeAnswer answer3 = new MultivaluedQualitativeAnswer();
+        answer3.setOptions(createSet(yellow, green));
+
+        List<MultivaluedQualitativeAnswer> multivaluedQualitativeAnswers = new ArrayList<>();
+        multivaluedQualitativeAnswers.add(answer1);
+        multivaluedQualitativeAnswers.add(answer2);
+        multivaluedQualitativeAnswers.add(answer3);
+
+        // Act
+        MultivaluedQualitativeAnswer centroid = MultivaluedQualitativeAnswer.calculateCentroid(multivaluedQualitativeAnswers);
+
+        // Assert
+        assertEquals(createSet(blue, red, yellow), centroid.getOptions());
+    }
+
+    private Set<Option> createSet(Option... options) {
+        HashSet<Option> set = new HashSet<>();
+        Collections.addAll(set, options);
+        return set;
     }
 
 }
