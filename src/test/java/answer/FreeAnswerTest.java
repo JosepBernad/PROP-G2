@@ -13,31 +13,41 @@ public class FreeAnswerTest {
 
     @Test
     public void test_whenParseSentence_withSentence_thenReturnsListWithLowercaseWords() {
-        String sentence = "My name is Sergio";
+        String sentence = "Casa importante Sergio";
 
         List<String> words = FreeAnswer.parseSentence(sentence);
 
-        String[] expectedWords = new String[]{"my", "name", "is", "sergio"};
+        String[] expectedWords = new String[]{"casa", "importante", "sergio"};
         assertEquals(Arrays.asList(expectedWords), words);
     }
 
     @Test
     public void test_whenParseSentence_withSentenceWithDots_thenReturnsListWithoutDots() {
-        String sentence = "My name is Sergio.";
+        String sentence = "Casa importante Sergio.";
 
         List<String> words = FreeAnswer.parseSentence(sentence);
 
-        String[] expectedWords = new String[]{"my", "name", "is", "sergio"};
+        String[] expectedWords = new String[]{"casa", "importante", "sergio"};
         assertEquals(Arrays.asList(expectedWords), words);
     }
 
     @Test
     public void test_whenParseSentence_withSentenceWithCommas_thenReturnsListWithoutCommas() {
-        String sentence = "My name, is Sergio,";
+        String sentence = "Casa, importante Sergio,";
 
         List<String> words = FreeAnswer.parseSentence(sentence);
 
-        String[] expectedWords = new String[]{"my", "name", "is", "sergio"};
+        String[] expectedWords = new String[]{"casa", "importante", "sergio"};
+        assertEquals(Arrays.asList(expectedWords), words);
+    }
+
+    @Test
+    public void test_whenParseSentence_withSentenceWithFunctionalWords_thenReturnsListWithoutFunctionalWords() {
+        String sentence = "I am a math student";
+
+        List<String> words = FreeAnswer.parseSentence(sentence);
+
+        String[] expectedWords = new String[]{"math", "student"};
         assertEquals(Arrays.asList(expectedWords), words);
     }
 
