@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import exceptions.ResourceNotFoundException;
 import question.Question;
 import survey.Survey;
@@ -61,7 +60,7 @@ public abstract class Answer {
             if (!file.exists()) file.createNewFile();
             ObjectMapper mapper = new ObjectMapper();
             JavaType type = mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class);
-            fileWriter.write(mapper.enable(SerializationFeature.INDENT_OUTPUT).writerFor(type).writeValueAsString(answers));
+            fileWriter.write(mapper.writerWithDefaultPrettyPrinter().forType(type).writeValueAsString(answers));
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
