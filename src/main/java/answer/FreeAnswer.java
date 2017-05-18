@@ -47,9 +47,9 @@ public class FreeAnswer extends Answer {
 
     private static Set<String> getFunctionalWords() {
         Set<String> strings = new HashSet<>();
-        strings.addAll(getWordsFromFile("empty.eng"));
-        strings.addAll(getWordsFromFile("empty.sp"));
-        strings.addAll(getWordsFromFile("empty.cat"));
+        strings.addAll(getWordsFromFile("functional_words/empty.eng"));
+        strings.addAll(getWordsFromFile("functional_words/empty.sp"));
+        strings.addAll(getWordsFromFile("functional_words/empty.cat"));
         return strings;
     }
 
