@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import exceptions.ResourceNotFoundException;
 import question.Question;
 import survey.Survey;
 import user.User;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -60,7 +60,7 @@ public abstract class Answer {
             if (!file.exists()) file.createNewFile();
             ObjectMapper mapper = new ObjectMapper();
             JavaType type = mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class);
-            fileWriter.write(mapper.enable(SerializationFeature.INDENT_OUTPUT).writerFor(type).writeValueAsString(answers));
+            fileWriter.write(mapper.writerWithDefaultPrettyPrinter().forType(type).writeValueAsString(answers));
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,10 +115,12 @@ public abstract class Answer {
         return map;
     }
 
-    public static void importAnswers(String jsonPath) throws IOException {
+    public static void importAnswers(String jsonPath) throws FileNotFoundException {
         Set<Answer> answers = new HashSet<>();
 
         File file = new File(jsonPath);
+
+        if(!file.exists()) throw new FileNotFoundException();
 
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -174,4 +176,5 @@ public abstract class Answer {
     }
 
     public abstract Double calculateDistance(Answer answer);
+
 }

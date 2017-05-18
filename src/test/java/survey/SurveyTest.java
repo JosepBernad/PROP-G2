@@ -193,7 +193,7 @@ public class SurveyTest {
     }
 
     @Test(expected = FileNotFoundException.class)
-    public void test_givenExistingSurveys_whenImportSurveys_withInvalidPath_thenThrowsInvalidPathException() throws IOException {
+    public void test_givenExistingSurveys_whenImportSurveys_withInvalidPath_thenThrowsFileNotFoundException() throws IOException {
         // Arrange
         Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
         String surveyPath = "src/test/resources/InvalidPath.json";
