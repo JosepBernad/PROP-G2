@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,27 +15,15 @@ public class Main extends Application {
         launch(args);
     }
 
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("views/SignUpView.fxml"));
-        Parent root = loader.load();
-
-        Scene scene = new Scene(root, 400, 350);
-
-        primaryStage.setTitle(APP_TITLE);
-
+        Parent parent = FXMLLoader.load(getClass().getResource("views/LogInView.fxml"));
+        Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
+        primaryStage.setTitle(APP_TITLE);
         primaryStage.show();
-    }
-
-    public void signUpButtonPressed(ActionEvent actionEvent) throws IOException {
-
-    }
-
-    public void logInButtonPressed(ActionEvent actionEvent) {
-        System.out.println("LogIn Pressed");
     }
 
 }
