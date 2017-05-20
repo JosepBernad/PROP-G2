@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<GridPane alignment="center" hgap="10"  vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyListController">
+
+    <padding><Insets bottom="3" left="3" right="3" top="3" /></padding>
+
+    <Text text="List of existing surveys" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+    <Text text="" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+    <JFXListView fx:id="surveyList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+</GridPane>
