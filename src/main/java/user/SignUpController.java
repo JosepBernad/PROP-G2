@@ -6,6 +6,7 @@ import exceptions.EmptyRequiredAttributeException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -20,6 +21,8 @@ public class SignUpController {
     @FXML
     private Label textInformation;
 
+    private Stage stage;
+
     public void createUserButtonPressed(ActionEvent actionEvent) throws IOException, EmptyRequiredAttributeException {
         User user = new User();
         user.setUsername(usernameField.getText());
@@ -33,5 +36,9 @@ public class SignUpController {
         catch (EmptyRequiredAttributeException e) {
             textInformation.setText("Missing field");
         }
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

@@ -24,6 +24,7 @@ public class Main extends Application {
         LogInController controller = loader.getController();
         controller.setStage(primaryStage);
         Scene scene = new Scene(parent);
+        scene.getStylesheets().add("/views/style.css");
         primaryStage.setScene(scene);
         primaryStage.setTitle(APP_TITLE);
         primaryStage.show();

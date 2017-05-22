@@ -27,7 +27,9 @@ public class LogInController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SignUpView.fxml").openStream());
         SignUpController controller = loader.getController();
+        controller.setStage(stage);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add("/views/style.css");
         stage.setScene(scene);
         stage.show();
     }
