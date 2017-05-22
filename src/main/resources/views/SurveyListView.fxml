@@ -10,8 +10,6 @@
 
     <Text text="List of existing surveys" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
-    <Text text="" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-
     <JFXListView fx:id="surveyList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
 </GridPane>
