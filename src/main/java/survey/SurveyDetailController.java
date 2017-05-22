@@ -3,6 +3,7 @@ package survey;
 import com.jfoenix.controls.JFXListView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import question.Option;
 import question.QualitativeQuestion;
 import question.Question;
@@ -14,6 +15,7 @@ public class SurveyDetailController {
 
     @FXML
     private JFXListView<Label> surveyInfo;
+    private Stage stage;
 
     public void initialize() {
         Survey survey = Survey.getSurveyById(6);
@@ -31,5 +33,9 @@ public class SurveyDetailController {
                 for (Option option : options) surveyInfo.getItems().add(new Label("         " + option.getValue()));
             }
         }
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

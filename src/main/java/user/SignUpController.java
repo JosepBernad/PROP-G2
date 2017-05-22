@@ -34,8 +34,4 @@ public class SignUpController {
             textInformation.setText("Missing field");
         }
     }
-
-    public void setInformation(String string) {
-        textInformation.setText(string);
-    }
 }

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import survey.SurveyDetailController;
 
 import java.io.IOException;
 
@@ -26,21 +27,30 @@ public class LogInController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SignUpView.fxml").openStream());
         SignUpController controller = loader.getController();
-        controller.setInformation("TUPUTAMADREEEEEEEE");
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void logInButtonPressed(ActionEvent actionEvent) {
+    public void logInButtonPressed(ActionEvent actionEvent) throws IOException {
         System.out.println("LogIn Pressed");
-        User user = User.getUserByUsername(usernameField.getText());
-        if (user != null) {
-            if (true) {//passwordField.getText() == user.getPassword()) {
-                System.out.println("Right user");
-            }
-            System.out.println("LogIn Pressed");
-        }
+
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
+        SurveyDetailController controller = loader.getController();
+        controller.setStage(stage);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
+
+//        User user = User.getUserByUsername(usernameField.getText());
+//        if (user != null) {
+//            if (true) {//passwordField.getText() == user.getPassword()) {
+//                System.out.println("Right user");
+//            }
+//            System.out.println("LogIn Pressed");
+//        }
     }
 
     public void setStage(Stage stage) {
