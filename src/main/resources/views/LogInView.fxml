@@ -6,6 +6,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
 <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" prefHeight="154.0" prefWidth="368.0"
           vgap="10"
           xmlns="http://javafx.com/javafx/8.0.112" fx:controller="user.LogInController">
@@ -13,22 +15,31 @@
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
 
-    <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Text text="Who are you?" styleClass="form-header-title" GridPane.columnIndex="0"
+          GridPane.rowIndex="0"/>
 
-    <JFXTextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
-    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-    <JFXPasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <JFXTextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+    <JFXPasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
     <JFXButton fx:id="logInButton" onAction="#logInButtonPressed" text="Log In" GridPane.columnIndex="1"
-               GridPane.rowIndex="3"/>
+               GridPane.rowIndex="5"/>
 
-    <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-    <Label text="No account?" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <Label text="No account?" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
 
     <JFXButton fx:id="signUpButton" onAction="#signUpButtonPressed" text="Sign Up" GridPane.columnIndex="1"
-               GridPane.rowIndex="6"/>
+               GridPane.rowIndex="8"/>
+
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="9"/>
 
 </GridPane>

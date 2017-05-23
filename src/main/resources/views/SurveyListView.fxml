@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXButton?>
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" minHeight="500.0"
           prefWidth="900.0"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyListController">
@@ -18,5 +19,10 @@
     <JFXListView fx:id="surveyLabelList" onMouseClicked="#handleMouseClick" prefHeight="400.0" prefWidth="800.0"
                  GridPane.columnIndex="0"
                  GridPane.rowIndex="2"/>
+
+    <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK"
+               text="Log out" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
 </GridPane>
