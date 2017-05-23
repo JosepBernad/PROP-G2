@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import survey.SurveyDetailController;
+import survey.SurveyListController;
 
 import java.io.IOException;
 
@@ -41,10 +42,12 @@ public class LogInController {
         System.out.println("LogIn Pressed");
 
         FXMLLoader loader = new FXMLLoader();
-        Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
-        SurveyDetailController controller = loader.getController();
+        Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
+        SurveyListController controller = loader.getController();
         controller.setStage(stage);
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
         stage.setScene(scene);
         stage.show();
 
