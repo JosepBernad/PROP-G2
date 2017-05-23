@@ -13,9 +13,9 @@
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
 
-    <Text text="Create a new user" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Text text="Create a new user" styleClass="form-header-title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-    <Text text="" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
     <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
@@ -33,12 +33,15 @@
 
     <JFXPasswordField fx:id="pasword2" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-    <Text text="" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="6"/>
 
-    <JFXButton fx:id="createUserButton" contentDisplay="RIGHT" onAction="#createUserButtonPressed" ripplerFill="BLACK"
+    <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK"
+               text="Cancel" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7"/>
+
+    <JFXButton contentDisplay="RIGHT" onAction="#createUserButtonPressed" ripplerFill="BLACK"
                text="Create" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7"/>
 
-    <Label fx:id="textInformation" text="" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+    <Label fx:id="textInformation" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
 
 </GridPane>
 

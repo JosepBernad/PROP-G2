@@ -10,7 +10,9 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    public static final String APP_TITLE = "Enquestator 1.0";
+    private static final String APP_TITLE = "Enquestator 1.0";
+    private static final String STYLE = "/views/Style.css";
+    private static final String FONTS = "/views/fonts.css";
 
     public static void main(String[] args) {
         launch(args);
@@ -24,7 +26,8 @@ public class Main extends Application {
         LogInController controller = loader.getController();
         controller.setStage(primaryStage);
         Scene scene = new Scene(parent);
-        scene.getStylesheets().add("/views/style.css");
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
         primaryStage.setScene(scene);
         primaryStage.setTitle(APP_TITLE);
         primaryStage.show();
