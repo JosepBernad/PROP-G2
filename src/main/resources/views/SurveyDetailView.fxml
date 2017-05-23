@@ -2,13 +2,19 @@
 
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyDetailController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" minHeight="500.0"
+          prefWidth="900.0"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyDetailController">
 
-    <padding><Insets bottom="3" left="3" right="3" top="3" /></padding>
+    <padding>
+        <Insets bottom="3" left="3" right="3" top="3"/>
+    </padding>
 
-    <Text text="Survey Information" underline="true" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label fx:id="surveyTitle" styleClass="form-header-title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label fx:id="surveyDescription" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
-    <JFXListView fx:id="surveyInfo" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <JFXListView fx:id="surveyInfo" focusTraversable="false" prefHeight="400.0" prefWidth="800.0"
+                 GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 </GridPane>

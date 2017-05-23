@@ -22,7 +22,7 @@ public class SignUpController {
     private JFXTextField usernameField;
 
     @FXML
-    private  JFXTextField nameField;
+    private JFXTextField nameField;
 
     @FXML
     private JFXPasswordField password1;
