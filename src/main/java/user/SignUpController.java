@@ -1,5 +1,6 @@
 package user;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
@@ -24,11 +25,17 @@ public class SignUpController {
     private  JFXTextField nameField;
 
     @FXML
+    private JFXPasswordField password1;
+
+    @FXML
+    private JFXPasswordField password2;
+
+    @FXML
     private Label textInformation;
 
     private Stage stage;
 
-    public void createUserButtonPressed() throws IOException, EmptyRequiredAttributeException {
+    public void createUserButtonPressed() throws IOException {
         User user = new User();
         user.setUsername(usernameField.getText());
         user.setName(nameField.getText());
@@ -37,8 +44,7 @@ public class SignUpController {
             textInformation.setText("User created successfully");
         } catch (DuplicatedUsernameException e) {
             textInformation.setText("This user is already taken");
-        }
-        catch (EmptyRequiredAttributeException e) {
+        } catch (EmptyRequiredAttributeException e) {
             textInformation.setText("Missing field");
         }
     }

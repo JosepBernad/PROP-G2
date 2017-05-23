@@ -31,7 +31,7 @@
 
     <Label text="Repeat password:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
 
-    <JFXPasswordField fx:id="pasword2" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <JFXPasswordField fx:id="password2" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
     <Text GridPane.columnIndex="0" GridPane.rowIndex="6"/>
 
@@ -41,7 +41,7 @@
     <JFXButton contentDisplay="RIGHT" onAction="#createUserButtonPressed" ripplerFill="BLACK"
                text="Create" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7"/>
 
-    <Label fx:id="textInformation" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+    <Label fx:id="textInformation" textFill="#e33636" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
 
 </GridPane>
 

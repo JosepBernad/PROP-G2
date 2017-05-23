@@ -9,6 +9,7 @@ public class SurveyListController {
     @FXML
     private JFXListView<Label> surveyList;
 
+
     @FXML
     public void initialize() {
         for (Survey survey : Survey.getSurveys().values())
