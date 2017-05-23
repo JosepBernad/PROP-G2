@@ -16,9 +16,11 @@ public class SurveyDetailController {
     @FXML
     private JFXListView<Label> surveyInfo;
     private Stage stage;
+    private Integer surveyId;
 
+    @FXML
     public void initialize() {
-        Survey survey = Survey.getSurveyById(6);
+        Survey survey = Survey.getSurveyById(surveyId);
         surveyInfo.getItems().add(new Label(survey.getTitle()));
         surveyInfo.getItems().add(new Label(survey.getDescription()));
 
@@ -37,5 +39,9 @@ public class SurveyDetailController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setSurveyId(Integer surveyId) {
+        this.surveyId = surveyId;
     }
 }
