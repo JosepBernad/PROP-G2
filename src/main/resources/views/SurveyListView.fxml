@@ -21,8 +21,11 @@
                  GridPane.columnIndex="0"
                  GridPane.rowIndex="2"/>
 
-    <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK"
-               text="Log out" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+    <JFXButton onAction="#importSurveysButtonPressed" ripplerFill="BLACK"
+               text="Import Surveys" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+
+    <JFXButton onAction="#logOutButtonPressed" ripplerFill="BLACK"
+               text="Log Out" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
 
     <Text GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
