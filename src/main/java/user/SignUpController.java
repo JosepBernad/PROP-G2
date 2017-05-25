@@ -2,14 +2,17 @@ package user;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.deploy.util.Waiter;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import survey.SurveyListController;
 
 import java.io.IOException;
 
@@ -41,7 +44,23 @@ public class SignUpController {
         user.setName(nameField.getText());
         try {
             user.save();
-            textInformation.setText("User created successfully");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("New account");
+            alert.setHeaderText(null);
+            alert.setContentText("User created successfully!");
+            alert.showAndWait();
+
+            FXMLLoader loader = new FXMLLoader();
+            Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
+            SurveyListController controller = loader.getController();
+            controller.setStage(stage);
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(STYLE);
+            scene.getStylesheets().add(FONTS);
+            stage.setScene(scene);
+            stage.show();
+
         } catch (DuplicatedUsernameException e) {
             textInformation.setText("This user is already taken");
         } catch (EmptyRequiredAttributeException e) {

@@ -7,4 +7,8 @@ public class UserPoint extends Point {
         super(nCoordinates);
         this.username = username;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }
