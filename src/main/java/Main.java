@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import user.LogInController;
 
@@ -30,6 +31,7 @@ public class Main extends Application {
         scene.getStylesheets().add(FONTS);
         primaryStage.setScene(scene);
         primaryStage.setTitle(APP_TITLE);
+        primaryStage.getIcons().add(new Image(getClass().getResource("/images/icon.png").toExternalForm()));
         primaryStage.show();
     }
 
