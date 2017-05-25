@@ -33,6 +33,7 @@ public class SurveyListController {
     @FXML
     public void initialize() {
         surveyList = new ArrayList<>();
+        surveyLabelList.getItems().clear();
         for (Survey survey : Survey.getSurveys().values()) {
             surveyLabelList.getItems().add(new Label(survey.getTitle()));
             surveyList.add(survey);
@@ -73,7 +74,7 @@ public class SurveyListController {
     }
 
     public void importSurveysButtonPressed(ActionEvent actionEvent) throws IOException {
-        JFileChooser fc = new JFileChooser();
+        /*JFileChooser fc = new JFileChooser();
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.JSON","json");
         fc.setFileFilter(filter);
@@ -85,6 +86,18 @@ public class SurveyListController {
                 break;
             case JFileChooser.CANCEL_OPTION:
                 break;
+                */
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JSON", "*.json*")
+        );
+        List<File> list = fileChooser.showOpenMultipleDialog(stage);
+        if (list != null) {
+            for (File file : list) {
+                Survey.importSurveys(file.getPath());
+                initialize();
+            }
         }
     }
 }
