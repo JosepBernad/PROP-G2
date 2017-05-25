@@ -11,9 +11,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import user.LogInController;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -74,22 +71,16 @@ public class SurveyListController {
     }
 
     public void importSurveysButtonPressed(ActionEvent actionEvent) throws IOException {
-        /*
-        JFileChooser fc = new JFileChooser();
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.JSON","json");
-        fc.setFileFilter(filter);
-        int selection = fc.showDialog(null,"Select");
-        switch (selection) {
-            case JFileChooser.APPROVE_OPTION:
-                Survey.importSurveys(fc.getSelectedFile().getPath());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JSON", "*.json*")
+        );
+        List<File> list = fileChooser.showOpenMultipleDialog(stage);
+        if (list != null) {
+            for (File file : list) {
+                Survey.importSurveys(file.getPath());
                 initialize();
-                break;
-            case JFileChooser.CANCEL_OPTION:
-                break;
-        }*/
-
-        new java.awt.FileDialog((java.awt.Frame) null).setVisible(true);
-
+            }
+        }
     }
 }
