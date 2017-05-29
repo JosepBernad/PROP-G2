@@ -42,6 +42,7 @@ public class KMeans {
                 Double distance = distanceBetweenPoints(p, cluster.getCentroid());
                 if (minimumDistance > distance) {
                     minimumDistance = distance;
+                    p.setDistanceToCentroid(distance);
                     nearest = cluster;
                 }
             }
