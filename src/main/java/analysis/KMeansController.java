@@ -9,14 +9,15 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class KMeansController {
     public HBox clustersPane;
 
     @FXML
-    public Pane chart;
+    public HBox chart;
 
     @FXML
     private Label surveyTitle;
@@ -77,29 +78,25 @@ public class KMeansController {
         }
 
         JFreeChart plot = createChart(calc);
+        JFreeChart plot2 = createChart2(calc);
 
         ChartPanel panel = new ChartPanel(plot);
+        ChartPanel panel2 = new ChartPanel(plot2);
         SwingNode swingNode = new SwingNode();
         swingNode.setContent(panel);
+        SwingNode swingNode2 = new SwingNode();
+        swingNode2.setContent(panel2);
         chart.getChildren().clear();
-        chart.getChildren().add(swingNode);
+        chart.getChildren().addAll(swingNode, swingNode2);
     }
 
 
     private JFreeChart createChart(List<Cluster> calc) {
         List<Double> values = new ArrayList<>();
-        for (Cluster c : calc) {
-            for (UserPoint point : c.getPoints()) {
-                values.add(point.getDistanceToCentroid());
-            }
-        }
+        calc.forEach(cluster -> cluster.getPoints().forEach(userPoint -> values.add(userPoint.getDistanceToCentroid())));
 
         double[] array = new double[values.size()];
-        int i = 0;
-        for (Double d : values) {
-            array[i] = d;
-            ++i;
-        }
+        for (int i = 0; i < values.size(); i++) array[i] = values.get(i);
 
         HistogramDataset dataset = new HistogramDataset();
         dataset.addSeries("Histogram", array, values.size(), 0, 1);
@@ -110,6 +107,29 @@ public class KMeansController {
         NumberAxis rangeAxis = (NumberAxis) histogram.getXYPlot().getRangeAxis();
         rangeAxis.setRange(0, 4);
 
+        ValueAxis domainAxis = histogram.getXYPlot().getDomainAxis();
+
         return histogram;
+    }
+
+    private JFreeChart createChart2(List<Cluster> calc) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        Integer i = 1;
+        for (Cluster c : calc) {
+            double sum = 0D;
+            for (UserPoint point : c.getPoints())
+                sum += point.getDistanceToCentroid();
+            dataset.addValue(sum / c.getPoints().size(), "Value", "Cluster " + i);
+            ++i;
+        }
+
+        JFreeChart barChart = ChartFactory.createBarChart("Cluster intra distances",
+                "Clusters", "Mean distances", dataset, PlotOrientation.VERTICAL,
+                false, false, false);
+
+        NumberAxis rangeAxis = (NumberAxis) barChart.getCategoryPlot().getRangeAxis();
+        rangeAxis.setRange(0, 1);
+
+        return barChart;
     }
 }
