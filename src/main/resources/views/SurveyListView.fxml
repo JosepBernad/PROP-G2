@@ -29,4 +29,7 @@
 
     <Text GridPane.columnIndex="0" GridPane.rowIndex="4"/>
 
+    <JFXButton onAction="#createSurveyButtonPressed" ripplerFill="BLACK"
+               text="Create survey" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+
 </GridPane>

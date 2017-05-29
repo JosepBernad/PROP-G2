@@ -83,4 +83,17 @@ public class SurveyListController {
             }
         }
     }
+
+    public void createSurveyButtonPressed(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = loader.load(getClass().getResource("/views/SurveyCreatorView.fxml").openStream());
+        SurveyCreatorController controller = loader.getController();
+        controller.setStage(stage);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().add(FONTS);
+        stage.setScene(scene);
+        stage.show();
+    }
 }
