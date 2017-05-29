@@ -4,19 +4,22 @@ import answer.Answer;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.statistics.HistogramDataset;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,67 +76,40 @@ public class KMeansController {
             clustersPane.getChildren().add(vBox);
         }
 
-        ScatterChart<Number, Number> plot = createChart("Browser Usage Statistics");
-        chart.getChildren().add(plot);
+        JFreeChart plot = createChart(calc);
+
+        ChartPanel panel = new ChartPanel(plot);
+        SwingNode swingNode = new SwingNode();
+        swingNode.setContent(panel);
+        chart.getChildren().clear();
+        chart.getChildren().add(swingNode);
     }
 
 
-    private ScatterChart<Number, Number> createChart(String chartTitle) {
-        // Create the X-Axis
-        NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("Year");
-        // Customize the X-Axis, so points are scattered uniformly
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(1900);
-        xAxis.setUpperBound(2300);
-        xAxis.setTickUnit(50);
+    private JFreeChart createChart(List<Cluster> calc) {
+        List<Double> values = new ArrayList<>();
+        for (Cluster c : calc) {
+            for (UserPoint point : c.getPoints()) {
+                values.add(point.getDistanceToCentroid());
+            }
+        }
 
-        // Create the Y-Axis
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Population (in millions)");
+        double[] array = new double[values.size()];
+        int i = 0;
+        for (Double d : values) {
+            array[i] = d;
+            ++i;
+        }
 
-        // Create the ScatterChart
-        ScatterChart<Number,Number> chart = new ScatterChart<>(xAxis, yAxis);
-        // Set the Title for the Chart
-        chart.setTitle(chartTitle);
-        // Set the Data for the Chart
-        ObservableList<XYChart.Series<Number,Number>> chartData = getCountrySeries();
-        chart.setData(chartData);
-        return chart;
+        HistogramDataset dataset = new HistogramDataset();
+        dataset.addSeries("Histogram", array, values.size(), 0, 1);
+
+        JFreeChart histogram = ChartFactory.createHistogram("Individuals intra distances histogram",
+                "Distances", "Observations", dataset, PlotOrientation.VERTICAL,
+                false, false, false);
+        NumberAxis rangeAxis = (NumberAxis) histogram.getXYPlot().getRangeAxis();
+        rangeAxis.setRange(0, 4);
+
+        return histogram;
     }
-
-    private ObservableList<XYChart.Series<Number, Number>> getCountrySeries()
-    {
-        XYChart.Series<Number, Number> seriesChina = new XYChart.Series<Number, Number>();
-        seriesChina.setName("China");
-        seriesChina.getData().add(new XYChart.Data<Number, Number>(1950, 555));
-        seriesChina.getData().add(new XYChart.Data<Number, Number>(2000, 1275));
-        seriesChina.getData().add(new XYChart.Data<Number, Number>(2050, 1395));
-        seriesChina.getData().add(new XYChart.Data<Number, Number>(2100, 1182));
-        seriesChina.getData().add(new XYChart.Data<Number, Number>(2150, 1149));
-
-        XYChart.Series<Number, Number> seriesIndia = new XYChart.Series<Number, Number>();
-        seriesIndia.setName("India");
-        seriesIndia.getData().add(new XYChart.Data<Number, Number>(1950, 358));
-        seriesIndia.getData().add(new XYChart.Data<Number, Number>(2000, 1017));
-        seriesIndia.getData().add(new XYChart.Data<Number, Number>(2050, 1531));
-        seriesIndia.getData().add(new XYChart.Data<Number, Number>(2100, 1458));
-        seriesIndia.getData().add(new XYChart.Data<Number, Number>(2150, 1308));
-
-        XYChart.Series<Number, Number> seriesUSA = new XYChart.Series<Number, Number>();
-        seriesUSA.setName("USA");
-        seriesUSA.getData().add(new XYChart.Data<Number, Number>(1950, 158));
-        seriesUSA.getData().add(new XYChart.Data<Number, Number>(2000, 285));
-        seriesUSA.getData().add(new XYChart.Data<Number, Number>(2050, 409));
-        seriesUSA.getData().add(new XYChart.Data<Number, Number>(2100, 437));
-        seriesUSA.getData().add(new XYChart.Data<Number, Number>(2150, 453));
-
-        ObservableList<XYChart.Series<Number, Number>> data =
-                FXCollections.<XYChart.Series<Number, Number>>observableArrayList();
-        data.add(seriesChina);
-        data.add(seriesIndia);
-        data.add(seriesUSA);
-        return data;
-    }
-
 }
