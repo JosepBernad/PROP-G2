@@ -2,6 +2,7 @@ package analysis;
 
 
 import answer.*;
+import survey.Survey;
 
 import java.util.*;
 
@@ -9,9 +10,9 @@ public class KMeans {
     private Integer surveyId;
     private Integer nCoordinates;
 
-    public KMeans(Integer surveyId, Integer nCoordinates) {
+    public KMeans(Integer surveyId) {
         this.surveyId = surveyId;
-        this.nCoordinates = nCoordinates;
+        this.nCoordinates = Survey.getSurveyById(surveyId).getQuestions().size();
     }
 
     public List<Cluster> calc(int k) {

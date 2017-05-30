@@ -19,7 +19,7 @@
 
 .button {
     -fx-border-color: null;
-    -fx-background-color: -fx-lightest-color;
+    -fx-background-color: -fx-basic-color;
     -fx-background-radius: 2px;
     -fx-font-size: 14px;
     -fx-cursor: hand;
@@ -27,10 +27,11 @@
 
 .button .text {
     -fx-fill: white;
+    -fx-font-weight: bold;
 }
 
 .button:hover {
-    -fx-background-color: -fx-basic-color;
+    -fx-background-color: -fx-lightest-color;
 }
 
 .button:hover .text {

@@ -13,10 +13,10 @@
         <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
 
-    <JFXTextField fx:id="surveyTitle" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-    <JFXTextField fx:id="surveyDescription" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <JFXTextField fx:id="surveyTitle" GridPane.rowIndex="0" GridPane.columnIndex="0" promptText="Survey name"/>
+    <JFXTextField fx:id="surveyDescription" GridPane.rowIndex="1" GridPane.columnIndex="0" promptText="Survey description"/>
 
-    <VBox fx:id = "vPrincipalBox" minWidth="900" minHeight="600" GridPane.rowIndex="2" GridPane.columnIndex="0">
+    <VBox fx:id = "vPrincipalBox" minWidth="900" minHeight="600" GridPane.rowIndex="2" GridPane.columnIndex="0" spacing="10">
 
     </VBox>
 
