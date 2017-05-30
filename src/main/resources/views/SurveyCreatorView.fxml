@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Button?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="survey.SurveyCreatorController"
@@ -20,10 +21,13 @@
 
     </VBox>
 
+    <VBox GridPane.rowIndex="2" GridPane.columnIndex="2">
+        <Button onAction="#newQuestionButtonPressed" text="New question" minWidth="30"/>
+        <Button onAction="#saveButtonPressed" text="Save survey" minWidth="30"/>
 
-    <JFXButton onAction="#newQuestionButtonPressed" ripplerFill="BLACK"
-               text="New question" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
+    </VBox>
+
 
     <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK"
-               text="Cancel" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+               text="Cancel" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
 </GridPane>
