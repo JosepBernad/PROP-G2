@@ -37,9 +37,6 @@ public class KMeansController {
     @FXML
     public HBox chart;
 
-    @FXML
-    private Label surveyTitle;
-
     private Integer surveyId;
 
     private Stage stage;
@@ -68,12 +65,12 @@ public class KMeansController {
         int k = Integer.parseInt(numberOfClusters.getSelectionModel().getSelectedItem().getText());
         List<Cluster> calc = kMeans.calc(k);
         for (Cluster cluster : calc) {
-            VBox vBox = new VBox();
+            VBox vBox = new VBox(5);
             vBox.setAlignment(Pos.CENTER);
             JFXListView<String> list = new JFXListView<>();
             for (UserPoint userPoint : cluster.getPoints()) {
                 list.getItems().add(userPoint.getUsername());
-                list.setPrefSize(200, 100);
+                list.setPrefSize(200, 150);
             }
             vBox.getChildren().addAll(list, new JFXButton("Centroid"));
             clustersPane.getChildren().add(vBox);
