@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="center" xmlns="http://javafx.com/javafx/8.0.112"
       minHeight="800.0" prefWidth="1024.0"
       spacing="10" fx:controller="analysis.KMeansController">
@@ -16,11 +17,16 @@
     </padding>
     <Label text="Clustering analysis" styleClass="form-header-title"/>
 
+    <Text text=""/>
+
     <HBox alignment="CENTER">
         <Label text="Clusters:"/>
         <JFXComboBox fx:id="numberOfClusters"/>
     </HBox>
+    <Text text=""/>
     <JFXButton onAction="#doKmeans" text="Calculate"/>
+    <Text text=""/>
+    <Label fx:id="errorText" textFill="#e33636"/>
     <Separator prefHeight="5"/>
     <HBox alignment="center" spacing="10" fx:id="clustersPane" minWidth="400"/>
     <HBox fx:id="chart" minWidth="400"/>

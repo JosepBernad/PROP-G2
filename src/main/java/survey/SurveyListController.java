@@ -29,7 +29,6 @@ public class SurveyListController {
     private List<Survey> surveyList;
     private Stage stage;
 
-
     @FXML
     public void initialize() {
         surveyList = new ArrayList<>();

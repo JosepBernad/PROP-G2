@@ -21,6 +21,7 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
 
+import javax.xml.soap.Text;
 import java.awt.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -41,10 +42,11 @@ public class KMeansController {
 
     @FXML
     public Label distance;
-
     private Integer surveyId;
-
     private Stage stage;
+
+    @FXML
+    private Label errorText;
 
     @FXML
     public void initialize() {
@@ -65,34 +67,38 @@ public class KMeansController {
     }
 
     public void doKmeans() {
-        clustersPane.getChildren().clear();
-        KMeans kMeans = new KMeans(surveyId);
-        int k = Integer.parseInt(numberOfClusters.getSelectionModel().getSelectedItem().getText());
-        List<Cluster> calc = kMeans.calc(k);
-        for (Cluster cluster : calc) {
-            VBox vBox = new VBox(5);
-            vBox.setAlignment(Pos.CENTER);
-            JFXListView<String> list = new JFXListView<>();
-            for (UserPoint userPoint : cluster.getPoints()) {
-                list.getItems().add(userPoint.getUsername());
-                list.setPrefSize(200, 150);
+        if (numberOfClusters.getValue() == null) errorText.setText("Select the number of clusters");
+        else {
+            clustersPane.getChildren().clear();
+            errorText.setText("");
+            KMeans kMeans = new KMeans(surveyId);
+            int k = Integer.parseInt(numberOfClusters.getSelectionModel().getSelectedItem().getText());
+            List<Cluster> calc = kMeans.calc(k);
+            for (Cluster cluster : calc) {
+                VBox vBox = new VBox(5);
+                vBox.setAlignment(Pos.CENTER);
+                JFXListView<String> list = new JFXListView<>();
+                for (UserPoint userPoint : cluster.getPoints()) {
+                    list.getItems().add(userPoint.getUsername());
+                    list.setPrefSize(200, 150);
+                }
+                vBox.getChildren().addAll(list, new JFXButton("Centroid"));
+                clustersPane.getChildren().add(vBox);
             }
-            vBox.getChildren().addAll(list, new JFXButton("Centroid"));
-            clustersPane.getChildren().add(vBox);
+
+            JFreeChart individualsChart = createIndividualsChart(calc);
+            ChartPanel individualsPanel = new ChartPanel(individualsChart);
+            SwingNode individualsNode = new SwingNode();
+            individualsNode.setContent(individualsPanel);
+
+            JFreeChart clustersChart = createClustersChart(calc);
+            ChartPanel clustersPanel = new ChartPanel(clustersChart);
+            SwingNode clustersNode = new SwingNode();
+            clustersNode.setContent(clustersPanel);
+
+            chart.getChildren().clear();
+            chart.getChildren().addAll(individualsNode, clustersNode);
         }
-
-        JFreeChart individualsChart = createIndividualsChart(calc);
-        ChartPanel individualsPanel = new ChartPanel(individualsChart);
-        SwingNode individualsNode = new SwingNode();
-        individualsNode.setContent(individualsPanel);
-
-        JFreeChart clustersChart = createClustersChart(calc);
-        ChartPanel clustersPanel = new ChartPanel(clustersChart);
-        SwingNode clustersNode = new SwingNode();
-        clustersNode.setContent(clustersPanel);
-
-        chart.getChildren().clear();
-        chart.getChildren().addAll(individualsNode, clustersNode);
     }
 
 
