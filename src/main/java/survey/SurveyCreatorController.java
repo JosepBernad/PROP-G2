@@ -4,6 +4,7 @@ package survey;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import exceptions.EmptyRequiredAttributeException;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,13 +21,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import question.NumericQuestion;
+import question.FreeQuestionBuilder;
+import question.NumericQuestionBuilder;
 import question.Question;
+import question.QuestionBuilder;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SurveyCreatorController {
 
@@ -42,6 +43,8 @@ public class SurveyCreatorController {
     public VBox vPrincipalBox;
 
     private Stage stage;
+
+    private Set<QuestionBuilder> questionBuilders = new HashSet<>();
 
     private List<String> questionTypes = Arrays.asList("Free question",
             "Numeric question",
@@ -181,15 +184,26 @@ public class SurveyCreatorController {
 
     private void addNumericQuestion(String statement) {
         VBox vBox = new VBox();
+
+        NumericQuestionBuilder numericQuestionBuilder = new NumericQuestionBuilder();
+
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        numericQuestionBuilder.setStatement(statementField);
+
         vBox.getChildren().add(statementField);
         HBox hBox = new HBox();
         hBox.getChildren().add(new Label("Min:"));
         JFXTextField minField = new JFXTextField();
+        numericQuestionBuilder.setMinValue(minField);
+
         hBox.getChildren().add(forceNumericField(minField));
         hBox.getChildren().add(new Label("Max:"));
         JFXTextField maxField = new JFXTextField();
+        numericQuestionBuilder.setMaxValue(maxField);
+
+        questionBuilders.add(numericQuestionBuilder);
+
         hBox.getChildren().add(forceNumericField(maxField));
         hBox.getChildren().add(new JFXTextField());
         vBox.getChildren().add(hBox);
@@ -201,21 +215,33 @@ public class SurveyCreatorController {
 
     private void addFreeQuestion(String statement) {
         VBox vBox = new VBox();
+
+        FreeQuestionBuilder freeQuestionBuilder = new FreeQuestionBuilder();
+
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        freeQuestionBuilder.setStatement(statementField);
+
         vBox.getChildren().add(statementField);
         HBox hBox = new HBox();
-        hBox.getChildren().add(new Label("Max lengh:"));
-        JFXTextField textField = new JFXTextField();
-        hBox.getChildren().add(forceNumericField(textField));
+        hBox.getChildren().add(new Label("Max length:"));
+        JFXTextField maxLenghtField = new JFXTextField();
+        freeQuestionBuilder.setMaxLenght(maxLenghtField);
+
+        questionBuilders.add(freeQuestionBuilder);
+
+        hBox.getChildren().add(forceNumericField(maxLenghtField));
         vBox.getChildren().add(hBox);
+        maxLenghtField.getParent();
         HBox mainHBox = new HBox();
         mainHBox.getChildren().add(vBox);
         mainHBox.getChildren().add(new JFXButton("X"));
+
         vPrincipalBox.getChildren().add(mainHBox);
+
     }
 
-    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void cancelButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
@@ -238,5 +264,20 @@ public class SurveyCreatorController {
             }
         });
         return textField;
+    }
+
+    public void saveButtonPressed() {
+        System.out.print("Save!");
+        Survey survey = new Survey();
+        survey.setTitle("Miquel");
+        for (QuestionBuilder questionBuilder : this.questionBuilders) {
+            survey.addQuestion(questionBuilder.build());
+        }
+        try {
+            survey.save();
+        } catch (EmptyRequiredAttributeException e) {
+            e.printStackTrace();
+        }
+
     }
 }
