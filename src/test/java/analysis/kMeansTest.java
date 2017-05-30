@@ -37,9 +37,7 @@ public class kMeansTest {
         Files.copy(Paths.get("src/test/resources/kMeansUsers.json"), USER_PATH, REPLACE_EXISTING);
 
         Integer surveyId = 1;
-        Integer nCoordinates = 4;
-
-        KMeans kMeans = new KMeans(surveyId, nCoordinates);
+        KMeans kMeans = new KMeans(surveyId);
 
         // Act
         List<Cluster> calc = kMeans.calc(2);
