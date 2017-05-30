@@ -22,6 +22,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
 
 import java.awt.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,9 @@ public class KMeansController {
 
     @FXML
     public HBox chart;
+
+    @FXML
+    public Label distance;
 
     private Integer surveyId;
 
@@ -120,13 +125,19 @@ public class KMeansController {
     private JFreeChart createClustersChart(List<Cluster> calc) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         Integer i = 1;
+        Double totalDistance = 0D;
         for (Cluster c : calc) {
             double sum = 0D;
             for (UserPoint point : c.getPoints())
                 sum += point.getDistanceToCentroid();
+            totalDistance += sum;
             dataset.addValue(sum / c.getPoints().size(), "Value", "Cluster " + i);
             ++i;
         }
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
+        distance.setText("Total distance: " + df.format(totalDistance));
 
         JFreeChart barChart = ChartFactory.createBarChart("Cluster intra distances",
                 "Clusters", "Mean distances", dataset, PlotOrientation.VERTICAL,
