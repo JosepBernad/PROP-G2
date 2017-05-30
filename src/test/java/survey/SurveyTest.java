@@ -22,10 +22,12 @@ import static org.junit.Assert.*;
 public class SurveyTest {
 
     private static final Path SURVEY_PATH = Paths.get(Survey.SURVEYS);
+    public static final Path EXPORT_PATH = Paths.get("export.json");
 
     @After
     public void deleteSurveysFile() throws IOException {
         Files.deleteIfExists(SURVEY_PATH);
+        Files.deleteIfExists(EXPORT_PATH);
     }
 
     @Test
@@ -200,6 +202,15 @@ public class SurveyTest {
 
         // Act
         Survey.importSurveys(surveyPath);
+    }
+
+    @Test
+    public void test_givenNoSurveys_whenExportSurveys_withValidPath_thenCreateFile() {
+        // Act
+        Survey.exportSurveys("export.json");
+
+        // Assert
+        assertTrue(Files.exists(EXPORT_PATH));
     }
 
     private void addSurveyToMap(Map<Integer, Survey> expectedSurveys, Integer id, String name) {

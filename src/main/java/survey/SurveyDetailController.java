@@ -1,5 +1,6 @@
 package survey;
 
+import analysis.KMeansController;
 import com.jfoenix.controls.JFXListView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,7 +56,7 @@ public class SurveyDetailController {
         }
     }
 
-    public void cancelButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void backButtonPressed(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
@@ -69,5 +70,17 @@ public class SurveyDetailController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void analiseSurvey(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = loader.load(getClass().getResource("/views/KMeansView.fxml").openStream());
+        KMeansController controller = loader.getController();
+        controller.setStage(stage);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -94,10 +94,13 @@ public class SurveyCreatorController {
         TextField username = new TextField();
         username.setPromptText("Question name");
         JFXComboBox<Label> comboBox = new JFXComboBox<>();
+
+        /*
         for Question items : QuestionType.values() {
 
         }
 
+        */
 
         grid.add(new Label("Question:"), 0, 0);
         grid.add(username, 1, 0);

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<?import com.jfoenix.controls.JFXButton?>
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" minHeight="500.0"
           prefWidth="900.0"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyListController">
@@ -19,17 +17,29 @@
 
     <JFXListView fx:id="surveyLabelList" onMouseClicked="#handleMouseClick" prefHeight="400.0" prefWidth="800.0"
                  GridPane.columnIndex="0"
-                 GridPane.rowIndex="2"/>
+                 GridPane.rowIndex="1"/>
 
-    <JFXButton onAction="#importSurveysButtonPressed" ripplerFill="BLACK"
-               text="Import Surveys" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+    <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <JFXButton onAction="#createSurveyButtonPressed" ripplerFill="BLACK"
+                   text="Create" minWidth="100"/>
+
+        <Text GridPane.columnIndex="0"/>
+
+        <JFXButton onAction="#importSurveysButtonPressed" ripplerFill="BLACK"
+                   text="Import" minWidth="100"/>
+
+        <Text GridPane.columnIndex="0"/>
+
+        <JFXButton onAction="#exportSurveyButtonPressed" ripplerFill="BLACK"
+                   text="Export" minWidth="100"/>
+
+        <Text GridPane.columnIndex="0"/>
+
+    </VBox>
 
     <JFXButton onAction="#logOutButtonPressed" ripplerFill="BLACK"
-               text="Log Out" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+               text="Log Out" minWidth="100" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-    <Text GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-
-    <JFXButton onAction="#createSurveyButtonPressed" ripplerFill="BLACK"
-               text="Create survey" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
 </GridPane>

@@ -11,6 +11,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import user.LogInController;
 
+import javax.swing.*;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,8 +74,9 @@ public class SurveyListController {
 
     public void importSurveysButtonPressed(ActionEvent actionEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import surveys");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JSON", "*.json*")
+                new FileChooser.ExtensionFilter("json", "*.json*")
         );
         List<File> list = fileChooser.showOpenMultipleDialog(stage);
         if (list != null) {
@@ -95,5 +98,20 @@ public class SurveyListController {
         scene.getStylesheets().add(FONTS);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void exportSurveyButtonPressed(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export surveys");
+
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("json", "*.json"));
+        File file = fileChooser.showSaveDialog(stage);
+
+        if(file != null) {
+            if(!file.getName().contains(".")) {
+                file = new File(file.getAbsolutePath() + ".json");
+            }
+            Survey.exportSurveys(file.getPath());
+        }
     }
 }

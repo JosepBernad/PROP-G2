@@ -168,4 +168,8 @@ public class Survey {
         surveys.putAll(getSurveys());
         FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
+
+    public static void exportSurveys(String path) {
+        FileUtils.saveObjectInFile(getSurveys(),path);
+    }
 }
