@@ -13,8 +13,8 @@ public class NumericQuestionBuilder extends QuestionBuilder {
         NumericQuestion numericQuestion = new NumericQuestion();
 
         try {
-            numericQuestion.setMax(Integer.parseInt(minValue.getText()));
-            numericQuestion.setMin(Integer.parseInt(maxValue.getText()));
+            numericQuestion.setMin(Integer.parseInt(minValue.getText()));
+            numericQuestion.setMax(Integer.parseInt(maxValue.getText()));
         } catch (NotInRangeException e) {
             e.printStackTrace();
         }
