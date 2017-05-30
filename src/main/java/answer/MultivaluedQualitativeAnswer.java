@@ -48,7 +48,7 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
     }
 
     @JsonIgnore
-    public Set<String> getValues() {
+    private Set<String> getValues() {
         Set<String> values = new HashSet<>();
         for (Option option : options)
             values.add(option.getValue());
