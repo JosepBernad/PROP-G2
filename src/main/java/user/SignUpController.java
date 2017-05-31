@@ -50,6 +50,8 @@ public class SignUpController {
             Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
             SurveyListController controller = loader.getController();
             controller.setStage(stage);
+            controller.setUser(User.getUserByUsername(usernameField.getText()));
+            controller.init();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(STYLE);
             scene.getStylesheets().add(FONTS);
