@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import question.*;
+import user.User;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,7 +32,7 @@ public class SurveyCreatorController {
     private static final String STYLE = "/views/Style.css";
     private static final String FONTS = "/views/fonts.css";
     private static final String INTEGER = "^([-]?[1-9]\\d*|0)$";
-    private static final String NATURAL = "^([1-9]\\d*|0)$";
+    private static final String NATURAL = "^([1-9]\\d*)$";
 
     @FXML
     public JFXTextField surveyTitle;
@@ -53,6 +54,7 @@ public class SurveyCreatorController {
             "Sorted qualitative question",
             "Unsorted qualitative question",
             "Multivalued qualitative question");
+    private User user;
 
 
     public void setStage(Stage stage) {
@@ -67,8 +69,8 @@ public class SurveyCreatorController {
         dialog.setHeaderText("Add a new question");
 
         // Set the button types.
-        ButtonType loginButtonType = new ButtonType("Okei", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        ButtonType okButtonType = ButtonType.OK;//("Óc.", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
 
         // Create the username and password labels and fields.
         GridPane grid = new GridPane();
@@ -89,7 +91,7 @@ public class SurveyCreatorController {
         grid.add(comboBox, 1, 1);
 
         // Enable/Disable login button depending on whether a username was entered.
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+        Node loginButton = dialog.getDialogPane().lookupButton(okButtonType);
         loginButton.setDisable(true);
 
         // Do some validation (using the Java 8 lambda syntax).
@@ -104,7 +106,7 @@ public class SurveyCreatorController {
 
         // Convert the result to a username-password-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == loginButtonType) {
+            if (dialogButton == okButtonType) {
                 return new Pair<>(username.getText(), comboBox.getSelectionModel().getSelectedItem().toString());
             }
             return null;
@@ -266,6 +268,7 @@ public class SurveyCreatorController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
+        controller.setUser(user);
         controller.setStage(stage);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(STYLE);
@@ -282,20 +285,31 @@ public class SurveyCreatorController {
     public void saveButtonPressed() throws IOException {
         Survey survey = new Survey();
         survey.setTitle("Miquel");
-        for (QuestionBuilder questionBuilder : this.questionBuilders) {
+        Boolean error = new Boolean(false);
+        for (Iterator<QuestionBuilder> iterator = this.questionBuilders.iterator(); !error && iterator.hasNext(); ) {
+            QuestionBuilder questionBuilder = iterator.next();
             try {
                 survey.addQuestion(questionBuilder.build());
             } catch (NotInRangeException e) {
+                error = true;
                 missingLabel.setText("Incorrect values");
             } catch (EmptyRequiredAttributeException e) {
+                error = true;
                 missingLabel.setText("Empty fields");
             }
         }
-        try {
-            survey.save();
-            missingLabel.setText("Survey created successfully");
-        } catch (EmptyRequiredAttributeException e) {
-            e.printStackTrace();
+        if (!error) {
+            try {
+                survey.save();
+                missingLabel.setText("Survey created successfully");
+                cancelButtonPressed();
+            } catch (EmptyRequiredAttributeException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
