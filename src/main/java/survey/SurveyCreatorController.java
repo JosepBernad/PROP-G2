@@ -128,32 +128,30 @@ public class SurveyCreatorController {
         } else if (type.indexOf(questionTypes.get(3)) != -1) {
             addUnsortedQualitativeQuestion(statement);
         } else {
-            addMultivaluatedQualitativeQuestion(statement);
+            addMultivaluedQualitativeQuestion(statement);
         }
     }
 
-    private void addMultivaluatedQualitativeQuestion(String statement) {
-        HBox individualOptionBox = new HBox();
-        VBox allOptionsBox = new VBox();
+    private void addMultivaluedQualitativeQuestion(String statement) {
+        VBox mainBox = new VBox();
+        HBox questionBox = new HBox();
         HBox optionsBox = new HBox();
 
-        MultivaluedUnsortedQualitativeQuestionBuilder multivaluedUnsortedQualitativeQuestionBuilder = new MultivaluedUnsortedQualitativeQuestionBuilder();
+        MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
 
-        optionsBox.getChildren().add(allOptionsBox);
         optionsBox.getChildren().add(new JFXButton("Add option"));
-        HBox questionBox = new HBox();
+
         questionBox.getChildren().add(optionsBox);
         questionBox.getChildren().add(new JFXButton("X"));
-        VBox mainBox = new VBox();
+
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
-        multivaluedUnsortedQualitativeQuestionBuilder.setStatement(statementField);
+        builder.setStatement(statementField);
         mainBox.getChildren().add(statementField);
         TextField maxAnswers = new TextField();
-        multivaluedUnsortedQualitativeQuestionBuilder.setMaxAnswers(maxAnswers);
-        mainBox.getChildren().add(maxAnswers);
-        mainBox.getChildren().add(questionBox);
-        questionBuilders.add(multivaluedUnsortedQualitativeQuestionBuilder);
+        builder.setMaxAnswers(maxAnswers);
+        mainBox.getChildren().addAll(maxAnswers, questionBox);
+        questionBuilders.add(builder);
         vPrincipalBox.getChildren().add(mainBox);
     }
 
