@@ -71,6 +71,7 @@ public class UserTest {
         User user = new User();
         user.setUsername("miqui");
         user.setName("Miquel");
+        user.setPassword("password");
 
         //Act
         user.save();
@@ -86,6 +87,7 @@ public class UserTest {
         User user = new User();
         user.setUsername("pepi");
         user.setName("Pepi Diaz");
+        user.setPassword("password");
 
         // Act
         user.save();
@@ -106,6 +108,16 @@ public class UserTest {
         // Arrange
         User user = new User();
         user.setName("");
+
+        // Act
+        user.save();
+    }
+
+    @Test(expected = EmptyRequiredAttributeException.class)
+    public void test_givenNewUser_whenSaveUser_withEmptyPassword_thenThrowsEmptyRequiredAttributeException() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setPassword("");
 
         // Act
         user.save();

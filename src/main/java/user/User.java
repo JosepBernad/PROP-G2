@@ -15,6 +15,7 @@ public class User {
 
     private String username;
     private String name;
+    private String password;
 
     public User() {
     }
@@ -39,6 +40,10 @@ public class User {
         return users;
     }
 
+    public String getPassword() { return password;}
+
+    public void setPassword(String password) { this.password = password;}
+
     public static User getUserByUsername(String username) {
         return getUsers().get(username);
     }
@@ -60,7 +65,7 @@ public class User {
     }
 
     public void save() throws DuplicatedUsernameException, EmptyRequiredAttributeException {
-        if (username == null || username.length() == 0 || name == null || name.length() == 0)
+        if (username == null || username.length() == 0 || password == null || password.length() == 0|| name == null || name.length() == 0)
             throw new EmptyRequiredAttributeException();
 
         Map<String, User> users = getUsers();

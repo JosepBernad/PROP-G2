@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import com.sun.deploy.util.Waiter;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotSamePassword;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -38,19 +39,13 @@ public class SignUpController {
 
     private Stage stage;
 
-    public void createUserButtonPressed() throws IOException {
+    public void createUserButtonPressed() throws IOException, NotSamePassword {
         User user = new User();
         user.setUsername(usernameField.getText());
         user.setName(nameField.getText());
+        if (password1.getText() == password2.getText()) user.setPassword(password1.getText());
         try {
             user.save();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("New account");
-            alert.setHeaderText(null);
-            alert.setContentText("User created successfully!");
-            alert.showAndWait();
-
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
             SurveyListController controller = loader.getController();
