@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" spacing="10"
+      fx:controller="analysis.ClusterController" prefHeight="720" prefWidth="1080">
+
+    <padding>
+        <Insets bottom="10" left="25" right="25" top="25"/>
+    </padding>
+
+    <Label fx:id="surveyTitle" styleClass="form-header-title"/>
+    <Label fx:id="surveyDescription"/>
+
+    <HBox fx:id="answers" minWidth="900" minHeight="600" spacing="10"/>
+</VBox>

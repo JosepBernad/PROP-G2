@@ -92,7 +92,9 @@ public class KMeansController {
                     list.getItems().add(userPoint.getUsername());
                     list.setPrefSize(200, 150);
                 }
-                vBox.getChildren().addAll(list, new JFXButton("Centroid"));
+                JFXButton clusterButton = new JFXButton("Show answers");
+                clusterButton.setOnAction(event -> showClusterDetail(cluster));
+                vBox.getChildren().addAll(list, clusterButton);
                 clustersPane.getChildren().add(vBox);
             }
 
@@ -109,6 +111,39 @@ public class KMeansController {
             chart.getChildren().clear();
             chart.getChildren().addAll(individualsNode, clustersNode);
         }
+    }
+
+    private void showClusterDetail(Cluster cluster) {
+        Point centroid = cluster.getCentroid();
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = null;
+        try {
+            root = loader.load(getClass().getResource("/views/ClusterView.fxml").openStream());
+        } catch (IOException ignored) {
+        }
+        ClusterController controller = loader.getController();
+
+        List<List<Answer>> clusterAnswers = new ArrayList<>();
+
+        for (UserPoint userPoint : cluster.getPoints()) {
+            List<Answer> answers = new ArrayList<>();
+            for (int i = 0; i < userPoint.getNumOfCoordinates(); ++i)
+                answers.add(userPoint.getCoordinate(i));
+            clusterAnswers.add(answers);
+        }
+
+        List<Answer> centroidAnswers = new ArrayList<>();
+        for (int i = 0; i < centroid.getNumOfCoordinates(); ++i)
+            centroidAnswers.add(centroid.getCoordinate(i));
+
+        clusterAnswers.add(centroidAnswers);
+
+        controller.init(surveyId, clusterAnswers);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void showAnswer(String username) {

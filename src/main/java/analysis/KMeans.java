@@ -71,24 +71,28 @@ public class KMeans {
 
     private Answer calculateCentroid(List<Answer> answers) {
         Answer a = answers.get(0);
+        Answer centroid = null;
         if (a instanceof FreeAnswer) {
             List<FreeAnswer> freeAnswers = new ArrayList<>();
             for (Answer answer : answers) freeAnswers.add((FreeAnswer) answer);
-            return FreeAnswer.calculateCentroid(freeAnswers);
+            centroid = FreeAnswer.calculateCentroid(freeAnswers);
         } else if (a instanceof MultivaluedQualitativeAnswer) {
             List<MultivaluedQualitativeAnswer> multivaluedQualitativeAnswers = new ArrayList<>();
             for (Answer answer : answers) multivaluedQualitativeAnswers.add((MultivaluedQualitativeAnswer) answer);
-            return MultivaluedQualitativeAnswer.calculateCentroid(multivaluedQualitativeAnswers);
+            centroid = MultivaluedQualitativeAnswer.calculateCentroid(multivaluedQualitativeAnswers);
         } else if (a instanceof NumericAnswer) {
             List<NumericAnswer> numericAnswers = new ArrayList<>();
             for (Answer answer : answers) numericAnswers.add((NumericAnswer) answer);
-            return NumericAnswer.calculateCentroid(numericAnswers);
+            centroid = NumericAnswer.calculateCentroid(numericAnswers);
         } else if (a instanceof UnivaluedQualitativeAnswer) {
             List<UnivaluedQualitativeAnswer> univaluedQualitativeAnswers = new ArrayList<>();
             for (Answer answer : answers) univaluedQualitativeAnswers.add((UnivaluedQualitativeAnswer) answer);
-            return UnivaluedQualitativeAnswer.calculateCentroid(univaluedQualitativeAnswers);
+            centroid = UnivaluedQualitativeAnswer.calculateCentroid(univaluedQualitativeAnswers);
         }
-        return null;
+        assert centroid != null;
+        centroid.setSurveyId(surveyId);
+        centroid.setQuestionId(a.getQuestionId());
+        return centroid;
     }
 
     private void prepareClusters(List<Cluster> clusters) {
