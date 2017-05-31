@@ -1,6 +1,7 @@
 package question;
 
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotInRangeException;
 import javafx.scene.control.TextField;
 
 import java.util.Set;
@@ -10,11 +11,18 @@ public class MultivaluedUnsortedQualitativeQuestionBuilder extends QuestionBuild
     private Set<Option> options;
     private TextField maxAnswers;
 
-    public MultivaluedUnsortedQualitativeQuestion build() throws EmptyRequiredAttributeException {
+    public MultivaluedUnsortedQualitativeQuestion build() throws EmptyRequiredAttributeException, NotInRangeException {
         isEmpty(maxAnswers);
+        int nMaxAnswers;
+        try {
+            nMaxAnswers = Integer.parseInt(maxAnswers.getText());
+        } catch (NumberFormatException e) {
+            throw new NotInRangeException();
+        }
+        if (nMaxAnswers < options.size()) throw new NotInRangeException();
         MultivaluedUnsortedQualitativeQuestion question = new MultivaluedUnsortedQualitativeQuestion();
         question.setOptions(options);
-        question.setnMaxAnswers(Integer.parseInt(maxAnswers.getText()));
+        question.setnMaxAnswers(nMaxAnswers);
         return question;
     }
 

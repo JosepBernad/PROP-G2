@@ -1,7 +1,6 @@
 package question;
 
 import answer.MultivaluedQualitativeAnswer;
-import answer.UnivaluedQualitativeAnswer;
 import exceptions.TooMuchOptionsException;
 import org.junit.Test;
 
