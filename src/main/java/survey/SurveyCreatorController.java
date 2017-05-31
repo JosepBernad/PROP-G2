@@ -5,9 +5,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotInRangeException;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,12 +18,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import question.FreeQuestionBuilder;
-import question.NumericQuestionBuilder;
-import question.Question;
-import question.QuestionBuilder;
+import question.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -33,6 +30,8 @@ public class SurveyCreatorController {
 
     private static final String STYLE = "/views/Style.css";
     private static final String FONTS = "/views/fonts.css";
+    private static final String INTEGER = "^$|^([-]?[1-9]\\d*|0)$";
+    private static final String NATURAL = "^$|^([1-9]\\d*|0)$";
 
     @FXML
     public JFXTextField surveyTitle;
@@ -41,6 +40,9 @@ public class SurveyCreatorController {
 
     @FXML
     public VBox vPrincipalBox;
+
+    @FXML
+    public Label missingLabel;
 
     private Stage stage;
 
@@ -57,8 +59,7 @@ public class SurveyCreatorController {
         this.stage = stage;
     }
 
-    public void newQuestionButtonPressed(ActionEvent actionEvent)
-    {
+    public void newQuestionButtonPressed(ActionEvent actionEvent) {
 
         // Create the custom dialog.
         Dialog<Pair<String, String>> dialog = new Dialog<>();
@@ -113,7 +114,7 @@ public class SurveyCreatorController {
 
         result.ifPresent(questionStatement -> {
             System.out.println("Username=" + questionStatement.getKey() + ", Password=" + questionStatement.getValue());
-            addQuestion(questionStatement.getKey(),questionStatement.getValue());
+            addQuestion(questionStatement.getKey(), questionStatement.getValue());
         });
     }
 
@@ -135,6 +136,9 @@ public class SurveyCreatorController {
         HBox individualOptionBox = new HBox();
         VBox allOptionsBox = new VBox();
         HBox optionsBox = new HBox();
+
+        MultivaluedUnsortedQualitativeQuestionBuilder multivaluedUnsortedQualitativeQuestionBuilder = new MultivaluedUnsortedQualitativeQuestionBuilder();
+
         optionsBox.getChildren().add(allOptionsBox);
         optionsBox.getChildren().add(new JFXButton("Add option"));
         HBox questionBox = new HBox();
@@ -143,8 +147,13 @@ public class SurveyCreatorController {
         VBox mainBox = new VBox();
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        multivaluedUnsortedQualitativeQuestionBuilder.setStatement(statementField);
         mainBox.getChildren().add(statementField);
+        TextField maxAnswers = new TextField();
+        multivaluedUnsortedQualitativeQuestionBuilder.setMaxAnswers(maxAnswers);
+        mainBox.getChildren().add(maxAnswers);
         mainBox.getChildren().add(questionBox);
+        questionBuilders.add(multivaluedUnsortedQualitativeQuestionBuilder);
         vPrincipalBox.getChildren().add(mainBox);
     }
 
@@ -152,6 +161,9 @@ public class SurveyCreatorController {
         HBox individualOptionBox = new HBox();
         VBox allOptionsBox = new VBox();
         HBox optionsBox = new HBox();
+
+        UnsortedQualitativeQuestionBuilder unsortedQualitativeQuestionBuilder = new UnsortedQualitativeQuestionBuilder();
+
         optionsBox.getChildren().add(allOptionsBox);
         optionsBox.getChildren().add(new JFXButton("Add option"));
         HBox questionBox = new HBox();
@@ -160,6 +172,10 @@ public class SurveyCreatorController {
         VBox mainBox = new VBox();
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        unsortedQualitativeQuestionBuilder.setStatement(statementField);
+
+        questionBuilders.add(unsortedQualitativeQuestionBuilder);
+
         mainBox.getChildren().add(statementField);
         mainBox.getChildren().add(questionBox);
         vPrincipalBox.getChildren().add(mainBox);
@@ -169,6 +185,9 @@ public class SurveyCreatorController {
         HBox individualOptionBox = new HBox();
         VBox allOptionsBox = new VBox();
         HBox optionsBox = new HBox();
+
+        SortedQualitativeQuestionBuilder sortedQualitativeQuestionBuilder = new SortedQualitativeQuestionBuilder();
+
         optionsBox.getChildren().add(allOptionsBox);
         optionsBox.getChildren().add(new JFXButton("Add option"));
         HBox questionBox = new HBox();
@@ -177,6 +196,10 @@ public class SurveyCreatorController {
         VBox mainBox = new VBox();
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        sortedQualitativeQuestionBuilder.setStatement(statementField);
+
+        questionBuilders.add(sortedQualitativeQuestionBuilder);
+
         mainBox.getChildren().add(statementField);
         mainBox.getChildren().add(questionBox);
         vPrincipalBox.getChildren().add(mainBox);
@@ -193,19 +216,19 @@ public class SurveyCreatorController {
 
         vBox.getChildren().add(statementField);
         HBox hBox = new HBox();
+
         hBox.getChildren().add(new Label("Min:"));
         JFXTextField minField = new JFXTextField();
         numericQuestionBuilder.setMinValue(minField);
+        hBox.getChildren().add(checkRegExField(minField, INTEGER));
 
-        hBox.getChildren().add(forceNumericField(minField));
         hBox.getChildren().add(new Label("Max:"));
         JFXTextField maxField = new JFXTextField();
         numericQuestionBuilder.setMaxValue(maxField);
+        hBox.getChildren().add(checkRegExField(maxField, INTEGER));
 
         questionBuilders.add(numericQuestionBuilder);
 
-        hBox.getChildren().add(forceNumericField(maxField));
-        hBox.getChildren().add(new JFXTextField());
         vBox.getChildren().add(hBox);
         HBox mainHBox = new HBox();
         mainHBox.getChildren().add(vBox);
@@ -226,11 +249,11 @@ public class SurveyCreatorController {
         HBox hBox = new HBox();
         hBox.getChildren().add(new Label("Max length:"));
         JFXTextField maxLenghtField = new JFXTextField();
-        freeQuestionBuilder.setMaxLenght(maxLenghtField);
+        freeQuestionBuilder.setMaxLength(maxLenghtField);
 
         questionBuilders.add(freeQuestionBuilder);
 
-        hBox.getChildren().add(forceNumericField(maxLenghtField));
+        hBox.getChildren().add(checkRegExField(maxLenghtField, NATURAL));
         vBox.getChildren().add(hBox);
         maxLenghtField.getParent();
         HBox mainHBox = new HBox();
@@ -253,31 +276,29 @@ public class SurveyCreatorController {
         stage.show();
     }
 
-    private JFXTextField forceNumericField(JFXTextField textField)
-    {
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    textField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
-            }
-        });
+    private JFXTextField checkRegExField(JFXTextField textField, String regex) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> textField.setFocusColor(newValue.matches(regex) ? Color.BLUE : Color.RED));
         return textField;
     }
 
-    public void saveButtonPressed() {
+    public void saveButtonPressed() throws IOException {
         System.out.print("Save!");
         Survey survey = new Survey();
         survey.setTitle("Miquel");
         for (QuestionBuilder questionBuilder : this.questionBuilders) {
-            survey.addQuestion(questionBuilder.build());
+            try {
+                survey.addQuestion(questionBuilder.build());
+            } catch (NotInRangeException e) {
+                missingLabel.setText("Incorrect values");
+            } catch (EmptyRequiredAttributeException e) {
+                missingLabel.setText("Empty fields");
+            }
         }
         try {
             survey.save();
+            //cancelButtonPressed();
         } catch (EmptyRequiredAttributeException e) {
             e.printStackTrace();
         }
-
     }
 }

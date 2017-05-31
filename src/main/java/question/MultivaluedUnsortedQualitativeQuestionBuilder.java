@@ -1,6 +1,8 @@
 package question;
 
-import java.awt.*;
+import exceptions.EmptyRequiredAttributeException;
+import javafx.scene.control.TextField;
+
 import java.util.Set;
 
 public class MultivaluedUnsortedQualitativeQuestionBuilder extends QuestionBuilder {
@@ -8,7 +10,8 @@ public class MultivaluedUnsortedQualitativeQuestionBuilder extends QuestionBuild
     private Set<Option> options;
     private TextField maxAnswers;
 
-    public MultivaluedUnsortedQualitativeQuestion build() {
+    public MultivaluedUnsortedQualitativeQuestion build() throws EmptyRequiredAttributeException {
+        isEmpty(maxAnswers);
         MultivaluedUnsortedQualitativeQuestion question = new MultivaluedUnsortedQualitativeQuestion();
         question.setOptions(options);
         question.setnMaxAnswers(Integer.parseInt(maxAnswers.getText()));

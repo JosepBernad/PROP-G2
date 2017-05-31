@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Button?>
-<GridPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="survey.SurveyCreatorController"
-          prefHeight="720" prefWidth="1080">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane prefHeight="720" prefWidth="1080" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyCreatorController">
 
     <padding>
-        <Insets bottom="10" left="25" right="25" top="25"/>
+        <Insets bottom="10" left="25" right="25" top="25" />
     </padding>
 
-    <JFXTextField fx:id="surveyTitle" GridPane.rowIndex="0" GridPane.columnIndex="0" promptText="Survey name"/>
-    <JFXTextField fx:id="surveyDescription" GridPane.rowIndex="1" GridPane.columnIndex="0" promptText="Survey description"/>
+    <JFXTextField fx:id="surveyTitle" promptText="Survey name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <JFXTextField fx:id="surveyDescription" promptText="Survey description" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-    <VBox fx:id = "vPrincipalBox" minWidth="900" minHeight="600" GridPane.rowIndex="2" GridPane.columnIndex="0" spacing="10">
-
-    </VBox>
-
-    <VBox GridPane.rowIndex="2" GridPane.columnIndex="2">
-        <Button onAction="#newQuestionButtonPressed" text="New question" minWidth="30"/>
-        <Button onAction="#saveButtonPressed" text="Save survey" minWidth="30"/>
+    <VBox fx:id="vPrincipalBox" minHeight="500" minWidth="900" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">
 
     </VBox>
 
+    <VBox GridPane.columnIndex="2" GridPane.rowIndex="2">
+        <Button minWidth="30" onAction="#newQuestionButtonPressed" text="New question" />
+        <Button minWidth="30" onAction="#saveButtonPressed" text="Save survey" />
 
-    <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK"
-               text="Cancel" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
+    </VBox>
+
+    <Label fx:id="missingLabel" textFill="RED" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+    <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK" text="Cancel" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+
 </GridPane>

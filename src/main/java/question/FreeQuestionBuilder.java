@@ -1,25 +1,27 @@
 package question;
 
+import exceptions.EmptyRequiredAttributeException;
 import exceptions.NotInRangeException;
 import javafx.scene.control.TextField;
 
 public class FreeQuestionBuilder extends QuestionBuilder {
 
-    private TextField maxLenght;
+    private TextField maxLength;
 
-    public FreeQuestion build() {
+    public FreeQuestion build() throws NotInRangeException, EmptyRequiredAttributeException {
+        isEmpty(maxLength);
         FreeQuestion freeQuestion = new FreeQuestion();
         try {
-            freeQuestion.setMaxSize(Integer.parseInt(maxLenght.getText()));
-        } catch (NotInRangeException e) {
-            e.printStackTrace();
+            freeQuestion.setMaxSize(Integer.parseInt(maxLength.getText()));
+        } catch (NumberFormatException e) {
+            throw new NotInRangeException();
         }
         freeQuestion.setStatement(getStatement().getText());
         return freeQuestion;
     }
 
-    public FreeQuestionBuilder setMaxLenght(TextField maxLenght) {
-        this.maxLenght = maxLenght;
+    public FreeQuestionBuilder setMaxLength(TextField maxLength) {
+        this.maxLength = maxLength;
         return this;
     }
 }
