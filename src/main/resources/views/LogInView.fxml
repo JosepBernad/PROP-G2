@@ -33,13 +33,15 @@
     <JFXButton fx:id="logInButton" onAction="#logInButtonPressed" text="Log In" GridPane.columnIndex="1"
                GridPane.rowIndex="5"/>
 
-    <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+    <Label fx:id="errorText" textFill="#e33636" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
-    <Label text="No account?" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+    <Label text="" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+    <Label text="No account?" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
 
     <JFXButton fx:id="signUpButton" onAction="#signUpButtonPressed" text="Sign Up" GridPane.columnIndex="1"
-               GridPane.rowIndex="8"/>
+               GridPane.rowIndex="9"/>
 
-    <Text GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="10"/>
 
 </GridPane>

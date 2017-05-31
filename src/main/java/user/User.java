@@ -3,6 +3,8 @@ package user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotExistingUserException;
+import exceptions.NotSamePasswordException;
 import utils.FileUtils;
 
 import java.io.File;
@@ -90,6 +92,11 @@ public class User {
         int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public static void validateCredentials(String username, String password) throws NotExistingUserException, NotSamePasswordException {
+        if (!getUsers().containsKey(username)) throw new NotExistingUserException();
+        if (!getUserByUsername(username).getPassword().equals(password)) throw new NotSamePasswordException();
     }
 
     @Override

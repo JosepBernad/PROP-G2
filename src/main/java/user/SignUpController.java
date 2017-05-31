@@ -2,14 +2,12 @@ package user;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.sun.deploy.util.Waiter;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
-import exceptions.NotSamePassword;
+import exceptions.NotSamePasswordException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -39,12 +37,14 @@ public class SignUpController {
 
     private Stage stage;
 
-    public void createUserButtonPressed() throws IOException, NotSamePassword {
-        User user = new User();
-        user.setUsername(usernameField.getText());
-        user.setName(nameField.getText());
-        if (password1.getText() == password2.getText()) user.setPassword(password1.getText());
+    public void createUserButtonPressed() throws IOException, NotSamePasswordException {
         try {
+            User user = new User();
+            if (!password1.getText().isEmpty() && !usernameField.getText().isEmpty() && !nameField.getText().isEmpty() &&
+                    !password1.getText().equals(password2.getText())) throw new NotSamePasswordException();
+            user.setUsername(usernameField.getText());
+            user.setName(nameField.getText());
+            user.setPassword(password1.getText());
             user.save();
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
@@ -59,7 +59,9 @@ public class SignUpController {
         } catch (DuplicatedUsernameException e) {
             textInformation.setText("This user is already taken");
         } catch (EmptyRequiredAttributeException e) {
-            textInformation.setText("Missing field");
+            textInformation.setText("Missing field(s)");
+        } catch (NotSamePasswordException e) {
+            textInformation.setText("Not the same password");
         }
     }
 
