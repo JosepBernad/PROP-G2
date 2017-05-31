@@ -2,7 +2,10 @@ package user;
 
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotExistingUserException;
+import exceptions.NotSamePasswordException;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -71,6 +74,7 @@ public class UserTest {
         User user = new User();
         user.setUsername("miqui");
         user.setName("Miquel");
+        user.setPassword("password");
 
         //Act
         user.save();
@@ -86,6 +90,7 @@ public class UserTest {
         User user = new User();
         user.setUsername("pepi");
         user.setName("Pepi Diaz");
+        user.setPassword("password");
 
         // Act
         user.save();
@@ -109,6 +114,48 @@ public class UserTest {
 
         // Act
         user.save();
+    }
+
+    @Test(expected = EmptyRequiredAttributeException.class)
+    public void test_givenNewUser_whenSaveUser_withEmptyPassword_thenThrowsEmptyRequiredAttributeException() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setPassword("");
+
+        // Act
+        user.save();
+    }
+
+    @Test(expected = NotExistingUserException.class)
+    public void test_givenNoUsers_whenValidateCredentials_withInvalidUsername_thenThrowsNotExistingUserException() throws Exception {
+        //Act
+        User.validateCredentials("NotValidUser","");
+    }
+
+    @Test(expected = NotSamePasswordException.class)
+    public void test_givenUsers_whenValidateCredentials_withInvalidPassword_thenThrowsNotSamePasswordException() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setUsername("sergio");
+        user.setName("Sergio Paredes");
+        user.setPassword("1234");
+        user.save();
+
+        // Act
+        User.validateCredentials("sergio","123");
+    }
+
+    @Test
+    public void test_givenUsers_whenValidateCredentials_withValidCredentials_thenDoNotThrowAnyException() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setUsername("sergio");
+        user.setName("Sergio Paredes");
+        user.setPassword("1234");
+        user.save();
+
+        // Act
+        User.validateCredentials("sergio","1234");
     }
 
     private void addUserToMap(Map<String, User> expectedUsers, String username, String name) {

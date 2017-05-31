@@ -3,6 +3,8 @@ package user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.NotExistingUserException;
+import exceptions.NotSamePasswordException;
 import utils.FileUtils;
 
 import java.io.File;
@@ -15,6 +17,7 @@ public class User {
 
     private String username;
     private String name;
+    private String password;
 
     public User() {
     }
@@ -39,6 +42,10 @@ public class User {
         return users;
     }
 
+    public String getPassword() { return password;}
+
+    public void setPassword(String password) { this.password = password;}
+
     public static User getUserByUsername(String username) {
         return getUsers().get(username);
     }
@@ -60,7 +67,7 @@ public class User {
     }
 
     public void save() throws DuplicatedUsernameException, EmptyRequiredAttributeException {
-        if (username == null || username.length() == 0 || name == null || name.length() == 0)
+        if (username == null || username.length() == 0 || password == null || password.length() == 0|| name == null || name.length() == 0)
             throw new EmptyRequiredAttributeException();
 
         Map<String, User> users = getUsers();
@@ -85,6 +92,11 @@ public class User {
         int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    public static void validateCredentials(String username, String password) throws NotExistingUserException, NotSamePasswordException {
+        if (!getUsers().containsKey(username)) throw new NotExistingUserException();
+        if (!getUserByUsername(username).getPassword().equals(password)) throw new NotSamePasswordException();
     }
 
     @Override

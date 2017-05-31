@@ -13,6 +13,7 @@ import question.Option;
 import question.QualitativeQuestion;
 import question.Question;
 import user.LogInController;
+import user.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +34,7 @@ public class SurveyDetailController {
     private Label surveyDescription;
 
     private Stage stage;
+    private User user;
 
     @FXML
     public void initialize() {
@@ -56,11 +58,13 @@ public class SurveyDetailController {
         }
     }
 
-    public void backButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void backButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
         controller.setStage(stage);
+        controller.setUser(User.getUserByUsername(user.getUsername()));
+        controller.init();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(STYLE);
         scene.getStylesheets().add(FONTS);
@@ -71,6 +75,8 @@ public class SurveyDetailController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void setUser(User user) { this.user = user; }
 
     public void analiseSurvey(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader();

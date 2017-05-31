@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import user.LogInController;
+import user.User;
 
 import javax.swing.*;
 import java.io.BufferedWriter;
@@ -26,8 +27,12 @@ public class SurveyListController {
     @FXML
     private JFXListView<Label> surveyLabelList;
 
+    @FXML
+    private Label userName;
+
     private List<Survey> surveyList;
     private Stage stage;
+    private User user;
 
     @FXML
     public void initialize() {
@@ -38,9 +43,15 @@ public class SurveyListController {
         }
     }
 
+    public void init() {
+        userName.setText("Welcome " + user.getName());
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void setUser(User user) { this.user = user; }
 
     public void handleMouseClick() throws IOException {
         int index = surveyLabelList.getSelectionModel().getSelectedIndex();
@@ -50,6 +61,7 @@ public class SurveyListController {
             Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
             SurveyDetailController controller = loader.getController();
             controller.setStage(stage);
+            controller.setUser(user);
             controller.setSurvey(survey.getId());
             Scene scene = new Scene(root);
             scene.getStylesheets().add(STYLE);
