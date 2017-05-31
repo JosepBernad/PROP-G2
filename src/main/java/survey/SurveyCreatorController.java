@@ -30,8 +30,8 @@ public class SurveyCreatorController {
 
     private static final String STYLE = "/views/Style.css";
     private static final String FONTS = "/views/fonts.css";
-    private static final String INTEGER = "^$|^([-]?[1-9]\\d*|0)$";
-    private static final String NATURAL = "^$|^([1-9]\\d*|0)$";
+    private static final String INTEGER = "^([-]?[1-9]\\d*|0)$";
+    private static final String NATURAL = "^([1-9]\\d*|0)$";
 
     @FXML
     public JFXTextField surveyTitle;
@@ -280,7 +280,6 @@ public class SurveyCreatorController {
     }
 
     public void saveButtonPressed() throws IOException {
-        System.out.print("Save!");
         Survey survey = new Survey();
         survey.setTitle("Miquel");
         for (QuestionBuilder questionBuilder : this.questionBuilders) {
@@ -294,7 +293,7 @@ public class SurveyCreatorController {
         }
         try {
             survey.save();
-            //cancelButtonPressed();
+            missingLabel.setText("Survey created successfully");
         } catch (EmptyRequiredAttributeException e) {
             e.printStackTrace();
         }
