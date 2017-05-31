@@ -1,14 +1,18 @@
 package analysis;
 
 import answer.Answer;
+import answer.AnswerController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jfree.chart.ChartFactory;
@@ -22,6 +26,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
 
 import java.awt.*;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -29,6 +34,9 @@ import java.util.List;
 import java.util.Map;
 
 public class KMeansController {
+
+    private static final String STYLE = "/views/Style.css";
+    private static final String FONTS = "/views/fonts.css";
 
     @FXML
     public JFXComboBox<Label> numberOfClusters;
@@ -41,10 +49,11 @@ public class KMeansController {
 
     @FXML
     public Label distance;
-
     private Integer surveyId;
-
     private Stage stage;
+
+    @FXML
+    private Label errorText;
 
     @FXML
     public void initialize() {
@@ -65,34 +74,57 @@ public class KMeansController {
     }
 
     public void doKmeans() {
-        clustersPane.getChildren().clear();
-        KMeans kMeans = new KMeans(surveyId);
-        int k = Integer.parseInt(numberOfClusters.getSelectionModel().getSelectedItem().getText());
-        List<Cluster> calc = kMeans.calc(k);
-        for (Cluster cluster : calc) {
-            VBox vBox = new VBox(5);
-            vBox.setAlignment(Pos.CENTER);
-            JFXListView<String> list = new JFXListView<>();
-            for (UserPoint userPoint : cluster.getPoints()) {
-                list.getItems().add(userPoint.getUsername());
-                list.setPrefSize(200, 150);
+        if (numberOfClusters.getValue() == null) errorText.setText("Select the number of clusters");
+        else {
+            clustersPane.getChildren().clear();
+            errorText.setText("");
+            KMeans kMeans = new KMeans(surveyId);
+            int k = Integer.parseInt(numberOfClusters.getSelectionModel().getSelectedItem().getText());
+            List<Cluster> calc = kMeans.calc(k);
+            for (Cluster cluster : calc) {
+                VBox vBox = new VBox(5);
+                vBox.setAlignment(Pos.CENTER);
+                JFXListView<String> list = new JFXListView<>();
+                list.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                    showAnswer(newValue);
+                });
+                for (UserPoint userPoint : cluster.getPoints()) {
+                    list.getItems().add(userPoint.getUsername());
+                    list.setPrefSize(200, 150);
+                }
+                vBox.getChildren().addAll(list, new JFXButton("Centroid"));
+                clustersPane.getChildren().add(vBox);
             }
-            vBox.getChildren().addAll(list, new JFXButton("Centroid"));
-            clustersPane.getChildren().add(vBox);
+
+            JFreeChart individualsChart = createIndividualsChart(calc);
+            ChartPanel individualsPanel = new ChartPanel(individualsChart);
+            SwingNode individualsNode = new SwingNode();
+            individualsNode.setContent(individualsPanel);
+
+            JFreeChart clustersChart = createClustersChart(calc);
+            ChartPanel clustersPanel = new ChartPanel(clustersChart);
+            SwingNode clustersNode = new SwingNode();
+            clustersNode.setContent(clustersPanel);
+
+            chart.getChildren().clear();
+            chart.getChildren().addAll(individualsNode, clustersNode);
         }
+    }
 
-        JFreeChart individualsChart = createIndividualsChart(calc);
-        ChartPanel individualsPanel = new ChartPanel(individualsChart);
-        SwingNode individualsNode = new SwingNode();
-        individualsNode.setContent(individualsPanel);
-
-        JFreeChart clustersChart = createClustersChart(calc);
-        ChartPanel clustersPanel = new ChartPanel(clustersChart);
-        SwingNode clustersNode = new SwingNode();
-        clustersNode.setContent(clustersPanel);
-
-        chart.getChildren().clear();
-        chart.getChildren().addAll(individualsNode, clustersNode);
+    private void showAnswer(String username) {
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = null;
+        try {
+            root = loader.load(getClass().getResource("/views/AnswerView.fxml").openStream());
+        } catch (IOException ignored) {
+        }
+        AnswerController controller = loader.getController();
+        controller.init(surveyId, username);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
+        stage.setScene(scene);
+        stage.show();
     }
 
 
