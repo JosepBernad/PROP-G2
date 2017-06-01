@@ -70,9 +70,9 @@ public class SurveyCreatorController {
 
     private User user;
 
-
-    public void setStage(Stage stage) {
+    public void init(Stage stage, User user) {
         this.stage = stage;
+        this.user = user;
     }
 
     public void newQuestionButtonPressed() {
@@ -147,10 +147,32 @@ public class SurveyCreatorController {
         deleteButton.setOnAction(event -> deleteOption(optionsVBox, optionHBox, options));
     }
 
-    private void deleteOption(VBox optionsVBox, HBox optionBox, Set<TextField> options) {
+    private void addOptionWithWeight(VBox optionsVBox, Map<TextField, TextField> options) {
+        HBox optionHBox = new HBox();
+
+        JFXTextField optionTextField = new JFXTextField();
+        optionTextField.setPromptText("Option value");
+        JFXTextField weightTextField = new JFXTextField();
+        weightTextField.setPromptText("Weight");
+        options.put(weightTextField, optionTextField);
+        JFXButton deleteButton = new JFXButton("X");
+        optionHBox.getChildren().addAll(optionTextField, weightTextField, deleteButton);
+
+        optionsVBox.getChildren().add(optionHBox);
+
+        deleteButton.setOnAction(event -> deleteOptionWithWeight(optionsVBox, optionHBox, options));
+    }
+
+    private void deleteOptionWithWeight(VBox containerBox, HBox optionBox, Map<TextField, TextField> options) {
         JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
         options.remove(option);
-        optionsVBox.getChildren().remove(optionBox);
+        containerBox.getChildren().remove(optionBox);
+    }
+
+    private void deleteOption(VBox containerBox, HBox optionBox, Set<TextField> options) {
+        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
+        options.remove(option);
+        containerBox.getChildren().remove(optionBox);
     }
 
     private void addMultivaluedQualitativeQuestion(String statement) {
@@ -217,45 +239,31 @@ public class SurveyCreatorController {
     }
 
     private void addSortedQualitativeQuestion(String statement) {
-
         VBox optionsVBox = new VBox();
         HBox manageOptionsHBox = new HBox();
         VBox elementsVBox = new VBox();
-        HBox questionHBox = new HBox();
+        HBox questionBox = new HBox();
 
-        // Options box: all options
-        // addOption(optionsVBox);
-
-
-        // Manage options box: options box and add option button.
+        Map<TextField, TextField> options = new HashMap<>();
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        Set<TextField> options = null;
-        addOptionButton.setOnAction(event -> addOption(optionsVBox, options));
+        addOptionButton.setOnAction(event -> addOptionWithWeight(optionsVBox, options));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
-        // Elements box: title and manage options
-        JFXTextField statementField = new JFXTextField();
-        statementField.setText(statement);
-        elementsVBox.getChildren().add(statementField);
-
-        elementsVBox.getChildren().add(manageOptionsHBox);
-
-        // Question box: elements box and delete button
-        questionHBox.getChildren().add(elementsVBox);
+        JFXTextField statementField = new JFXTextField(statement);
+        elementsVBox.getChildren().addAll(statementField, manageOptionsHBox);
 
         JFXButton deleteQuestionButton = new JFXButton("X");
-        questionHBox.getChildren().add(deleteQuestionButton);
-
+        questionBox.getChildren().addAll(elementsVBox, deleteQuestionButton);
 
         SortedQualitativeQuestionBuilder builder = new SortedQualitativeQuestionBuilder();
-        builder.setStatement(statementField);
+        builder.setOptions(options).setStatement(statementField);
         questionBuilders.add(builder);
 
-        vPrincipalBox.getChildren().add(questionHBox);
+        vPrincipalBox.getChildren().add(questionBox);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox), builder));
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionBox), builder));
     }
 
     private void addNumericQuestion(String statement) {
@@ -392,7 +400,4 @@ public class SurveyCreatorController {
         }
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

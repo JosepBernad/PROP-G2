@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -102,8 +101,7 @@ public class SurveyListController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyCreatorView.fxml").openStream());
         SurveyCreatorController controller = loader.getController();
-        controller.setUser(user);
-        controller.setStage(stage);
+        controller.init(stage, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(STYLE);
         scene.getStylesheets().add(FONTS);
