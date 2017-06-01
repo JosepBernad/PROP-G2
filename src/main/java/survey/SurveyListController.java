@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import user.LogInController;
 import user.MyAccountController;
 import user.User;
+import utils.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyListController {
-
-    private static final String STYLE = "/views/Style.css";
-    private static final String FONTS = "/views/fonts.css";
 
     @FXML
     private JFXListView<Label> surveyLabelList;
@@ -41,15 +39,11 @@ public class SurveyListController {
         }
     }
 
-    public void init() {
+    public void init(Stage stage, User user) {
+        this.stage = stage;
+        this.user = user;
         userName.setText("Welcome " + user.getName());
     }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setUser(User user) { this.user = user; }
 
     public void handleMouseClick() throws IOException {
         int index = surveyLabelList.getSelectionModel().getSelectedIndex();
@@ -60,8 +54,7 @@ public class SurveyListController {
             SurveyDetailController controller = loader.getController();
             controller.init(stage, survey.getId(), user);
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(STYLE);
-            scene.getStylesheets().add(FONTS);
+            scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
             stage.setScene(scene);
             stage.show();
         }
@@ -71,10 +64,9 @@ public class SurveyListController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/LogInView.fxml").openStream());
         LogInController controller = loader.getController();
-        controller.setStage(stage);
+        controller.init(stage);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }
@@ -100,9 +92,7 @@ public class SurveyListController {
         SurveyCreatorController controller = loader.getController();
         controller.init(stage, user);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }
@@ -126,13 +116,9 @@ public class SurveyListController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/MyAccountView.fxml").openStream());
         MyAccountController controller = loader.getController();
-        controller.setStage(stage);
-        controller.setUser(user);
-        controller.init();
+        controller.init(stage, user);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }
