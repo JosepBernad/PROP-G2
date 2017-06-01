@@ -63,7 +63,7 @@ public class SurveyDetailController {
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
         controller.setStage(stage);
-        controller.setUser(User.getUserByUsername(user.getUsername()));
+        controller.setUser(user);
         controller.init();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(STYLE);

@@ -9,7 +9,7 @@ public class FreeQuestionBuilder extends QuestionBuilder {
     private TextField maxLength;
 
     public FreeQuestion build() throws NotInRangeException, EmptyRequiredAttributeException {
-        isEmpty(maxLength);
+        isEmpty(maxLength, getStatement());
         FreeQuestion freeQuestion = new FreeQuestion();
         try {
             freeQuestion.setMaxSize(Integer.parseInt(maxLength.getText()));

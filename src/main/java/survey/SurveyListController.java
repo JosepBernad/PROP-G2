@@ -102,6 +102,7 @@ public class SurveyListController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyCreatorView.fxml").openStream());
         SurveyCreatorController controller = loader.getController();
+        controller.setUser(user);
         controller.setStage(stage);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(STYLE);
