@@ -76,6 +76,12 @@ public class User {
         FileUtils.saveObjectInFile(users, USERS);
     }
 
+    private void update() {
+        Map<String, User> users = getUsers();
+        users.put(this.username, this);
+        FileUtils.saveObjectInFile(users, USERS);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -102,5 +108,11 @@ public class User {
     @Override
     public String toString() {
         return "Name: " + name + ", Username: " + username;
+    }
+
+    public void modifyInformation(String newName, String newPassword) throws DuplicatedUsernameException, EmptyRequiredAttributeException {
+        this.name = newName;
+        this.password = newPassword;
+        update();
     }
 }

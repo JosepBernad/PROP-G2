@@ -6,14 +6,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import user.LogInController;
+import user.MyAccountController;
 import user.User;
 
-import javax.swing.*;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -125,5 +125,20 @@ public class SurveyListController {
             }
             Survey.exportSurveys(file.getPath());
         }
+    }
+
+    public void myAccountButtonPressed() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = loader.load(getClass().getResource("/views/MyAccountView.fxml").openStream());
+        MyAccountController controller = loader.getController();
+        controller.setStage(stage);
+        controller.setUser(user);
+        controller.init();
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(STYLE);
+        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().add(FONTS);
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" prefHeight="154.0" prefWidth="368.0"
+          vgap="10" xmlns="http://javafx.com/javafx/8.0.112"
+          fx:controller="user.MyAccountController">
+
+    <padding>
+        <Insets bottom="10" left="25" right="25" top="25"/>
+    </padding>
+
+    <Text text="Settings" styleClass="form-header-title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+    <JFXTextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+    <JFXTextField fx:id="usernameField" GridPane.columnIndex="1" GridPane.rowIndex="3" disable="true"/>
+
+    <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+
+    <JFXTextField fx:id="password1" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <Label text="Repeat password:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+
+    <JFXTextField fx:id="password2" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <Text GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+
+    <JFXButton onAction="#cancelButtonPressed" ripplerFill="BLACK"
+               text="Cancel" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7"/>
+
+    <JFXButton contentDisplay="RIGHT" onAction="#editUserButtonPressed" ripplerFill="BLACK"
+               text="Save Changes" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7"/>
+
+    <Label fx:id="textInformation" textFill="#e33636" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+
+</GridPane>
