@@ -11,7 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -139,7 +142,7 @@ public class SurveyCreatorController {
 
     private void addNewOption(VBox optionsVBox, Boolean univalued) {
         HBox optionHBox = new HBox();
-
+        // TODO: Add option to vPrincipalBox
         if (univalued) {
             JFXRadioButton radioButton = new JFXRadioButton();
             radioButton.setDisable(true);
@@ -164,157 +167,223 @@ public class SurveyCreatorController {
 
     private void deleteOption(VBox optionsVBox, int index) {
         System.out.println(index);
+        // TODO: Delete option from vPrincipalBox
         optionsVBox.getChildren().remove(index);
     }
 
     private void addMultivaluedQualitativeQuestion(String statement) {
-        MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
-
         VBox optionsVBox = new VBox();
+        HBox parametersHBox = new HBox();
         HBox manageOptionsHBox = new HBox();
-        VBox mainVBox = new VBox();
+        VBox elementsVBox = new VBox();
+        HBox questionHBox = new HBox();
 
-        //addNewOption(optionsVBox);
+        // Options box: all options
+        // addNewOption(optionsVBox);
+
+
+        // Manage options box: options box and add option button.
         manageOptionsHBox.getChildren().add(optionsVBox);
-        JFXButton addOptionButton = new JFXButton("Add option");
-        manageOptionsHBox.getChildren().add(addOptionButton);
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, MULTIVALUED));
 
+        JFXButton addOptionButton = new JFXButton("Add option");
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, MULTIVALUED));
+        manageOptionsHBox.getChildren().add(addOptionButton);
+
+        // Parameters box:
+        parametersHBox.getChildren().add(new Label("Max options: "));
+
+        JFXTextField maxOptionsField = new JFXTextField();
+        parametersHBox.getChildren().add(checkRegExField(maxOptionsField, NATURAL));
+
+        // Elements box: title, parameter and manage options
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        elementsVBox.getChildren().add(statementField);
+
+        elementsVBox.getChildren().add(parametersHBox);
+
+        elementsVBox.getChildren().add(manageOptionsHBox);
+
+        // Question box: elements box and delete button
+        questionHBox.getChildren().add(elementsVBox);
+
+        JFXButton deleteQuestionButton = new JFXButton("X");
+        questionHBox.getChildren().add(deleteQuestionButton);
+
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
+        // TODO: Implement when a multivalued question is deleted
+        MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
-        mainVBox.getChildren().add(statementField);
-        JFXTextField maxAnswers = new JFXTextField();
-        builder.setMaxAnswers(maxAnswers);
-        mainVBox.getChildren().addAll(maxAnswers);
-        mainVBox.getChildren().add(manageOptionsHBox);
+        builder.setMaxAnswers(maxOptionsField);
         questionBuilders.add(builder);
-        vPrincipalBox.getChildren().add(mainVBox);
+
+        vPrincipalBox.getChildren().add(questionHBox);
     }
 
     private void addUnsortedQualitativeQuestion(String statement) {
-        UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
-
         VBox optionsVBox = new VBox();
         HBox manageOptionsHBox = new HBox();
-        VBox mainVBox = new VBox();
+        VBox elementsVBox = new VBox();
+        HBox questionHBox = new HBox();
 
-        //addNewOption(optionsVBox);
+        // Options box: all options
+        // addNewOption(optionsVBox);
+
+
+        // Manage options box: options box and add option button.
         manageOptionsHBox.getChildren().add(optionsVBox);
-        JFXButton addOptionButton = new JFXButton("Add option");
-        manageOptionsHBox.getChildren().add(addOptionButton);
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
 
+        JFXButton addOptionButton = new JFXButton("Add option");
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
+        manageOptionsHBox.getChildren().add(addOptionButton);
+
+        // Elements box: title and manage options
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        elementsVBox.getChildren().add(statementField);
+
+        elementsVBox.getChildren().add(manageOptionsHBox);
+
+        // Question box: elements box and delete button
+        questionHBox.getChildren().add(elementsVBox);
+
+        JFXButton deleteQuestionButton = new JFXButton("X");
+        questionHBox.getChildren().add(deleteQuestionButton);
+
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
+        // TODO: Implement when an unsorted question is deleted
+        UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
-        mainVBox.getChildren().add(statementField);
-        mainVBox.getChildren().add(manageOptionsHBox);
         questionBuilders.add(builder);
-        vPrincipalBox.getChildren().add(mainVBox);
+
+        vPrincipalBox.getChildren().add(questionHBox);
     }
 
     private void addSortedQualitativeQuestion(String statement) {
-        SortedQualitativeQuestionBuilder builder = new SortedQualitativeQuestionBuilder();
 
         VBox optionsVBox = new VBox();
         HBox manageOptionsHBox = new HBox();
-        VBox mainVBox = new VBox();
+        VBox elementsVBox = new VBox();
+        HBox questionHBox = new HBox();
 
-        //addNewOption(optionsVBox);
+        // Options box: all options
+        // addNewOption(optionsVBox);
+
+
+        // Manage options box: options box and add option button.
         manageOptionsHBox.getChildren().add(optionsVBox);
+
         JFXButton addOptionButton = new JFXButton("Add option");
-        manageOptionsHBox.getChildren().add(addOptionButton);
         addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
+        manageOptionsHBox.getChildren().add(addOptionButton);
 
+        // Elements box: title and manage options
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
+        elementsVBox.getChildren().add(statementField);
+
+        elementsVBox.getChildren().add(manageOptionsHBox);
+
+        // Question box: elements box and delete button
+        questionHBox.getChildren().add(elementsVBox);
+
+        JFXButton deleteQuestionButton = new JFXButton("X");
+        questionHBox.getChildren().add(deleteQuestionButton);
+
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
+        // TODO: Implement when a sorted question is deleted
+        SortedQualitativeQuestionBuilder builder = new SortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
-        mainVBox.getChildren().add(statementField);
-        mainVBox.getChildren().add(manageOptionsHBox);
         questionBuilders.add(builder);
-        vPrincipalBox.getChildren().add(mainVBox);
 
-        /*
-        HBox individualOptionBox = new HBox();
-        VBox allOptionsBox = new VBox();
-        HBox optionsBox = new HBox();
-
-
-        optionsBox.getChildren().add(allOptionsBox);
-        optionsBox.getChildren().add(new JFXButton("Add option"));
-        HBox questionBox = new HBox();
-        questionBox.getChildren().add(optionsBox);
-        questionBox.getChildren().add(new JFXButton("X"));
-        VBox mainBox = new VBox();
-        JFXTextField statementField = new JFXTextField();
-        statementField.setText(statement);
-        sortedQualitativeQuestionBuilder.setStatement(statementField);
-
-        questionBuilders.add(sortedQualitativeQuestionBuilder);
-
-        mainBox.getChildren().add(statementField);
-        mainBox.getChildren().add(questionBox);
-        vPrincipalBox.getChildren().add(mainBox);*/
+        vPrincipalBox.getChildren().add(questionHBox);
     }
 
     private void addNumericQuestion(String statement) {
-        VBox vBox = new VBox();
+        HBox parametersHBox = new HBox();
+        VBox elementsVBox = new VBox();
+        HBox questionHBox = new HBox();
 
-        NumericQuestionBuilder numericQuestionBuilder = new NumericQuestionBuilder();
 
+        // Question parameter: Max and min value
+        parametersHBox.getChildren().add(new Label("Min:"));
+        JFXTextField minField = new JFXTextField();
+        parametersHBox.getChildren().add(checkRegExField(minField, INTEGER));
+
+        parametersHBox.getChildren().add(new Label("Max:"));
+        JFXTextField maxField = new JFXTextField();
+        parametersHBox.getChildren().add(checkRegExField(maxField, INTEGER));
+
+
+        // Question elements: Tile and parameter
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
-        numericQuestionBuilder.setStatement(statementField);
+        elementsVBox.getChildren().add(statementField);
 
-        vBox.getChildren().add(statementField);
-        HBox hBox = new HBox();
+        elementsVBox.getChildren().add(parametersHBox);
 
-        hBox.getChildren().add(new Label("Min:"));
-        JFXTextField minField = new JFXTextField();
-        numericQuestionBuilder.setMinValue(minField);
-        hBox.getChildren().add(checkRegExField(minField, INTEGER));
+        // Question box: elements and delete button
+        questionHBox.getChildren().add(elementsVBox);
 
-        hBox.getChildren().add(new Label("Max:"));
-        JFXTextField maxField = new JFXTextField();
-        numericQuestionBuilder.setMaxValue(maxField);
-        hBox.getChildren().add(checkRegExField(maxField, INTEGER));
+        JFXButton deleteQuestionButton = new JFXButton("X");
+        questionHBox.getChildren().add(deleteQuestionButton);
 
-        questionBuilders.add(numericQuestionBuilder);
 
-        vBox.getChildren().add(hBox);
-        HBox mainHBox = new HBox();
-        mainHBox.getChildren().add(vBox);
-        mainHBox.getChildren().add(new JFXButton("X"));
-        vPrincipalBox.getChildren().add(mainHBox);
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
+        // TODO: Implement when a numeric question is deleted
+        NumericQuestionBuilder builder = new NumericQuestionBuilder();
+        builder.setStatement(statementField);
+        builder.setMinValue(minField);
+        builder.setMaxValue(maxField);
+        questionBuilders.add(builder);
+
+        vPrincipalBox.getChildren().add(questionHBox);
     }
 
     private void addFreeQuestion(String statement) {
-        VBox vBox = new VBox();
+        HBox parametersHVox = new HBox();
+        VBox elementsHBox = new VBox();
+        HBox questionHBox = new HBox();
 
-        FreeQuestionBuilder freeQuestionBuilder = new FreeQuestionBuilder();
 
+        // Question parameter: Max length
+        parametersHVox.getChildren().add(new Label("Max length:"));
+
+        JFXTextField maxLenghtField = new JFXTextField();
+        parametersHVox.getChildren().add(checkRegExField(maxLenghtField, NATURAL));
+
+
+        // Question elements: Tile and parameter
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
-        freeQuestionBuilder.setStatement(statementField);
+        elementsHBox.getChildren().add(statementField);
 
-        vBox.getChildren().add(statementField);
-        HBox hBox = new HBox();
-        hBox.getChildren().add(new Label("Max length:"));
-        JFXTextField maxLenghtField = new JFXTextField();
-        freeQuestionBuilder.setMaxLength(maxLenghtField);
+        elementsHBox.getChildren().add(parametersHVox);
 
-        questionBuilders.add(freeQuestionBuilder);
+        // Question box: elements and delete button
+        questionHBox.getChildren().add(elementsHBox);
 
-        hBox.getChildren().add(checkRegExField(maxLenghtField, NATURAL));
-        vBox.getChildren().add(hBox);
-        maxLenghtField.getParent();
-        HBox mainHBox = new HBox();
-        mainHBox.getChildren().add(vBox);
-        mainHBox.getChildren().add(new JFXButton("X"));
+        JFXButton deleteQuestionButton = new JFXButton("X");
+        questionHBox.getChildren().add(deleteQuestionButton);
 
-        vPrincipalBox.getChildren().add(mainHBox);
 
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
+
+        // TODO: Implement when a free question is deleted
+        FreeQuestionBuilder builder = new FreeQuestionBuilder();
+        builder.setStatement(statementField);
+        builder.setMaxLength(maxLenghtField);
+        questionBuilders.add(builder);
+
+        vPrincipalBox.getChildren().add(questionHBox);
+    }
+
+    private void deleteQuestion(int i) {
+        vPrincipalBox.getChildren().remove(i);
+        // TODO: Implement in questionBuilders
     }
 
     public void cancelButtonPressed() throws IOException {
