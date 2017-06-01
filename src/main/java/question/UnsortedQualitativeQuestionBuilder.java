@@ -1,12 +1,15 @@
 package question;
 
+import exceptions.EmptyRequiredAttributeException;
+
 import java.util.Set;
 
 public class UnsortedQualitativeQuestionBuilder extends QuestionBuilder {
 
     private Set<Option> options;
 
-    public UnsortedQualitativeQuestion build() {
+    public UnsortedQualitativeQuestion build() throws EmptyRequiredAttributeException {
+        isEmpty(getStatement());
         UnsortedQualitativeQuestion unsortedQualitativeQuestion = new UnsortedQualitativeQuestion();
         unsortedQualitativeQuestion.setOptions(options);
         return unsortedQualitativeQuestion;

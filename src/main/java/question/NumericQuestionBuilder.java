@@ -11,7 +11,7 @@ public class NumericQuestionBuilder extends QuestionBuilder {
     private TextField maxValue;
 
     public NumericQuestion build() throws NotInRangeException, EmptyRequiredAttributeException {
-        isEmpty(minValue, maxValue);
+        isEmpty(minValue, maxValue, getStatement());
         NumericQuestion numericQuestion = new NumericQuestion();
         try {
             numericQuestion.setMin(Integer.parseInt(minValue.getText()));

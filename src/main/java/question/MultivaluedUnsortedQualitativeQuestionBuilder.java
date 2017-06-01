@@ -12,7 +12,7 @@ public class MultivaluedUnsortedQualitativeQuestionBuilder extends QuestionBuild
     private TextField maxAnswers;
 
     public MultivaluedUnsortedQualitativeQuestion build() throws EmptyRequiredAttributeException, NotInRangeException {
-        isEmpty(maxAnswers);
+        isEmpty(maxAnswers, getStatement());
         int nMaxAnswers;
         try {
             nMaxAnswers = Integer.parseInt(maxAnswers.getText());
