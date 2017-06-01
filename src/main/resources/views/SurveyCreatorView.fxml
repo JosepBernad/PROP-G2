@@ -5,18 +5,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-
-<GridPane prefHeight="720" prefWidth="1080" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyCreatorController">
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="720" prefWidth="1080" xmlns="http://javafx.com/javafx/8.0.112"
+          fx:controller="survey.SurveyCreatorController">
 
     <padding>
         <Insets bottom="10" left="25" right="25" top="25" />
     </padding>
 
-    <JFXTextField fx:id="surveyTitle" promptText="Survey name" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <JFXTextField fx:id="surveyTitle" promptText="Survey title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
     <JFXTextField fx:id="surveyDescription" promptText="Survey description" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
     <VBox fx:id="vPrincipalBox" minHeight="500" minWidth="900" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="2">

@@ -1,11 +1,12 @@
 package survey;
 
 
-import com.jfoenix.controls.*;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
 import exceptions.EmptyRequiredAttributeException;
 import exceptions.NotInRangeException;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -38,10 +39,22 @@ public class SurveyCreatorController {
 
     private static final Boolean UNIVALUED = Boolean.TRUE;
     private static final Boolean MULTIVALUED = Boolean.FALSE;
+    private static final String FREE_QUESTION = "Free question";
+    private static final String NUMERIC_QUESTION = "Numeric question";
+    private static final String SORTED_QUALITATIVE_QUESTION = "Sorted qualitative question";
+    private static final String UNSORTED_QUALITATIVE_QUESTION = "Unsorted qualitative question";
+    private static final String MULTIVALUED_QUALITATIVE_QUESTION = "Multivalued qualitative question";
 
+    private static final List<String> questionTypes = Arrays.asList(
+            FREE_QUESTION,
+            NUMERIC_QUESTION,
+            SORTED_QUALITATIVE_QUESTION,
+            UNSORTED_QUALITATIVE_QUESTION,
+            MULTIVALUED_QUALITATIVE_QUESTION);
 
     @FXML
     public JFXTextField surveyTitle;
+
     @FXML
     public JFXTextField surveyDescription;
 
@@ -55,11 +68,6 @@ public class SurveyCreatorController {
 
     private Set<QuestionBuilder> questionBuilders = new HashSet<>();
 
-    private List<String> questionTypes = Arrays.asList("Free question",
-            "Numeric question",
-            "Sorted qualitative question",
-            "Unsorted qualitative question",
-            "Multivalued qualitative question");
     private User user;
 
 
@@ -67,108 +75,82 @@ public class SurveyCreatorController {
         this.stage = stage;
     }
 
-    public void newQuestionButtonPressed(ActionEvent actionEvent) {
-
-        // Create the custom dialog.
+    public void newQuestionButtonPressed() {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("New question");
         dialog.setHeaderText("Add a new question");
 
-        // Set the button types.
-        ButtonType okButtonType = ButtonType.OK;//("Óc.", ButtonBar.ButtonData.OK_DONE);
+        ButtonType okButtonType = ButtonType.OK;
         dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
 
-        // Create the username and password labels and fields.
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField username = new TextField();
-        username.setPromptText("Question name");
+        TextField statement = new TextField();
+        statement.setPromptText("Question statement");
         JFXComboBox<Label> comboBox = new JFXComboBox<>();
-        for (String type : questionTypes) {
+        for (String type : questionTypes)
             comboBox.getItems().add(new Label(type));
-        }
         comboBox.getSelectionModel().select(0);
         grid.add(new Label("Question:"), 0, 0);
-        grid.add(username, 1, 0);
+        grid.add(statement, 1, 0);
         grid.add(new Label("Type:"), 0, 1);
         grid.add(comboBox, 1, 1);
 
-        // Enable/Disable login button depending on whether a username was entered.
-        Node loginButton = dialog.getDialogPane().lookupButton(okButtonType);
-        loginButton.setDisable(true);
+        Node okButton = dialog.getDialogPane().lookupButton(okButtonType);
+        okButton.setDisable(true);
 
-        // Do some validation (using the Java 8 lambda syntax).
-        username.textProperty().addListener((observable, oldValue, newValue) -> {
-            loginButton.setDisable(newValue.trim().isEmpty());
+        statement.textProperty().addListener((observable, oldValue, newValue) -> {
+            okButton.setDisable(newValue.trim().isEmpty());
         });
 
         dialog.getDialogPane().setContent(grid);
+        Platform.runLater(statement::requestFocus);
 
-        // Request focus on the username field by default.
-        Platform.runLater(() -> username.requestFocus());
-
-        // Convert the result to a username-password-pair when the login button is clicked.
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == okButtonType) {
-                return new Pair<>(username.getText(), comboBox.getSelectionModel().getSelectedItem().toString());
-            }
+            if (dialogButton == okButtonType)
+                return new Pair<>(statement.getText(), comboBox.getSelectionModel().getSelectedItem().getText());
             return null;
         });
 
         Optional<Pair<String, String>> result = dialog.showAndWait();
-
-        result.ifPresent(questionStatement -> {
-            System.out.println("Username=" + questionStatement.getKey() + ", Password=" + questionStatement.getValue());
-            addQuestion(questionStatement.getKey(), questionStatement.getValue());
-        });
+        result.ifPresent(questionStatement -> addQuestion(questionStatement.getKey(), questionStatement.getValue()));
     }
 
     private void addQuestion(String statement, String type) {
-        if (type.indexOf(questionTypes.get(0)) != -1) {
+        if (FREE_QUESTION.contains(type)) {
             addFreeQuestion(statement);
-        } else if (type.indexOf(questionTypes.get(1)) != -1) {
+        } else if (NUMERIC_QUESTION.contains(type)) {
             addNumericQuestion(statement);
-        } else if (type.indexOf(questionTypes.get(2)) != -1) {
+        } else if (SORTED_QUALITATIVE_QUESTION.contains(type)) {
             addSortedQualitativeQuestion(statement);
-        } else if (type.indexOf(questionTypes.get(3)) != -1) {
+        } else if (UNSORTED_QUALITATIVE_QUESTION.contains(type)) {
             addUnsortedQualitativeQuestion(statement);
-        } else {
+        } else if (MULTIVALUED_QUALITATIVE_QUESTION.contains(type)) {
             addMultivaluedQualitativeQuestion(statement);
         }
     }
 
-    private void addNewOption(VBox optionsVBox, Boolean univalued) {
-        // TODO: Add option in questionBuilder
+    private void addOption(VBox optionsVBox, Set<TextField> options) {
         HBox optionHBox = new HBox();
-        if (univalued) {
-            JFXRadioButton radioButton = new JFXRadioButton();
-            radioButton.setDisable(true);
-            optionHBox.getChildren().add(radioButton);
-        } else {
-            JFXCheckBox checkBox = new JFXCheckBox();
-            checkBox.setDisable(true);
-            optionHBox.getChildren().add(checkBox);
-        }
 
         JFXTextField optionTextField = new JFXTextField();
         optionTextField.setPromptText("Option value");
-        optionHBox.getChildren().add(optionTextField);
-
-        JFXButton xButton = new JFXButton("X");
-        optionHBox.getChildren().add(xButton);
+        options.add(optionTextField);
+        JFXButton deleteButton = new JFXButton("X");
+        optionHBox.getChildren().addAll(optionTextField, deleteButton);
 
         optionsVBox.getChildren().add(optionHBox);
 
-        xButton.setOnAction(event -> deleteOption(optionsVBox, optionsVBox.getChildren().indexOf(optionHBox)));
+        deleteButton.setOnAction(event -> deleteOption(optionsVBox, optionHBox, options));
     }
 
-    private void deleteOption(VBox optionsVBox, int index) {
-        System.out.println(index);
-        // TODO: Delete option from questionBuilder
-        optionsVBox.getChildren().remove(index);
+    private void deleteOption(VBox optionsVBox, HBox optionBox, Set<TextField> options) {
+        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
+        options.remove(option);
+        optionsVBox.getChildren().remove(optionBox);
     }
 
     private void addMultivaluedQualitativeQuestion(String statement) {
@@ -176,89 +158,62 @@ public class SurveyCreatorController {
         HBox parametersHBox = new HBox();
         HBox manageOptionsHBox = new HBox();
         VBox elementsVBox = new VBox();
-        HBox questionHBox = new HBox();
+        HBox questionBox = new HBox();
 
-        // Options box: all options
-        // addNewOption(optionsVBox);
-
-
-        // Manage options box: options box and add option button.
+        Set<TextField> options = new HashSet<>();
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, MULTIVALUED));
+        addOptionButton.setOnAction(event -> addOption(optionsVBox, options));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
-        // Parameters box:
+        JFXTextField statementField = new JFXTextField(statement);
+
         parametersHBox.getChildren().add(new Label("Max options: "));
+        JFXTextField maxOptionsField = createTextFieldWithRegEx(NATURAL);
+        parametersHBox.getChildren().add(maxOptionsField);
 
-        JFXTextField maxOptionsField = new JFXTextField();
-        parametersHBox.getChildren().add(checkRegExField(maxOptionsField, NATURAL));
-
-        // Elements box: title, parameter and manage options
-        JFXTextField statementField = new JFXTextField();
-        statementField.setText(statement);
-        elementsVBox.getChildren().add(statementField);
-
-        elementsVBox.getChildren().add(parametersHBox);
-
-        elementsVBox.getChildren().add(manageOptionsHBox);
-
-        // Question box: elements box and delete button
-        questionHBox.getChildren().add(elementsVBox);
+        elementsVBox.getChildren().addAll(statementField, parametersHBox, manageOptionsHBox);
 
         JFXButton deleteQuestionButton = new JFXButton("X");
-        questionHBox.getChildren().add(deleteQuestionButton);
-
+        questionBox.getChildren().addAll(elementsVBox, deleteQuestionButton);
 
         MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
-        builder.setStatement(statementField);
-        builder.setMaxAnswers(maxOptionsField);
+        builder.setOptions(options).setMaxAnswers(maxOptionsField).setStatement(statementField);
         questionBuilders.add(builder);
 
-        vPrincipalBox.getChildren().add(questionHBox);
+        vPrincipalBox.getChildren().add(questionBox);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionBox), builder));
     }
 
     private void addUnsortedQualitativeQuestion(String statement) {
         VBox optionsVBox = new VBox();
         HBox manageOptionsHBox = new HBox();
         VBox elementsVBox = new VBox();
-        HBox questionHBox = new HBox();
+        HBox questionBox = new HBox();
 
-        // Options box: all options
-        // addNewOption(optionsVBox);
-
-
-        // Manage options box: options box and add option button.
+        Set<TextField> options = new HashSet<>();
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
+        addOptionButton.setOnAction(event -> addOption(optionsVBox, options));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
-        // Elements box: title and manage options
-        JFXTextField statementField = new JFXTextField();
-        statementField.setText(statement);
-        elementsVBox.getChildren().add(statementField);
+        JFXTextField statementField = new JFXTextField(statement);
 
-        elementsVBox.getChildren().add(manageOptionsHBox);
-
-        // Question box: elements box and delete button
-        questionHBox.getChildren().add(elementsVBox);
+        elementsVBox.getChildren().addAll(statementField, manageOptionsHBox);
 
         JFXButton deleteQuestionButton = new JFXButton("X");
-        questionHBox.getChildren().add(deleteQuestionButton);
-
+        questionBox.getChildren().addAll(elementsVBox, deleteQuestionButton);
 
         UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
-        builder.setStatement(statementField);
+        builder.setOptions(options).setStatement(statementField);
         questionBuilders.add(builder);
 
-        vPrincipalBox.getChildren().add(questionHBox);
+        vPrincipalBox.getChildren().add(questionBox);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionBox), builder));
     }
 
     private void addSortedQualitativeQuestion(String statement) {
@@ -269,14 +224,15 @@ public class SurveyCreatorController {
         HBox questionHBox = new HBox();
 
         // Options box: all options
-        // addNewOption(optionsVBox);
+        // addOption(optionsVBox);
 
 
         // Manage options box: options box and add option button.
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
+        Set<TextField> options = null;
+        addOptionButton.setOnAction(event -> addOption(optionsVBox, options));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
         // Elements box: title and manage options
@@ -299,7 +255,7 @@ public class SurveyCreatorController {
 
         vPrincipalBox.getChildren().add(questionHBox);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox), builder));
     }
 
     private void addNumericQuestion(String statement) {
@@ -340,7 +296,7 @@ public class SurveyCreatorController {
 
         vPrincipalBox.getChildren().add(questionHBox);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox), builder));
     }
 
     private void addFreeQuestion(String statement) {
@@ -378,7 +334,7 @@ public class SurveyCreatorController {
 
         vPrincipalBox.getChildren().add(questionHBox);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox), builder));
     }
 
     private void deleteQuestion(int i, QuestionBuilder builder) {
@@ -404,10 +360,15 @@ public class SurveyCreatorController {
         return textField;
     }
 
+    private JFXTextField createTextFieldWithRegEx(String regex) {
+        JFXTextField jfxTextField = new JFXTextField();
+        return checkRegExField(jfxTextField, regex);
+    }
+
     public void saveButtonPressed() throws IOException {
         Survey survey = new Survey();
         survey.setTitle(surveyTitle.getText());
-        Boolean error = new Boolean(false);
+        Boolean error = Boolean.FALSE;
         for (Iterator<QuestionBuilder> iterator = this.questionBuilders.iterator(); !error && iterator.hasNext(); ) {
             QuestionBuilder questionBuilder = iterator.next();
             try {
