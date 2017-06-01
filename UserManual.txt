@@ -58,7 +58,24 @@ Aquesta vista és la que permet enregistrar a un nou usuari. Quan s'entra es dem
 Aquesta és la vista principal del programa. Per accedir-hi, cal iniciar sessió amb un usuari vàlid.
 En aquesta disposem del llistat de totes les enquestes existents en el programa. Si fem click sobre de qualsevol d'elles canviarem de vista i veurem de manera detallada totes les preguntes que formen aquesta enquesta. A la dreta de la vista principal disposem d'una sèrie de botons. El primer ens permet crear una nova enquesta.
 EL segon botó ens permet importar des del nostre ordinador enquestes que hi tinguem guardades. El tercer botó ens permet exportar enquestes existents i guardar-les a on volguem. El quart botó no ens canvia de vista, pero el que fa és filtrar el llistat d'enquestes que veu l'usuari. Si aquest botó està pressionat, l'usuari només veurà el llistat de les enquestes que hagi creat ell. Altrament veurà totes les enquestes, independentment de l'usuari que les hagi creat.
+Finalment, a la part inferior dreta de la vista hi tenim dos botons més. El primer ens permet modificar les dades del usuari (en una nova vista) i el segon tanca la sessió i torna a la primera vista, la d'iniciar sessió.
 
+2.2.4.Vista detallada enquesta
+
+En aquesta vista podem visualitzar una enquesta de manera detallada. És a dir, podem veure totes les preguntes i opcions que té una determinada enquesta. En aquesta vista disposem també de dos botons. El de back ens torna a la vista anterior, la del llistat de totes les enquestes. El segon botó, el de analyze ens porta a la vista que ens permetrà visualitzar l'anàlisis de totes les respostes que han fet els usuaris a l'enquesta que s'està visualitzant en aquell moment.
+
+2.2.5.Analitzar enquesta
+
+//TODO
+
+2.2.6.Detall del cluster
+
+Aquesta vista mostra totes les respostes a l'enquesta la qual s'està analitzant de tots els usuaris que pertanyen a aquell cluster i el seu centroide de forma matricial. Tota aquesta informació es mostra en una finestra emergent. Per a tornar a la vista anterior només cal apretar a la creu de tancar la finestra.
+
+
+2.2.7.Resposta usuari
+
+Aquesta vista permet a un usuari respondre a una determinada enquesta. En ella apareixen totes les preguntes de l'enquesta que s'està responent amb la informació que cal que l'usuari sàpiga per respondre-la, així com la mida màxima de resposta, els valors entre els quals es pot compendre aquesta... Sota de cada pregunta apareix o be un quadre de text per a omplir amb la resposta (si la pregunta és de tipus numèrica o de text lliure) o be totes les opcions amb botons al costat per a poder seleccionar la desitjada (per a tots els altres tipus de pregunta).
 
 
 
