@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.text.Text?>
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.112" minHeight="500.0"
-          prefWidth="900.0"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="survey.SurveyDetailController">
+<VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
+      fx:controller="survey.SurveyDetailController" prefHeight="720" prefWidth="1080">
 
     <padding>
-        <Insets bottom="3" left="3" right="3" top="3"/>
+        <Insets bottom="10" left="25" right="25" top="25"/>
     </padding>
 
-    <Label fx:id="surveyTitle" styleClass="form-header-title" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+    <Label fx:id="surveyTitle" styleClass="form-header-title"/>
+    <Label fx:id="surveyDescription"/>
 
-    <Label fx:id="surveyDescription" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-
-    <JFXListView fx:id="surveyInfo" focusTraversable="false" prefHeight="400.0" prefWidth="800.0"
-                 GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <VBox fx:id="questionsBox" minWidth="900" minHeight="600" spacing="10"/>
 
     <JFXButton onAction="#analiseSurvey" ripplerFill="BLACK"
                text="Analize survey" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3"/>
 
     <JFXButton onAction="#backButtonPressed" ripplerFill="BLACK"
                text="Back" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
-
-    <Text GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-</GridPane>
+</VBox>

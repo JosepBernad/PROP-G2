@@ -59,9 +59,7 @@ public class SurveyListController {
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
             SurveyDetailController controller = loader.getController();
-            controller.setStage(stage);
-            controller.setUser(user);
-            controller.setSurvey(survey.getId());
+            controller.init(stage, survey.getId(), user);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(STYLE);
             scene.getStylesheets().add(FONTS);
