@@ -1,10 +1,9 @@
-package survey;
+package answer;
 
-import analysis.KMeansController;
-import answer.AnswerCreatorController;
-import answer.AnswerDetailController;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -16,6 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import question.*;
+import survey.Survey;
+import survey.SurveyDetailController;
 import user.User;
 import utils.Constants;
 
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyDetailController {
+public class AnswerCreatorController {
 
     @FXML
     public Label surveyTitle;
@@ -32,11 +33,14 @@ public class SurveyDetailController {
     public Label surveyDescription;
 
     @FXML
-    private VBox questionsBox;
+    public VBox questionsBox;
 
-    private Stage stage;
+    @FXML
+    public JFXButton backButton;
+
     private Integer surveyId;
     private User user;
+    private Stage stage;
 
     public void init(Stage stage, Integer surveyId, User user) {
         this.stage = stage;
@@ -59,9 +63,9 @@ public class SurveyDetailController {
             if (question instanceof FreeQuestion) createFreeQuestion((FreeQuestion) question);
             else if (question instanceof NumericQuestion) createNumericQuestion((NumericQuestion) question);
             else if (question instanceof UnsortedQualitativeQuestion)
-                createUnsortedQualitativeQuestion((UnsortedQualitativeQuestion) question);
+                createQualitativeQuestion((UnsortedQualitativeQuestion) question);
             else if (question instanceof SortedQualitativeQuestion)
-                createSortedQualitativeQuestion((SortedQualitativeQuestion) question);
+                createQualitativeQuestion((SortedQualitativeQuestion) question);
             else if (question instanceof MultivaluedUnsortedQualitativeQuestion)
                 createMultivaluedUnsortedQualitativeQuestion((MultivaluedUnsortedQualitativeQuestion) question);
             questionsBox.getChildren().add(new Separator(Orientation.HORIZONTAL));
@@ -71,84 +75,35 @@ public class SurveyDetailController {
     private void createMultivaluedUnsortedQualitativeQuestion(MultivaluedUnsortedQualitativeQuestion question) {
         for (Option option : question.getOptions()) {
             JFXCheckBox checkBox = new JFXCheckBox(option.getValue());
-            checkBox.setDisable(Boolean.TRUE);
             questionsBox.getChildren().add(checkBox);
         }
     }
 
-    private void createSortedQualitativeQuestion(SortedQualitativeQuestion question) {
-        ToggleGroup options = new ToggleGroup();
-        for (Option option : question.getOptions()) {
-            JFXRadioButton radioButton = new JFXRadioButton(option.getValue() + " #weight: " + option.getWeight());
-            radioButton.setToggleGroup(options);
-            radioButton.setDisable(Boolean.TRUE);
-            questionsBox.getChildren().add(radioButton);
-        }
-    }
-
-    private void createUnsortedQualitativeQuestion(UnsortedQualitativeQuestion question) {
+    private void createQualitativeQuestion(QualitativeQuestion question) {
         ToggleGroup options = new ToggleGroup();
         for (Option option : question.getOptions()) {
             JFXRadioButton radioButton = new JFXRadioButton(option.getValue());
             radioButton.setToggleGroup(options);
-            radioButton.setDisable(Boolean.TRUE);
             questionsBox.getChildren().add(radioButton);
         }
     }
 
     private void createNumericQuestion(NumericQuestion question) {
-        questionsBox.getChildren().add(new Label("Accepted range: " + question.getMin() + " <= x <=" + question.getMax()));
+        questionsBox.getChildren().addAll(
+                new Label("Accepted range: " + question.getMin() + " <= x <=" + question.getMax()),
+                new JFXTextField());
     }
 
     private void createFreeQuestion(FreeQuestion question) {
-        questionsBox.getChildren().add(new Label("Max size for the answer: " + question.getMaxSize().toString()));
+        questionsBox.getChildren().addAll(
+                new Label("Max size for the answer: " + question.getMaxSize().toString()),
+                new JFXTextField());
     }
 
     public void backButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
-        SurveyListController controller = loader.getController();
-        controller.init(stage, user);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void analiseSurvey() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        Pane root = loader.load(getClass().getResource("/views/KMeansView.fxml").openStream());
-        KMeansController controller = loader.getController();
-        controller.init(stage, surveyId);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void showAnswer() {
-        FXMLLoader loader = new FXMLLoader();
-        Pane root = null;
-        try {
-            root = loader.load(getClass().getResource("/views/AnswerDetailView.fxml").openStream());
-        } catch (IOException ignored) {
-        }
-        AnswerDetailController controller = loader.getController();
-        controller.init(stage, surveyId, user);
-        Scene scene = new Scene(root);
-        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void answerIt() {
-        FXMLLoader loader = new FXMLLoader();
-        Pane root = null;
-        try {
-            root = loader.load(getClass().getResource("/views/AnswerCreatorView.fxml").openStream());
-        } catch (IOException ignored) {
-        }
-        AnswerCreatorController controller = loader.getController();
+        Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
+        SurveyDetailController controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

@@ -1,7 +1,7 @@
 package analysis;
 
 import answer.Answer;
-import answer.AnswerController;
+import answer.AnswerDetailController;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -143,10 +143,10 @@ public class KMeansController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = null;
         try {
-            root = loader.load(getClass().getResource("/views/AnswerView.fxml").openStream());
+            root = loader.load(getClass().getResource("/views/AnswerDetailView.fxml").openStream());
         } catch (IOException ignored) {
         }
-        AnswerController controller = loader.getController();
+        AnswerDetailController controller = loader.getController();
         controller.init(surveyId, User.getUserByUsername(username));
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
