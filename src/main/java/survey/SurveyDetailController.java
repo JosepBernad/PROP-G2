@@ -2,7 +2,6 @@ package survey;
 
 import analysis.KMeansController;
 import com.jfoenix.controls.JFXListView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 import question.Option;
 import question.QualitativeQuestion;
 import question.Question;
-import user.LogInController;
 import user.User;
 
 import java.io.IOException;
@@ -35,13 +33,15 @@ public class SurveyDetailController {
 
     private Stage stage;
     private User user;
+    private Integer surveyId;
 
     @FXML
     public void initialize() {
     }
 
     public void setSurvey(Integer surveyId) {
-        Survey survey = Survey.getSurveyById(surveyId);
+        this.surveyId = surveyId;
+        Survey survey = Survey.getSurveyById(this.surveyId);
         surveyTitle.setText(survey.getTitle());
         surveyDescription.setText(survey.getDescription());
 
@@ -78,11 +78,11 @@ public class SurveyDetailController {
 
     public void setUser(User user) { this.user = user; }
 
-    public void analiseSurvey(ActionEvent actionEvent) throws IOException {
+    public void analiseSurvey() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/KMeansView.fxml").openStream());
         KMeansController controller = loader.getController();
-        controller.setStage(stage);
+        controller.init(stage, surveyId);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(STYLE);
         scene.getStylesheets().add(FONTS);

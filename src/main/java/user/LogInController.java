@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import exceptions.EmptyRequiredAttributeException;
 import exceptions.NotExistingUserException;
 import exceptions.NotSamePasswordException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

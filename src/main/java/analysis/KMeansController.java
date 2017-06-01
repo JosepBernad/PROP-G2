@@ -49,28 +49,19 @@ public class KMeansController {
 
     @FXML
     public Label distance;
+
     private Integer surveyId;
     private Stage stage;
 
     @FXML
     private Label errorText;
 
-    @FXML
-    public void initialize() {
-    }
-
-    public void goodInitialize() {
+    public void init(Stage stage, Integer surveyId) {
+        this.stage = stage;
+        this.surveyId = surveyId;
         Map<String, Map<Integer, Answer>> answers = Answer.getAnswersBySurveyId(surveyId);
         for (Integer i = 1; i <= answers.keySet().size(); ++i)
             numberOfClusters.getItems().add(new Label(i.toString()));
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setSurveyId(Integer surveyId) {
-        this.surveyId = surveyId;
     }
 
     public void doKmeans() {
