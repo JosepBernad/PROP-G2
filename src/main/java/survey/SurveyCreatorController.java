@@ -211,14 +211,14 @@ public class SurveyCreatorController {
         questionHBox.getChildren().add(deleteQuestionButton);
 
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
-        // TODO: Implement when a multivalued question is deleted
         MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
         builder.setMaxAnswers(maxOptionsField);
         questionBuilders.add(builder);
 
         vPrincipalBox.getChildren().add(questionHBox);
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
     }
 
     private void addUnsortedQualitativeQuestion(String statement) {
@@ -252,13 +252,13 @@ public class SurveyCreatorController {
         questionHBox.getChildren().add(deleteQuestionButton);
 
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
-        // TODO: Implement when an unsorted question is deleted
         UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
         questionBuilders.add(builder);
 
         vPrincipalBox.getChildren().add(questionHBox);
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
     }
 
     private void addSortedQualitativeQuestion(String statement) {
@@ -293,13 +293,13 @@ public class SurveyCreatorController {
         questionHBox.getChildren().add(deleteQuestionButton);
 
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
-        // TODO: Implement when a sorted question is deleted
         SortedQualitativeQuestionBuilder builder = new SortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
         questionBuilders.add(builder);
 
         vPrincipalBox.getChildren().add(questionHBox);
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
     }
 
     private void addNumericQuestion(String statement) {
@@ -332,8 +332,6 @@ public class SurveyCreatorController {
         questionHBox.getChildren().add(deleteQuestionButton);
 
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
-        // TODO: Implement when a numeric question is deleted
         NumericQuestionBuilder builder = new NumericQuestionBuilder();
         builder.setStatement(statementField);
         builder.setMinValue(minField);
@@ -341,6 +339,8 @@ public class SurveyCreatorController {
         questionBuilders.add(builder);
 
         vPrincipalBox.getChildren().add(questionHBox);
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
     }
 
     private void addFreeQuestion(String statement) {
@@ -370,20 +370,19 @@ public class SurveyCreatorController {
         questionHBox.getChildren().add(deleteQuestionButton);
 
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox)));
-
-        // TODO: Implement when a free question is deleted
         FreeQuestionBuilder builder = new FreeQuestionBuilder();
         builder.setStatement(statementField);
         builder.setMaxLength(maxLenghtField);
         questionBuilders.add(builder);
 
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
+
         vPrincipalBox.getChildren().add(questionHBox);
     }
 
-    private void deleteQuestion(int i) {
+    private void deleteQuestion(int i, QuestionBuilder builder) {
         vPrincipalBox.getChildren().remove(i);
-        // TODO: Implement in questionBuilders
+        questionBuilders.remove(builder);
     }
 
     public void cancelButtonPressed() throws IOException {
