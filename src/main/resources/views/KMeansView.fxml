@@ -23,6 +23,6 @@
     <Label fx:id="errorText" textFill="#e33636"/>
     <Separator prefHeight="5"/>
     <HBox alignment="center" spacing="10" fx:id="clustersPane" minWidth="400"/>
-    <HBox fx:id="chart" minWidth="400"/>
+    <HBox fx:id="chart" minWidth="400" alignment="TOP_CENTER"/>
     <Label fx:id="distance" styleClass="text"/>
 </VBox>

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" spacing="10"
@@ -13,6 +14,7 @@
 
     <Label fx:id="surveyTitle" styleClass="form-header-title"/>
     <Label fx:id="surveyDescription"/>
-
-    <HBox fx:id="answers" minWidth="900" minHeight="600" spacing="10"/>
+    <ScrollPane>
+        <HBox fx:id="answers" spacing="10"/>
+    </ScrollPane>
 </VBox>

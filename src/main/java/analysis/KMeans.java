@@ -37,14 +37,16 @@ public class KMeans {
 
     private void assignPoints(List<Cluster> clusters, List<UserPoint> points) {
         for (UserPoint p : points) {
-            Cluster nearest = clusters.get(0);
+            Cluster nearest = clusters.get(new Random().nextInt(clusters.size()));
             Double minimumDistance = Double.MAX_VALUE;
             for (Cluster cluster : clusters) {
-                Double distance = distanceBetweenPoints(p, cluster.getCentroid());
-                if (minimumDistance > distance) {
-                    minimumDistance = distance;
-                    p.setDistanceToCentroid(distance);
-                    nearest = cluster;
+                if (cluster.getCentroid() != null) {
+                    Double distance = distanceBetweenPoints(p, cluster.getCentroid());
+                    if (minimumDistance > distance) {
+                        minimumDistance = distance;
+                        p.setDistanceToCentroid(distance);
+                        nearest = cluster;
+                    }
                 }
             }
             nearest.getPoints().add(p);
@@ -54,16 +56,20 @@ public class KMeans {
 
     private void recalcCentroids(List<Cluster> clusters) {
         for (Cluster c : clusters) {
-            Point centroid = new Point(nCoordinates);
-            for (int i = 0; i < nCoordinates; ++i) {
-                List<Answer> answers = new ArrayList<>();
-                for (Point p : c.getPoints()) {
-                    answers.add(p.getCoordinate(i));
+            Set<UserPoint> points = c.getPoints();
+            Point centroid = null;
+            if (!points.isEmpty()) {
+                centroid = new Point(nCoordinates);
+                for (int i = 0; i < nCoordinates; ++i) {
+                    List<Answer> answers = new ArrayList<>();
+                    for (Point p : points) {
+                        answers.add(p.getCoordinate(i));
+                    }
+                    Answer answer = calculateCentroid(answers);
+                    centroid.addCoordinate(i, answer);
                 }
-                Answer answer = calculateCentroid(answers);
-                centroid.addCoordinate(i, answer);
             }
-            c.setHasChanges(!c.getCentroid().equals(centroid));
+            c.setHasChanges(c.getCentroid() != null && !c.getCentroid().equals(centroid));
             c.setCentroid(centroid);
         }
 
@@ -113,13 +119,13 @@ public class KMeans {
     }
 
     private List<Cluster> selectClusters(int k, List<UserPoint> points) {
+        Collections.shuffle(points);
         List<Cluster> clusters = new ArrayList<>();
         for (int i = 0; i < k; ++i) {
             Cluster cluster = new Cluster();
             Point point = points.get(i);
             cluster.setCentroid(point);
-            Set<UserPoint> pointSet = new HashSet<>();
-            cluster.setPoints(pointSet);
+            cluster.setPoints(new HashSet<>());
             clusters.add(cluster);
         }
         return clusters;

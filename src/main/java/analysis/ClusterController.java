@@ -7,10 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import question.Option;
 import question.Question;
 import survey.Survey;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClusterController {
 
@@ -28,30 +30,34 @@ public class ClusterController {
         surveyTitle.setText(survey.getTitle());
         surveyDescription.setText(survey.getDescription());
 
-        List<Question> questions = survey.getQuestions();
         VBox statements = new VBox();
-        for (Question question : questions)
+        statements.getChildren().addAll(new Label("Statements"), new Separator(Orientation.HORIZONTAL));
+        for (Question question : survey.getQuestions())
             statements.getChildren().add(new Label(question.getStatement()));
         answers.getChildren().add(statements);
 
         for (List<Answer> list : listOfLists) {
-            VBox secondColumn = new VBox();
+            VBox column = new VBox();
+            String username = list.get(0).getUsername();
+            if (username == null) username = "Centroid";
+            column.getChildren().addAll(new Label(username), new Separator(Orientation.HORIZONTAL));
             for (Answer answer : list) {
-                if (answer instanceof FreeAnswer) createFreeAnswer((FreeAnswer) answer, secondColumn);
-                else if (answer instanceof NumericAnswer) createNumericAnswer((NumericAnswer) answer, secondColumn);
+                if (answer instanceof FreeAnswer) createFreeAnswer((FreeAnswer) answer, column);
+                else if (answer instanceof NumericAnswer) createNumericAnswer((NumericAnswer) answer, column);
                 else if (answer instanceof UnivaluedQualitativeAnswer)
-                    createUnivaluedQualitativeAnswer((UnivaluedQualitativeAnswer) answer, secondColumn);
+                    createUnivaluedQualitativeAnswer((UnivaluedQualitativeAnswer) answer, column);
                 else if (answer instanceof MultivaluedQualitativeAnswer)
-                    createMultivaluedQualitativeAnswer((MultivaluedQualitativeAnswer) answer, secondColumn);
+                    createMultivaluedQualitativeAnswer((MultivaluedQualitativeAnswer) answer, column);
             }
-            answers.getChildren().addAll(new Separator(Orientation.VERTICAL), secondColumn);
+            answers.getChildren().addAll(new Separator(Orientation.VERTICAL), column);
         }
     }
 
     private void createMultivaluedQualitativeAnswer(MultivaluedQualitativeAnswer answer, VBox box) {
-        HBox hBox = new HBox();
-        answer.getOptions().forEach(option -> hBox.getChildren().add(new Label(option.getValue())));
-        box.getChildren().add(hBox);
+        String options = answer.getOptions().stream().
+                map(Option::getValue).
+                collect(Collectors.joining(", "));
+        box.getChildren().add(new Label(options));
     }
 
     private void createUnivaluedQualitativeAnswer(UnivaluedQualitativeAnswer answer, VBox box) {
