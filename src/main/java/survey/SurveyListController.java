@@ -1,7 +1,6 @@
 package survey;
 
 import com.jfoenix.controls.JFXListView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -68,7 +67,7 @@ public class SurveyListController {
         }
     }
 
-    public void logOutButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void logOutButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/LogInView.fxml").openStream());
         LogInController controller = loader.getController();
@@ -80,7 +79,7 @@ public class SurveyListController {
         stage.show();
     }
 
-    public void importSurveysButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void importSurveysButtonPressed() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import surveys");
         fileChooser.getExtensionFilters().addAll(
@@ -95,7 +94,7 @@ public class SurveyListController {
         }
     }
 
-    public void createSurveyButtonPressed(ActionEvent actionEvent) throws IOException {
+    public void createSurveyButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyCreatorView.fxml").openStream());
         SurveyCreatorController controller = loader.getController();
@@ -108,7 +107,7 @@ public class SurveyListController {
         stage.show();
     }
 
-    public void exportSurveyButtonPressed(ActionEvent actionEvent) {
+    public void exportSurveyButtonPressed() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export surveys");
 

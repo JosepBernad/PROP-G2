@@ -37,8 +37,6 @@ public class SurveyCreatorController {
     private static final String INTEGER = "^([-]?[1-9]\\d*|0)$";
     private static final String NATURAL = "^([1-9]\\d*)$";
 
-    private static final Boolean UNIVALUED = Boolean.TRUE;
-    private static final Boolean MULTIVALUED = Boolean.FALSE;
     private static final String FREE_QUESTION = "Free question";
     private static final String NUMERIC_QUESTION = "Numeric question";
     private static final String SORTED_QUALITATIVE_QUESTION = "Sorted qualitative question";
@@ -66,7 +64,7 @@ public class SurveyCreatorController {
 
     private Stage stage;
 
-    private Set<QuestionBuilder> questionBuilders = new HashSet<>();
+    private List<QuestionBuilder> questionBuilders = new ArrayList<>();
 
     private User user;
 
@@ -271,8 +269,6 @@ public class SurveyCreatorController {
         VBox elementsVBox = new VBox();
         HBox questionHBox = new HBox();
 
-
-        // Question parameter: Max and min value
         parametersHBox.getChildren().add(new Label("Min:"));
         JFXTextField minField = new JFXTextField();
         parametersHBox.getChildren().add(checkRegExField(minField, INTEGER));
@@ -281,20 +277,16 @@ public class SurveyCreatorController {
         JFXTextField maxField = new JFXTextField();
         parametersHBox.getChildren().add(checkRegExField(maxField, INTEGER));
 
-
-        // Question elements: Tile and parameter
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
         elementsVBox.getChildren().add(statementField);
 
         elementsVBox.getChildren().add(parametersHBox);
 
-        // Question box: elements and delete button
         questionHBox.getChildren().add(elementsVBox);
 
         JFXButton deleteQuestionButton = new JFXButton("X");
         questionHBox.getChildren().add(deleteQuestionButton);
-
 
         NumericQuestionBuilder builder = new NumericQuestionBuilder();
         builder.setStatement(statementField);
@@ -376,6 +368,7 @@ public class SurveyCreatorController {
     public void saveButtonPressed() throws IOException {
         Survey survey = new Survey();
         survey.setTitle(surveyTitle.getText());
+        survey.setDescription(surveyDescription.getText());
         Boolean error = Boolean.FALSE;
         for (Iterator<QuestionBuilder> iterator = this.questionBuilders.iterator(); !error && iterator.hasNext(); ) {
             QuestionBuilder questionBuilder = iterator.next();
