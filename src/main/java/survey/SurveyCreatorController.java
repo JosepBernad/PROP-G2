@@ -2,6 +2,7 @@ package survey;
 
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import exceptions.EmptyRequiredAttributeException;
@@ -10,7 +11,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -144,11 +144,11 @@ public class SurveyCreatorController {
         HBox manageOptionsHBox = new HBox();
         VBox mainVBox = new VBox();
 
-        //addNewOption(optionsVBox);
+        //addNewMultivaluedOption(optionsVBox);
         manageOptionsHBox.getChildren().add(optionsVBox);
         JFXButton addOptionButton = new JFXButton("Add option");
         manageOptionsHBox.getChildren().add(addOptionButton);
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox));
+        addOptionButton.setOnAction(event -> addNewMultivaluedOption(optionsVBox));
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
         builder.setStatement(statementField);
@@ -161,15 +161,23 @@ public class SurveyCreatorController {
         vPrincipalBox.getChildren().add(mainVBox);
     }
 
-    private void addNewOption(VBox optionsVBox) {
-        HBox optionBox = new HBox();
+    private void addNewMultivaluedOption(VBox optionsVBox) {
+        HBox optionHBox = new HBox();
+
+        JFXCheckBox checkBox = new JFXCheckBox();
+        checkBox.setDisable(true);
+        optionHBox.getChildren().add(checkBox);
+
         JFXTextField optionTextField = new JFXTextField();
         optionTextField.setPromptText("Option value");
-        optionBox.getChildren().add(optionTextField);
+        optionHBox.getChildren().add(optionTextField);
+
         JFXButton xButton = new JFXButton("X");
-        optionBox.getChildren().add(xButton);
-        optionsVBox.getChildren().add(optionBox);
-        xButton.setOnAction(event -> deleteOption(optionsVBox, optionsVBox.getChildren().indexOf(optionBox)));
+        optionHBox.getChildren().add(xButton);
+
+        optionsVBox.getChildren().add(optionHBox);
+
+        xButton.setOnAction(event -> deleteOption(optionsVBox, optionsVBox.getChildren().indexOf(optionHBox)));
     }
 
     private void deleteOption(VBox optionsVBox, int index) {
