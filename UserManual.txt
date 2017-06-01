@@ -1,0 +1,47 @@
+ENQUESTATOR
+
+Manual d'usuari
+
+Codi de projecte 21.G2
+
+Sergio Paredes Sigüenza - sergio.paredes
+Àlex Contreras Barba - alex.contreras
+Josep Bernad Espinosa - josep.bernad
+
+ÍNDEX
+
+1.Introducció
+2.Funcionament del programa
+    2.1.Execució
+    2.2.Casos d'ús
+        2.2.1.Log In
+        2.2.2.Sign Up
+        2.2.3.Llistat d'enquestes
+        2.2.4.Vista detallada enquesta
+        2.2.5.Analitzar enquesta
+        2.2.6.Detall del cluster
+        2.2.7.Resposta usuari
+        2.2.8.Crear enquesta
+        2.2.9.Respondre enquesta
+        2.2.10.Dades del usuari
+        2.2.11.Importar enquestes
+        2.2.12.Exportar enquestes
+3.Crèdits
+
+1.INTRODUCCIÓ
+
+El projecte d'Enquestator, és un programa efectuat a la Facultat d'Informàtica de Barcelona (FIB) durant el transcurs de l'assignatura de projectes de programació (PROP). Aquest projecte ha estat realitzat per Josep Bernad Espinosa, Sergio Paredes Sigüenza i Àlex Contreras Barba i ha estat tutoritzat per en Miquel Sànchez i Marré.
+Aquest projecte consisteix en un  programa per a crear, editar, respondre i analitzar les respostes d'enquestes.
+
+2.FUNCIONAMENT
+
+Aquest programa s'ha programat per la plataforma de Java, per tant es pot executar en qualsevol sistema operatiu que tingui instal·lada la Màquina Viurual Java, disponible en la pàgina web http://www.java.com.
+Per a un bon funcionament d'aquest, es recomana executar-lo tenint instal·lada la versió 1.8 o una versió superior de Java.
+Per a executar el programa només caldrà fer doble click sobre l'executable del programa.
+
+2.2.Vistes
+
+A continuació s'explicarà com són les vistes o finestres del programa en qüestió per tal de familiaritzar l'usuari amb elles i poder interactuar-hi amb més facilitat.
+
+
+
