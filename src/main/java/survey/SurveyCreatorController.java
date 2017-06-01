@@ -141,8 +141,8 @@ public class SurveyCreatorController {
     }
 
     private void addNewOption(VBox optionsVBox, Boolean univalued) {
+        // TODO: Add option in questionBuilder
         HBox optionHBox = new HBox();
-        // TODO: Add option to vPrincipalBox
         if (univalued) {
             JFXRadioButton radioButton = new JFXRadioButton();
             radioButton.setDisable(true);
@@ -167,7 +167,7 @@ public class SurveyCreatorController {
 
     private void deleteOption(VBox optionsVBox, int index) {
         System.out.println(index);
-        // TODO: Delete option from vPrincipalBox
+        // TODO: Delete option from questionBuilder
         optionsVBox.getChildren().remove(index);
     }
 
@@ -375,9 +375,10 @@ public class SurveyCreatorController {
         builder.setMaxLength(maxLenghtField);
         questionBuilders.add(builder);
 
-        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
 
         vPrincipalBox.getChildren().add(questionHBox);
+
+        deleteQuestionButton.setOnAction(event -> deleteQuestion(vPrincipalBox.getChildren().indexOf(questionHBox),builder));
     }
 
     private void deleteQuestion(int i, QuestionBuilder builder) {
