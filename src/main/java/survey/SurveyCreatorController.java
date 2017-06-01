@@ -141,10 +141,8 @@ public class SurveyCreatorController {
     }
 
     private void addNewOption(VBox optionsVBox, Boolean univalued) {
-
-        // TODO: Add option in questionBuilders
-
         HBox optionHBox = new HBox();
+        // TODO: Add option to vPrincipalBox
         if (univalued) {
             JFXRadioButton radioButton = new JFXRadioButton();
             radioButton.setDisable(true);
@@ -169,7 +167,7 @@ public class SurveyCreatorController {
 
     private void deleteOption(VBox optionsVBox, int index) {
         System.out.println(index);
-        // TODO: Delete option from questionBuilders
+        // TODO: Delete option from vPrincipalBox
         optionsVBox.getChildren().remove(index);
     }
 
@@ -188,7 +186,7 @@ public class SurveyCreatorController {
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, MULTIVALUED, builder));
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, MULTIVALUED));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
         // Parameters box:
@@ -232,13 +230,12 @@ public class SurveyCreatorController {
         // Options box: all options
         // addNewOption(optionsVBox);
 
-        UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
 
         // Manage options box: options box and add option button.
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED, builder));
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
         // Elements box: title and manage options
@@ -255,6 +252,7 @@ public class SurveyCreatorController {
         questionHBox.getChildren().add(deleteQuestionButton);
 
 
+        UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
         builder.setStatement(statementField);
         questionBuilders.add(builder);
 
@@ -278,7 +276,7 @@ public class SurveyCreatorController {
         manageOptionsHBox.getChildren().add(optionsVBox);
 
         JFXButton addOptionButton = new JFXButton("Add option");
-        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED, builder));
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
         manageOptionsHBox.getChildren().add(addOptionButton);
 
         // Elements box: title and manage options
