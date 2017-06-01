@@ -1,10 +1,7 @@
 package survey;
 
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.*;
 import exceptions.EmptyRequiredAttributeException;
 import exceptions.NotInRangeException;
 import javafx.application.Platform;
@@ -32,8 +29,13 @@ public class SurveyCreatorController {
 
     private static final String STYLE = "/views/Style.css";
     private static final String FONTS = "/views/fonts.css";
+
     private static final String INTEGER = "^([-]?[1-9]\\d*|0)$";
     private static final String NATURAL = "^([1-9]\\d*)$";
+
+    private static final Boolean UNIVALUED = Boolean.TRUE;
+    private static final Boolean MULTIVALUED = Boolean.FALSE;
+
 
     @FXML
     public JFXTextField surveyTitle;
@@ -135,38 +137,18 @@ public class SurveyCreatorController {
         }
     }
 
-
-    private void addMultivaluedQualitativeQuestion(String statement) {
-
-        MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
-
-        VBox optionsVBox = new VBox();
-        HBox manageOptionsHBox = new HBox();
-        VBox mainVBox = new VBox();
-
-        //addNewMultivaluedOption(optionsVBox);
-        manageOptionsHBox.getChildren().add(optionsVBox);
-        JFXButton addOptionButton = new JFXButton("Add option");
-        manageOptionsHBox.getChildren().add(addOptionButton);
-        addOptionButton.setOnAction(event -> addNewMultivaluedOption(optionsVBox));
-        JFXTextField statementField = new JFXTextField();
-        statementField.setText(statement);
-        builder.setStatement(statementField);
-        mainVBox.getChildren().add(statementField);
-        JFXTextField maxAnswers = new JFXTextField();
-        builder.setMaxAnswers(maxAnswers);
-        mainVBox.getChildren().addAll(maxAnswers);
-        mainVBox.getChildren().add(manageOptionsHBox);
-        questionBuilders.add(builder);
-        vPrincipalBox.getChildren().add(mainVBox);
-    }
-
-    private void addNewMultivaluedOption(VBox optionsVBox) {
+    private void addNewOption(VBox optionsVBox, Boolean univalued) {
         HBox optionHBox = new HBox();
 
-        JFXCheckBox checkBox = new JFXCheckBox();
-        checkBox.setDisable(true);
-        optionHBox.getChildren().add(checkBox);
+        if (univalued) {
+            JFXRadioButton radioButton = new JFXRadioButton();
+            radioButton.setDisable(true);
+            optionHBox.getChildren().add(radioButton);
+        } else {
+            JFXCheckBox checkBox = new JFXCheckBox();
+            checkBox.setDisable(true);
+            optionHBox.getChildren().add(checkBox);
+        }
 
         JFXTextField optionTextField = new JFXTextField();
         optionTextField.setPromptText("Option value");
@@ -185,36 +167,79 @@ public class SurveyCreatorController {
         optionsVBox.getChildren().remove(index);
     }
 
-    private void addUnsortedQualitativeQuestion(String statement) {
-        HBox optionBox = new HBox();
-        VBox allOptionsBox = new VBox();
-        HBox optionsBox = new HBox();
+    private void addMultivaluedQualitativeQuestion(String statement) {
+        MultivaluedUnsortedQualitativeQuestionBuilder builder = new MultivaluedUnsortedQualitativeQuestionBuilder();
 
-        UnsortedQualitativeQuestionBuilder unsortedQualitativeQuestionBuilder = new UnsortedQualitativeQuestionBuilder();
+        VBox optionsVBox = new VBox();
+        HBox manageOptionsHBox = new HBox();
+        VBox mainVBox = new VBox();
 
-        optionsBox.getChildren().add(allOptionsBox);
-        optionsBox.getChildren().add(new JFXButton("Add option"));
-        HBox questionBox = new HBox();
-        questionBox.getChildren().add(optionsBox);
-        questionBox.getChildren().add(new JFXButton("X"));
-        VBox mainBox = new VBox();
+        //addNewOption(optionsVBox);
+        manageOptionsHBox.getChildren().add(optionsVBox);
+        JFXButton addOptionButton = new JFXButton("Add option");
+        manageOptionsHBox.getChildren().add(addOptionButton);
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, MULTIVALUED));
+
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
-        unsortedQualitativeQuestionBuilder.setStatement(statementField);
+        builder.setStatement(statementField);
+        mainVBox.getChildren().add(statementField);
+        JFXTextField maxAnswers = new JFXTextField();
+        builder.setMaxAnswers(maxAnswers);
+        mainVBox.getChildren().addAll(maxAnswers);
+        mainVBox.getChildren().add(manageOptionsHBox);
+        questionBuilders.add(builder);
+        vPrincipalBox.getChildren().add(mainVBox);
+    }
 
-        questionBuilders.add(unsortedQualitativeQuestionBuilder);
+    private void addUnsortedQualitativeQuestion(String statement) {
+        UnsortedQualitativeQuestionBuilder builder = new UnsortedQualitativeQuestionBuilder();
 
-        mainBox.getChildren().add(statementField);
-        mainBox.getChildren().add(questionBox);
-        vPrincipalBox.getChildren().add(mainBox);
+        VBox optionsVBox = new VBox();
+        HBox manageOptionsHBox = new HBox();
+        VBox mainVBox = new VBox();
+
+        //addNewOption(optionsVBox);
+        manageOptionsHBox.getChildren().add(optionsVBox);
+        JFXButton addOptionButton = new JFXButton("Add option");
+        manageOptionsHBox.getChildren().add(addOptionButton);
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
+
+        JFXTextField statementField = new JFXTextField();
+        statementField.setText(statement);
+        builder.setStatement(statementField);
+        mainVBox.getChildren().add(statementField);
+        mainVBox.getChildren().add(manageOptionsHBox);
+        questionBuilders.add(builder);
+        vPrincipalBox.getChildren().add(mainVBox);
     }
 
     private void addSortedQualitativeQuestion(String statement) {
+        SortedQualitativeQuestionBuilder builder = new SortedQualitativeQuestionBuilder();
+
+        VBox optionsVBox = new VBox();
+        HBox manageOptionsHBox = new HBox();
+        VBox mainVBox = new VBox();
+
+        //addNewOption(optionsVBox);
+        manageOptionsHBox.getChildren().add(optionsVBox);
+        JFXButton addOptionButton = new JFXButton("Add option");
+        manageOptionsHBox.getChildren().add(addOptionButton);
+        addOptionButton.setOnAction(event -> addNewOption(optionsVBox, UNIVALUED));
+
+        JFXTextField statementField = new JFXTextField();
+        statementField.setText(statement);
+        builder.setStatement(statementField);
+        mainVBox.getChildren().add(statementField);
+        mainVBox.getChildren().add(manageOptionsHBox);
+        questionBuilders.add(builder);
+        vPrincipalBox.getChildren().add(mainVBox);
+
+        /*
         HBox individualOptionBox = new HBox();
         VBox allOptionsBox = new VBox();
         HBox optionsBox = new HBox();
 
-        SortedQualitativeQuestionBuilder sortedQualitativeQuestionBuilder = new SortedQualitativeQuestionBuilder();
 
         optionsBox.getChildren().add(allOptionsBox);
         optionsBox.getChildren().add(new JFXButton("Add option"));
@@ -230,7 +255,7 @@ public class SurveyCreatorController {
 
         mainBox.getChildren().add(statementField);
         mainBox.getChildren().add(questionBox);
-        vPrincipalBox.getChildren().add(mainBox);
+        vPrincipalBox.getChildren().add(mainBox);*/
     }
 
     private void addNumericQuestion(String statement) {
