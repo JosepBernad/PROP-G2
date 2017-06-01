@@ -35,13 +35,30 @@ Aquest projecte consisteix en un  programa per a crear, editar, respondre i anal
 
 2.FUNCIONAMENT
 
+2.1.Execució
+
 Aquest programa s'ha programat per la plataforma de Java, per tant es pot executar en qualsevol sistema operatiu que tingui instal·lada la Màquina Viurual Java, disponible en la pàgina web http://www.java.com.
 Per a un bon funcionament d'aquest, es recomana executar-lo tenint instal·lada la versió 1.8 o una versió superior de Java.
 Per a executar el programa només caldrà fer doble click sobre l'executable del programa.
 
-2.2.Vistes
+2.2.Casos d'ús
 
 A continuació s'explicarà com són les vistes o finestres del programa en qüestió per tal de familiaritzar l'usuari amb elles i poder interactuar-hi amb més facilitat.
+
+2.2.1.Log in
+
+Un cop iniciat el programa, s'accedirà automàticament a la finestra de Log in, on es demanarà el nom d'usuari i la contrasenya. Si l'usuari ja disposa d'una conta podrà iniciar sessió. Altrament s'haura de registrar com a nou usuari. En fucnió del que fagi l'usuari accedirem a una vista o a una altra.
+
+2.2.2. Sign In
+
+Aquesta vista és la que permet enregistrar a un nou usuari. Quan s'entra es demana que s'introdueixin les dades necessàries per a crear un nou usuari. Aquestes són: el seu nom, el seu nom d'usuari (que és el que utilitzarà per a iniciar sessió) i la seva contrasenya. En aquesta vista disposem de dos botons: el de cancel·lar, que ens torna a la vista anterior (iniciar sessió) i el botó de crear, que si les dades són correctes crearà el nou usuari i anirà a la vista principal (llistat d'enquestes).
+
+2.2.3. Llistat d'enquestes
+
+Aquesta és la vista principal del programa. Per accedir-hi, cal iniciar sessió amb un usuari vàlid.
+En aquesta disposem del llistat de totes les enquestes existents en el programa. Si fem click sobre de qualsevol d'elles canviarem de vista i veurem de manera detallada totes les preguntes que formen aquesta enquesta. A la dreta de la vista principal disposem d'una sèrie de botons. El primer ens permet crear una nova enquesta.
+EL segon botó ens permet importar des del nostre ordinador enquestes que hi tinguem guardades. El tercer botó ens permet exportar enquestes existents i guardar-les a on volguem. El quart botó no ens canvia de vista, pero el que fa és filtrar el llistat d'enquestes que veu l'usuari. Si aquest botó està pressionat, l'usuari només veurà el llistat de les enquestes que hagi creat ell. Altrament veurà totes les enquestes, independentment de l'usuari que les hagi creat.
+
 
 
 
