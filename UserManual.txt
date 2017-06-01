@@ -72,10 +72,34 @@ En aquesta vista podem visualitzar una enquesta de manera detallada. És a dir, 
 
 Aquesta vista mostra totes les respostes a l'enquesta la qual s'està analitzant de tots els usuaris que pertanyen a aquell cluster i el seu centroide de forma matricial. Tota aquesta informació es mostra en una finestra emergent. Per a tornar a la vista anterior només cal apretar a la creu de tancar la finestra.
 
-
 2.2.7.Resposta usuari
 
-Aquesta vista permet a un usuari respondre a una determinada enquesta. En ella apareixen totes les preguntes de l'enquesta que s'està responent amb la informació que cal que l'usuari sàpiga per respondre-la, així com la mida màxima de resposta, els valors entre els quals es pot compendre aquesta... Sota de cada pregunta apareix o be un quadre de text per a omplir amb la resposta (si la pregunta és de tipus numèrica o de text lliure) o be totes les opcions amb botons al costat per a poder seleccionar la desitjada (per a tots els altres tipus de pregunta).
+Aquesta vista permet a un usuari visualitzar la seva resposta a una determinada enquesta. En ella disposem els botons d'Sota de cada pregunta apareix o be un quadre de text per a omplir amb la resposta (si la pregunta és de tipus numèrica o de text lliure) o be totes les opcions amb botons al costat per a poder seleccionar la desitjada (per a tots els altres tipus de pregunta). En aquesta vista tenim els botons de guardar les respostes contestades per l'usuari i el botó de cancel·lar i sortir de la vista.
 
+2.2.8.Crear enquesta
 
+Aquesta vista permet al usuari crear una enquesta de forma dinàmica. És a dir, l'usuari pot anar afegint i esborrant preguntes i fins que no dona per vàlida l'enquesta no es crea i es guarda. Per crear una nova pregunta, l'usuari ha de clickar sobre el botó de New question. Un cop fet això apareixer`a una nova finestra emergent on serà ell qui introdueixi l'enunciat de la pregunta i seleccioni el tipus de pregunta de la que tracta. En aquesta finestra emergent, l'usuari pot o bé cancel·lar i decidir no crear la pregunta o bé acceptat i crear la pregunta. UN cop fet això, es tornarà a la vista anterior i apareixerà la nova pregunta amb els camps corresponents per omplir. Si és numèrica ha d'introduir el rang d'aquetsa, si és de text lliure ha d'introduir la mida màxima de reposta i si és de qualsevol tipus de les altres l'usuari pot anar afegint opcions de manera dinàmica i esborrar-les en quant vulgui, independentment de si ñes la primera opció que ha afegit o l'última. El mateix passa amb les preguntes, ja que l'usuari pot esborrar una determinada pregunta un cop ja estigui creada (sempre clickant sobre la creu que apareix al costat de cada element eliminable). Un cop l'usuari decideix donar el vistiplau a l'enquesta, aquest ha de clickar sobre el botó de guardar enquesta. L'enquesta és guardarà satisfactòriament i l'usuari tornarà a la vista anterior on apareixia tot el llistat d'emquestes, però ara amb la nova enquesta creada. Si per altra banda l'usuari pressiona el botó cancelar, aquest tornarà a la vista anterior però sense haver guardat l'enquesta en la que estaba treballant
 
+2.2.9.Respondre enquesta
+
+Aquesta vista permet a un usuari respondre a una determinada enquesta. En ella apareixen totes les preguntes de l'enquesta que s'està responent amb la informació que cal que l'usuari sàpiga per respondre-la, així com la mida màxima de resposta, els valors entre els quals es pot compendre aquesta... Sota de cada pregunta apareix o be un quadre de text per a omplir amb la resposta (si la pregunta és de tipus numèrica o de text lliure) o be totes les opcions amb botons al costat per a poder seleccionar la desitjada (per a tots els altres tipus de pregunta). En aquesta vista tenim els botons de guardar les respostes contestades per l'usuari i el botó de cancel·lar i sortir de la vista.
+
+2.2.10.Dades del usuari
+
+Aquesta vista ens mostra tota la informació de l'usuari (nom, nom d'usuari i contrasenya) i ens permet editar-la. Aquesta vista és pràcticament indèntica a la de donar d'alta a un usuari, la única diferència és que l'usuari no pot modificar el seu nom d'usuari i que ara els botons que aparèixen a la vista són el de cancel·lar, que fa el mateix que abans i el de desar canvis, que guarda la nova informació de l'usuari.
+
+2.2.11.Importar enquestes
+
+Aquesta opció està disponible des de la vista inicial de l'usuari, és a dir, des del llistat d'enquestes. Si fem click sobre aquest botó, apareixerà una finestra emergent. En ella, l'usuari podrà navegar pels seus fitxers i seleccionar el fitxer d'enquestes que vol importar al programa. Quan l'usuari accepti l'opció, es tornarà a la vista principal i es carregaran totes les enquestes que hi havien en el fitxedr importat. Si l'usuari cancel·la l'opció, es tornarà igualment a la vista inicial i es mostraràn totes aquelles enquestes que ja existien previament.
+
+2.2.12.Exportar enquestes
+
+Aquesta opció està disponible des de la vista inicial de l'usuari, és a dir, des del llistat d'enquestes. Si fem click sobre aquest botó, apareixerà una finestra emergent. En ella, l'usuari podrà navegar pels seus fitxers i seleccionar el destí on vol guardar el fitxer amb les enquestes que hi ha al sistema. Quan l'usuari accepti l'opció, es tornarà a la vista principal i no hi haurà cap canvi respecte a la vista, ja que l'usuari haurà guardat el fitxer d'enquestes en el seu directori de fitchers. Si l'usuari cancel·la l'opció, es tornarà igualment a la vista inicial i es mostraràn totes aquelles enquestes que ja existien previament.
+
+3.Crèdits
+
+Treball realitzat per l'equip format per:
+
+Sergio Paredes Sigüenza
+Àlex Contreras Barba
+Josep Bernad Espinosa
