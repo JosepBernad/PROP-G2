@@ -25,14 +25,12 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import question.*;
 import user.User;
+import utils.Constants;
 
 import java.io.IOException;
 import java.util.*;
 
 public class SurveyCreatorController {
-
-    private static final String STYLE = "/views/Style.css";
-    private static final String FONTS = "/views/fonts.css";
 
     private static final String INTEGER = "^([-]?[1-9]\\d*|0)$";
     private static final String NATURAL = "^([1-9]\\d*)$";
@@ -346,11 +344,9 @@ public class SurveyCreatorController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
-        controller.setUser(user);
-        controller.setStage(stage);
+        controller.init(stage, user);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }

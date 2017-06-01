@@ -1,6 +1,7 @@
 package survey;
 
 import analysis.KMeansController;
+import answer.AnswerController;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.fxml.FXML;
@@ -15,15 +16,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import question.*;
 import user.User;
+import utils.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDetailController {
-
-    private static final String STYLE = "/views/Style.css";
-    private static final String FONTS = "/views/fonts.css";
 
     @FXML
     public Label surveyTitle;
@@ -108,12 +107,9 @@ public class SurveyDetailController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
-        controller.setStage(stage);
-        controller.setUser(user);
-        controller.init();
+        controller.init(stage, user);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }
@@ -124,8 +120,22 @@ public class SurveyDetailController {
         KMeansController controller = loader.getController();
         controller.init(stage, surveyId);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void showAnswer() {
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = null;
+        try {
+            root = loader.load(getClass().getResource("/views/AnswerView.fxml").openStream());
+        } catch (IOException ignored) {
+        }
+        AnswerController controller = loader.getController();
+        controller.init(stage, surveyId, user);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }

@@ -1,11 +1,9 @@
 package user;
 
-import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import exceptions.DuplicatedUsernameException;
 import exceptions.EmptyRequiredAttributeException;
 import exceptions.NotSamePasswordException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,13 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import survey.SurveyListController;
+import utils.Constants;
 
 import java.io.IOException;
 
 public class MyAccountController {
-
-    private static final String STYLE = "/views/Style.css";
-    private static final String FONTS = "/views/fonts.css";
 
     @FXML
     private JFXTextField usernameField;
@@ -39,29 +35,22 @@ public class MyAccountController {
     private Stage stage;
     private User user;
 
-    public void initialize() {}
-
-    public void init() {
-        usernameField.setText(user.getUsername());
-        nameField.setText(user.getName());
-        password1.setText(user.getPassword());
-        password2.setText(user.getPassword());
-    }
-
-    public void setStage(Stage stage) {
+    public void init(Stage stage, User user) {
         this.stage = stage;
+        this.user = user;
+        usernameField.setText(this.user.getUsername());
+        nameField.setText(this.user.getName());
+        password1.setText(this.user.getPassword());
+        password2.setText(this.user.getPassword());
     }
 
     public void cancelButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
-        controller.setStage(stage);
-        controller.setUser(user);
-        controller.init();
+        controller.init(stage, user);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }
@@ -76,12 +65,9 @@ public class MyAccountController {
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
             SurveyListController controller = loader.getController();
-            controller.setStage(stage);
-            controller.setUser(User.getUserByUsername(usernameField.getText()));
-            controller.init();
+            controller.init(stage, User.getUserByUsername(usernameField.getText()));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(STYLE);
-            scene.getStylesheets().add(FONTS);
+            scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
             stage.setScene(scene);
             stage.show();
 
@@ -92,7 +78,4 @@ public class MyAccountController {
         }
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

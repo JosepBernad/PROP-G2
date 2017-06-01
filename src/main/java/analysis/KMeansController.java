@@ -24,6 +24,8 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
+import user.User;
+import utils.Constants;
 
 import java.awt.*;
 import java.io.IOException;
@@ -34,9 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 public class KMeansController {
-
-    private static final String STYLE = "/views/Style.css";
-    private static final String FONTS = "/views/fonts.css";
 
     @FXML
     public JFXComboBox<Label> numberOfClusters;
@@ -50,11 +49,11 @@ public class KMeansController {
     @FXML
     public Label distance;
 
-    private Integer surveyId;
-    private Stage stage;
-
     @FXML
     private Label errorText;
+
+    private Integer surveyId;
+    private Stage stage;
 
     public void init(Stage stage, Integer surveyId) {
         this.stage = stage;
@@ -132,8 +131,7 @@ public class KMeansController {
 
         controller.init(surveyId, clusterAnswers);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         Stage clusterStage = new Stage();
         clusterStage.setTitle("Cluster detail");
         clusterStage.getIcons().add(new javafx.scene.image.Image(getClass().getResource("/images/icon.png").toExternalForm()));
@@ -149,17 +147,15 @@ public class KMeansController {
         } catch (IOException ignored) {
         }
         AnswerController controller = loader.getController();
-        controller.init(surveyId, username);
+        controller.init(surveyId, User.getUserByUsername(username));
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         Stage answerStage = new Stage();
         answerStage.setTitle("Answer detail");
         answerStage.getIcons().add(new javafx.scene.image.Image(getClass().getResource("/images/icon.png").toExternalForm()));
         answerStage.setScene(scene);
         answerStage.show();
     }
-
 
     private JFreeChart createIndividualsChart(List<Cluster> calc) {
         List<Double> values = new ArrayList<>();

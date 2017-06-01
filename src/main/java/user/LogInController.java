@@ -12,14 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import survey.SurveyListController;
+import utils.Constants;
 
 import java.io.IOException;
 
 
 public class LogInController {
-
-    private static final String STYLE = "/views/Style.css";
-    private static final String FONTS = "/views/fonts.css";
 
     @FXML
     private JFXTextField usernameField;
@@ -32,18 +30,17 @@ public class LogInController {
 
     private Stage stage;
 
-    public void initialize() {
-
+    public void init(Stage stage) {
+        this.stage = stage;
     }
 
     public void signUpButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SignUpView.fxml").openStream());
         SignUpController controller = loader.getController();
-        controller.setStage(stage);
+        controller.init(stage);
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(STYLE);
-        scene.getStylesheets().add(FONTS);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
     }
@@ -55,12 +52,9 @@ public class LogInController {
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
             SurveyListController controller = loader.getController();
-            controller.setStage(stage);
-            controller.setUser(User.getUserByUsername(usernameField.getText()));
-            controller.init();
+            controller.init(stage, User.getUserByUsername(usernameField.getText()));
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(STYLE);
-            scene.getStylesheets().add(FONTS);
+            scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
             stage.setScene(scene);
             stage.show();
         } catch (NotExistingUserException e) {
@@ -70,9 +64,5 @@ public class LogInController {
         } catch (EmptyRequiredAttributeException e) {
             errorText.setText("Missing filed(s)");
         }
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
     }
 }
