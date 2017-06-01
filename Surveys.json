@@ -1,0 +1,132 @@
+{
+  "1": {
+    "id": 1,
+    "title": "Survey1",
+    "description": "Survey1",
+    "finished": null,
+    "visible": null,
+    "questions": [
+      {
+        "type": "FreeQuestion",
+        "id": 0,
+        "statement": "Name",
+        "maxSize": 255
+      },
+      {
+        "type": "NumericQuestion",
+        "id": 1,
+        "statement": "Age",
+        "min": 5,
+        "max": 80
+      },
+      {
+        "type": "MultivaluedUnsortedQualitativeQuestion",
+        "id": 2,
+        "statement": "Color",
+        "options": [
+          {
+            "value": "blue",
+            "weight": null
+          },
+          {
+            "value": "green",
+            "weight": null
+          },
+          {
+            "value": "red",
+            "weight": null
+          },
+          {
+            "value": "yellow",
+            "weight": null
+          }
+        ],
+        "nMaxAnswers": 4
+      },
+      {
+        "type": "UnsortedQualitativeQuestion",
+        "id": 3,
+        "statement": "Rate",
+        "options": [
+          {
+            "value": "high",
+            "weight": null
+          },
+          {
+            "value": "medium",
+            "weight": null
+          },
+          {
+            "value": "low",
+            "weight": null
+          }
+        ]
+      }
+    ]
+  },
+  "2": {
+    "id": 2,
+    "title": "title",
+    "description": null,
+    "finished": null,
+    "visible": null,
+    "questions": [
+      {
+        "type": "MultivaluedUnsortedQualitativeQuestion",
+        "id": 0,
+        "statement": null,
+        "options": [
+          {
+            "value": "blue",
+            "weight": null
+          },
+          {
+            "value": "green",
+            "weight": null
+          },
+          {
+            "value": "purple",
+            "weight": null
+          }
+        ],
+        "nMaxAnswers": 1
+      }
+    ]
+  },
+  "3": {
+    "id": 3,
+    "title": "title2",
+    "description": null,
+    "finished": null,
+    "visible": null,
+    "questions": [
+      {
+        "type": "UnsortedQualitativeQuestion",
+        "id": 0,
+        "statement": "rgregre",
+        "options": [
+          {
+            "value": "fwfe",
+            "weight": null
+          },
+          {
+            "value": "few",
+            "weight": null
+          },
+          {
+            "value": "erewrfew",
+            "weight": null
+          },
+          {
+            "value": "fwe",
+            "weight": null
+          },
+          {
+            "value": "wef",
+            "weight": null
+          }
+        ]
+      }
+    ]
+  }
+}
