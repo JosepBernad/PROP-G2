@@ -21,8 +21,8 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
 
     /**
      * Aquest mètode calcula el centroide d'un conjunt de respostes de tipus UnivaluedQualitativeAnswer
-     * @param answers
-     * @return
+     * @param answers són les respostes
+     * @return UnivaluedQualitativeAnswer
      */
     public static UnivaluedQualitativeAnswer calculateCentroid(List<UnivaluedQualitativeAnswer> answers) {
         Map<Option, Integer> occurrences = new HashMap<>();
@@ -62,8 +62,8 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
     /**
      * Aquest mètode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
      mateix tipus
-     * @param answer
-     * @return
+     * @param answer és la resposta
+     * @return Double
      */
     @Override
     public Double calculateDistance(Answer answer) {

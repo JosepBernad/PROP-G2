@@ -2,6 +2,10 @@ package analysis;
 
 import java.util.Set;
 
+/**
+ * Aquesta classe modelitza un cluster format per un conjunt de punts i un centroide.
+ * Com a atributs tenim el centroide, un conjunt de punts i un booleà que ens indica si hi ha canvis
+ */
 public class Cluster {
 
     private Point centroid;

@@ -19,8 +19,8 @@ public class NumericAnswer extends Answer {
 
     /**
      * Aquest mètode calcula el centroide d'un conjunt de respostes de tipus NumericAnswer
-     * @param answers
-     * @return
+     * @param answers són les respostes
+     * @return una numericAnswer
      */
     public static NumericAnswer calculateCentroid(List<NumericAnswer> answers) {
         Double sum = null;
@@ -48,8 +48,8 @@ public class NumericAnswer extends Answer {
     /**
      * Aquest mètode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
      mateix tipus.
-     * @param answer
-     * @return
+     * @param answer és la resposta
+     * @return un double
      */
     @Override
     public Double calculateDistance(Answer answer) {

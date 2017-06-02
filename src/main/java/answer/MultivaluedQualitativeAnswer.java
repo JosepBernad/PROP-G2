@@ -19,8 +19,8 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
 
     /**
      * Aquest mètode calcula el centroide d'un conjunt de respostes de tipus MultivaluedQualitativeAnswer
-     * @param answers
-     * @return
+     * @param answers són les respostes
+     * @return una multivaluedQualitativeAnswer
      */
     public static MultivaluedQualitativeAnswer calculateCentroid(List<MultivaluedQualitativeAnswer> answers) {
         Map<Option, Integer> occurrences = new HashMap<>();
@@ -58,7 +58,7 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
     /**
      * Amb el getter aconseguim obtenir el valor de l’atribut privat de la classe, i amb els setter el
      que fem és poder donar valor a aquest fora de la classe
-     * @param options
+     * @param options són les opcions
      */
     public void setOptions(Set<Option> options) {
         this.options = options;
@@ -66,7 +66,7 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
 
     /**
      * Aquest mètode privat retorna tots els valors de les opcions de la classe instanciada
-     * @return
+     * @return un set d'strings
      */
     @JsonIgnore
     private Set<String> getValues() {
@@ -79,8 +79,8 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
     /**
      * Aquest mètode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
      mateix tipus
-     * @param answer
-     * @return
+     * @param answer són les respostes
+     * @return un double
      */
     @Override
     public Double calculateDistance(Answer answer) {

@@ -45,7 +45,7 @@ public abstract class Answer {
     /**
      * Amb aquest mètode obtenim un set de respostes amb totes les respostes que hi ha
      guardades al fitxer de respostes
-     * @return
+     * @return un set de answers
      */
     public static Set<Answer> getAnswers() {
         Set<Answer> answers = new HashSet<>();
@@ -65,7 +65,7 @@ public abstract class Answer {
 
     /**
      * Aquest mètode ens permet guardar totes les respostes al fitxer de respostes
-     * @param answers
+     * @param answers són les respostes
      */
     public static void saveAnswersInFile(Set<Answer> answers) {
         answers.addAll(getAnswers());
@@ -92,10 +92,10 @@ public abstract class Answer {
     /**
      * Amb aquest mètode obtenim totes les respostes (en una llista d’elles) d’una enquesta
      determinada que ha contestat un usuari en concret
-     * @param username
-     * @param surveyId
-     * @return
-     * @throws Exception
+     * @param username és el nom de l'usuari
+     * @param surveyId és l'id de l'enquesta
+     * @return una llista d'answers
+     * @throws Exception excepció
      */
     public static List<Answer> getAnswersByUsernameAndSurveyID(String username, Integer surveyId) throws Exception {
         Survey survey = Survey.getSurveyById(surveyId);
@@ -118,8 +118,8 @@ public abstract class Answer {
     /**
      * Aquest mètode ens ordena una llista de respostes en funció al identificador (id) de la seva
      pregunta, ordenant-ho així de menor a major
-     * @param answers
-     * @return
+     * @param answers són les respostes
+     * @return una llista d'answers
      */
     static List<Answer> getOrderedById(Set<Answer> answers) {
         List<Answer> list = new ArrayList<>();
@@ -130,8 +130,8 @@ public abstract class Answer {
 
     /**
      * Aquest mètode retorna totes les respostes de l'usuari amb un determinat id a una enquesta
-     * @param surveyId
-     * @return
+     * @param surveyId és l'id de l'enquesta
+     * @return un map de maps de valors, answers i valors enters
      */
     public static Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
         Map<String, Map<Integer, Answer>> map = new HashMap<>();
@@ -152,8 +152,8 @@ public abstract class Answer {
 
     /**
      * Aquest mètode permet importar respostes a una determinada enquesta existent
-     * @param jsonPath
-     * @throws FileNotFoundException
+     * @param jsonPath és el path
+     * @throws FileNotFoundException excepció
      */
     public static void importAnswers(String jsonPath) throws FileNotFoundException {
         Set<Answer> answers = new HashSet<>();
@@ -218,8 +218,8 @@ public abstract class Answer {
     /**
      * Aquest metode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
      mateix tipus
-     * @param answer
-     * @return
+     * @param answer són les respostes
+     * @return una answer
      */
     public abstract Double calculateDistance(Answer answer);
 

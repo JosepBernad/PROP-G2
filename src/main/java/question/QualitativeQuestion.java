@@ -29,9 +29,9 @@ public abstract class QualitativeQuestion extends Question {
     }
 
     /**
-     * Mètode que ens serveix per afegir una opcó al Set<Option> de la instància
-     * @param option
-     * @throws RepeatedOptionWeightException
+     * Mètode que ens serveix per afegir una opció al set d'opcions de la instància
+     * @param option l'opció
+     * @throws RepeatedOptionWeightException excepció
      */
     public void addOption(Option option) throws RepeatedOptionWeightException {
         if (option.getWeight() != null)
@@ -44,7 +44,7 @@ public abstract class QualitativeQuestion extends Question {
     /**
      * Mètode que retorna una llista d’ String dels valors de les opcions ordenada pels pesos
      d’aquestes opcions
-     * @return
+     * @return una llista d'strings
      */
     public List<String> optionsValuesOrderedByWeight() {
         String[] values = new String[options.size()];
@@ -57,9 +57,9 @@ public abstract class QualitativeQuestion extends Question {
     /**
      * Amb aquest mètode, a partir de la instància de QualitativeQuestion , crea una resposta passant per
      paràmetre el valor de l'opció que l’usuari ha introduit
-     * @param option
-     * @return
-     * @throws NotValidOptionException
+     * @param option l'opció
+     * @return una univaluedQualitativeAnswer
+     * @throws NotValidOptionException excepció
      */
     public UnivaluedQualitativeAnswer makeAnAnswer(Option option) throws NotValidOptionException {
         if (!getOptions().contains(option)) throw new NotValidOptionException();

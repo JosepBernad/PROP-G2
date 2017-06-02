@@ -26,9 +26,9 @@ public class FreeQuestion extends Question {
      * Amb aquest mètode, a partir de la instància de FreeAnswer , crea una resposta. Abans de
      guardar-la dins persistència, ens comprovam que la mida de la resposta és més petita o
      igual que el maxSize, en cas contrari llança l’excepció InvalidSizeException
-     * @param value
-     * @return
-     * @throws InvalidSizeException
+     * @param value el valor
+     * @return una FreeAnswer
+     * @throws InvalidSizeException excepció
      */
     public FreeAnswer makeAnAnswer(String value) throws InvalidSizeException {
         if (value.length() > maxSize) throw new InvalidSizeException();

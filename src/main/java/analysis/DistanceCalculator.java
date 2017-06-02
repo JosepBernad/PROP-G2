@@ -3,15 +3,18 @@ package analysis;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Aquesta classe s'encarrega de calcular les distàncies entre els diversos tipos de variables que accepta una enquesta
+ */
 public class DistanceCalculator {
 
     /**
      * Retorna la distància (entre 0 i 1) entre dues respostes del tipus NumericAnswer
-     * @param a
-     * @param b
-     * @param max
-     * @param min
-     * @return
+     * @param a és el valor de la 1a resposta
+     * @param b és el valor de la 2a resposta
+     * @param max és el valor màxim
+     * @param min és el valor mínim
+     * @return un valor
      */
     public static double calculateNumeric(double a, double b, int max, int min) {
         return Math.abs(a - b) / (max - min);
@@ -19,10 +22,10 @@ public class DistanceCalculator {
 
     /**
      * Retorna la distància (entre 0 i 1) entre dues respostes del tipus UnivaluatedQualitativeAnswer
-     * @param a
-     * @param b
-     * @param nValues
-     * @return
+     * @param a és el valor de la 1a resposta
+     * @param b és el valor de la 2a resposta
+     * @param nValues és el total de valors
+     * @return un valor
      */
     public static double calculateSortedUnivaluedQualitative(int a, int b, int nValues) {
         return Math.abs(a - b) / (nValues - 1D);
@@ -30,9 +33,9 @@ public class DistanceCalculator {
 
     /**
      * Retorna la distància (entre 0 i 1) entre dues respostes del tipus UnsortedUnivaluedQualitative
-     * @param a
-     * @param b
-     * @return
+     * @param a és el valor de la 1a resposta
+     * @param b és el valor de la 2a resposta
+     * @return un valor
      */
     public static double calculateUnsortedUnivaluedQualitative(String a, String b) {
         return a.equals(b) ? 0 : 1;
@@ -40,9 +43,9 @@ public class DistanceCalculator {
 
     /**
      * Retorna la distància (entre 0 i 1) entre dues respostes del tipus UnsortedMultivaluedQualitative
-     * @param a
-     * @param b
-     * @return
+     * @param a és el valor de la 1a resposta
+     * @param b és el valor de la 2a resposta
+     * @return un valor
      */
     public static double calculateUnsortedMultivaluedQualitative(Set<String> a, Set<String> b) {
         Set<String> intersection = new HashSet<>();
@@ -56,9 +59,9 @@ public class DistanceCalculator {
 
     /**
      * Retorna la distància (entre 0 i 1) entre dues respostes del tipus FreeAnswer
-     * @param a
-     * @param b
-     * @return
+     * @param a és el valor de la 1a resposta
+     * @param b és el valor de la 1a resposta
+     * @return un valor
      */
     public static double calculateFreeQuestion(String a, String b) {
         return computeLevenshteinDistance(a, b) / Math.max(a.length(), b.length());
@@ -66,9 +69,9 @@ public class DistanceCalculator {
 
     /**
      * Retorna la distància de Levenshtein entre dues paraules
-     * @param a
-     * @param b
-     * @return
+     * @param a és el valor de la 1a resposta
+     * @param b és el valor de la 1a resposta
+     * @return un valor
      */
     private static double computeLevenshteinDistance(String a, String b) {
         char[] charA = a.toCharArray();

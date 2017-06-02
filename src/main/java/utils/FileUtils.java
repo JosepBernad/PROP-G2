@@ -12,8 +12,8 @@ import java.io.IOException;
 public class FileUtils {
     /**
      * Aquest mètode permet guardar un objecte qualsevol a un fitxer amb nom filename
-     * @param o
-     * @param filename
+     * @param o l'objecte
+     * @param filename el fitxer
      */
     public static void saveObjectInFile(Object o, String filename) {
         FileWriter fileWriter = null;

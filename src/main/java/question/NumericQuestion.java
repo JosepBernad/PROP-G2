@@ -34,9 +34,9 @@ public class NumericQuestion extends Question {
     /**
      * Amb aquest mètode, a partir de la instància de NumericAnswer , crea una resposta passant per
      paràmetre el valor del número que l’usuari ha introduit
-     * @param value
-     * @return
-     * @throws NotInRangeException
+     * @param value els valor
+     * @return una NumericAnswer
+     * @throws NotInRangeException excepció
      */
     public NumericAnswer makeAnAnswer(Double value) throws NotInRangeException {
         if (value < min || value > max) throw new NotInRangeException();

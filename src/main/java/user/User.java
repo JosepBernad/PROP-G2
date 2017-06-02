@@ -33,9 +33,9 @@ public class User {
     }
 
     /**
-     * Retorna dins un Map<String, User> el conjunt de tots els User de dins persistència.
+     * Retorna dins un map d'string i user el conjunt de tots els User de dins persistència.
      La clau és el username del User i el valor és el propi User
-     * @return
+     * @return els usuaris
      */
     public static Map<String, User> getUsers() {
         Map<String, User> users = new HashMap<>();
@@ -58,8 +58,8 @@ public class User {
 
     /**
      * Mètode static que retorna un User donat el seu username (que l’identifica)
-     * @param username
-     * @return
+     * @param username el nom de l'usuari
+     * @return User
      */
     public static User getUserByUsername(String username) {
         return getUsers().get(username);
@@ -84,8 +84,8 @@ public class User {
     /**
      * Mètode que guarda dins persistència l’usuari de la instància i si aquest ja existeix el
      reempleça
-     * @throws DuplicatedUsernameException
-     * @throws EmptyRequiredAttributeException
+     * @throws DuplicatedUsernameException excepció
+     * @throws EmptyRequiredAttributeException excepció
      */
     public void save() throws DuplicatedUsernameException, EmptyRequiredAttributeException {
         if (username == null || username.length() == 0 || password == null || password.length() == 0|| name == null || name.length() == 0)
@@ -126,10 +126,10 @@ public class User {
 
     /**
      * Aquest mètode valida que l'usuari que se li passa com a paràmetre existeixi
-     * @param username
-     * @param password
-     * @throws NotExistingUserException
-     * @throws NotSamePasswordException
+     * @param username el nom de l'usuari
+     * @param password la contrasenya de l'usuari
+     * @throws NotExistingUserException excepció
+     * @throws NotSamePasswordException excepció
      */
     public static void validateCredentials(String username, String password) throws NotExistingUserException, NotSamePasswordException {
         if (!getUsers().containsKey(username)) throw new NotExistingUserException();
@@ -143,10 +143,10 @@ public class User {
 
     /**
      * Aquest mètode modifica la informació d'un usuari a partir de la nova que se li passa com a paràmetre
-     * @param newName
-     * @param newPassword
-     * @throws DuplicatedUsernameException
-     * @throws EmptyRequiredAttributeException
+     * @param newName el nou nom
+     * @param newPassword la nova conrasenya
+     * @throws DuplicatedUsernameException excepció
+     * @throws EmptyRequiredAttributeException excepció
      */
     public void modifyInformation(String newName, String newPassword) throws DuplicatedUsernameException, EmptyRequiredAttributeException {
         this.name = newName;

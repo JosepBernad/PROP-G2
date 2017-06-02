@@ -19,8 +19,8 @@ public class FreeAnswer extends Answer {
 
     /**
      * Aquest mètode calcula el centroide d'un conjunt de respostes de tipus lliure
-     * @param answers
-     * @return
+     * @param answers són les respostes
+     * @return una llista de freeAnswers
      */
     public static FreeAnswer calculateCentroid(List<FreeAnswer> answers) {
         Map<String, Integer> occurrences = new HashMap<>();
@@ -52,9 +52,9 @@ public class FreeAnswer extends Answer {
     }
 
     /**
-     * Aquest mètode transforma una llista de paraules a una de sola
-     * @param s
-     * @return
+     * Aquest mètode transforma una paraula en una llista de paraules
+     * @param s és la paraula
+     * @return una llista d'strings
      */
     static List<String> parseSentence(String s) {
         String[] parsed = s.replaceAll("[.,]", "").toLowerCase().split("\\s+");
@@ -66,7 +66,7 @@ public class FreeAnswer extends Answer {
 
     /**
      * Aquest mètode obté les paraules funcionals
-     * @return
+     * @return un set d'strings
      */
     private static Set<String> getFunctionalWords() {
         Set<String> strings = new HashSet<>();
@@ -78,9 +78,8 @@ public class FreeAnswer extends Answer {
 
     /**
      * Aquesta mètode llegeix d'un fitxer i et retorna el conjunt de les paraules que el formen
-     *
-     * @param filename
-     * @return
+     * @param filename és el fitxer
+     * @return un set d'strings
      */
     private static Set<String> getWordsFromFile(String filename) {
         Set<String> strings = new HashSet<>();
@@ -109,8 +108,8 @@ public class FreeAnswer extends Answer {
     /**
      * Aquest mètode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
      mateix tipus.
-     * @param answer
-     * @return
+     * @param answer és la resposta
+     * @return un double
      */
     @Override
     public Double calculateDistance(Answer answer) {

@@ -29,8 +29,6 @@ public class Survey {
     private Integer id;
     private String title;
     private String description;
-    private Boolean finished;
-    private Boolean visible;
     private List<Question> questions;
 
     public Survey() {
@@ -40,7 +38,7 @@ public class Survey {
     /**
      * Aquest mètode ens retorna en un map amb clau id i valor enquesta totes les enquestes que
      hi ha en el fitxer d’enquestes
-     * @return
+     * @return les enquestes
      */
     public static Map<Integer, Survey> getSurveys() {
         Map<Integer, Survey> surveys = new HashMap<>();
@@ -60,8 +58,8 @@ public class Survey {
 
     /**
      * Aquest mètode ens retorna una enquesta a partir d’un id que se li passa com a paràmetre
-     * @param id
-     * @return
+     * @param id l'id de l'enquesta
+     * @return l'enquesta
      */
     public static Survey getSurveyById(Integer id) {
         return getSurveys().get(id);
@@ -70,7 +68,8 @@ public class Survey {
     /**
      * Aquest mètode esborra una enquesta del fitxer d’enquestes a partir d’un id que se li passa
      com a paràmetre
-     * @param id
+     * @param id l'id de l'enquesta
+     * @throws SurveyAnsweredException excepció
      */
     public static void delete(Integer id) throws SurveyAnsweredException {
         Map<Integer, Survey> surveys = getSurveys();
@@ -78,7 +77,7 @@ public class Survey {
         surveys.remove(id);
         FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -103,29 +102,13 @@ public class Survey {
         this.description = description;
     }
 
-    public Boolean getFinished() {
-        return finished;
-    }
-
-    public void setFinished(Boolean finished) {
-        this.finished = finished;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
     public List<Question> getQuestions() {
         return questions;
     }
 
     /**
      * Amb aquest mètode podem afegir una nova pregunta a l’enquesta
-     * @param question
+     * @param question la pregunta
      */
     public void addQuestion(Question question) {
         if (question.getId() == null)
@@ -136,8 +119,8 @@ public class Survey {
     /**
      * Amb aquest mètode obtenim un set de Questions amb totes les preguntes que té l’enquesta
      en qüestió
-     * @param i
-     * @return
+     * @param i l'índex
+     * @return la pregunta
      */
     public Question getQuestion(Integer i) {
         return questions.get(i);
@@ -146,7 +129,7 @@ public class Survey {
     /**
      * Amb aquest mètode guardem tots els valors dels atributs de la classe en el fitxer de
      enquestes
-     * @throws EmptyRequiredAttributeException
+     * @throws EmptyRequiredAttributeException excepció
      */
     public void save() throws EmptyRequiredAttributeException {
         if (title == null || title.length() == 0) throw new EmptyRequiredAttributeException();
@@ -162,8 +145,8 @@ public class Survey {
 
     /**
      * Aquest mètode retorna l'id maxim donat un conjunt de preguntes
-     * @param questions
-     * @return
+     * @param questions les preguntes
+     * @return el valor màxim
      */
     private int getMaxId(List<Question> questions) {
         return questions.size();
@@ -179,8 +162,6 @@ public class Survey {
         if (id != null ? !id.equals(survey.id) : survey.id != null) return false;
         if (title != null ? !title.equals(survey.title) : survey.title != null) return false;
         if (description != null ? !description.equals(survey.description) : survey.description != null) return false;
-        if (finished != null ? !finished.equals(survey.finished) : survey.finished != null) return false;
-        if (visible != null ? !visible.equals(survey.visible) : survey.visible != null) return false;
         return questions != null ? questions.equals(survey.questions) : survey.questions == null;
     }
 
@@ -189,8 +170,6 @@ public class Survey {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (finished != null ? finished.hashCode() : 0);
-        result = 31 * result + (visible != null ? visible.hashCode() : 0);
         result = 31 * result + (questions != null ? questions.hashCode() : 0);
         return result;
     }
@@ -202,8 +181,8 @@ public class Survey {
 
     /**
      *Aquest mètode permet que l'usuari carregui al programa enquestes ja existents en el seu ordinador
-     * @param jsonPath
-     * @throws FileNotFoundException
+     * @param jsonPath el path
+     * @throws FileNotFoundException excepció
      */
     public static void importSurveys(String jsonPath) throws FileNotFoundException {
         Map<Integer, Survey> surveys = new HashMap<>();
@@ -223,7 +202,7 @@ public class Survey {
 
     /**
      * Aquest mètode permet al usuari guardar en el seu ordinador totes les enquestes ja existents en el programa
-     * @param path
+     * @param path el path
      */
     public static void exportSurveys(String path) {
         FileUtils.saveObjectInFile(getSurveys(),path);
