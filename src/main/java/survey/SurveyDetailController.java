@@ -5,6 +5,7 @@ import answer.AnswerCreatorController;
 import answer.AnswerDetailController;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -150,6 +151,18 @@ public class SurveyDetailController {
         }
         AnswerCreatorController controller = loader.getController();
         controller.init(stage, surveyId, user);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void editButtonPressed() throws IOException {
+        System.out.println("Edit survey with name: " + Survey.getSurveyById(surveyId).getTitle());
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = loader.load(getClass().getResource("/views/SurveyEditorView.fxml").openStream());
+        SurveyEditorController controller = loader.getController();
+        controller.init(stage, user, Survey.getSurveyById(surveyId));
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);

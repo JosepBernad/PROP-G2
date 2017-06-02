@@ -18,6 +18,7 @@
     <VBox fx:id="questionsBox" minWidth="900" minHeight="600" spacing="10"/>
 
     <HBox alignment="CENTER" spacing="10">
+        <JFXButton onAction="#editButtonPressed" text="Edit Survey"/>
         <JFXButton onAction="#showAnswer" text="View answer"/>
         <JFXButton onAction="#answerIt" text="Answer it"/>
         <JFXButton onAction="#analiseSurvey" text="Analize survey"/>
