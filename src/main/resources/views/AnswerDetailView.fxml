@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
@@ -14,6 +15,8 @@
 
     <Label fx:id="surveyTitle" styleClass="form-header-title"/>
     <Label fx:id="surveyDescription"/>
+
+    <Separator prefHeight="5"/>
 
     <VBox fx:id="answers" minWidth="900" minHeight="600" spacing="10"/>
 
