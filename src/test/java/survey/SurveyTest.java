@@ -30,6 +30,7 @@ public class SurveyTest {
     @After
     public void deleteSurveysFile() throws IOException {
         Files.deleteIfExists(SURVEY_PATH);
+        Files.deleteIfExists(ANSWERS_PATH);
         Files.deleteIfExists(EXPORT_PATH);
     }
 

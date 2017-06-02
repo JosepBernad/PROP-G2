@@ -2,8 +2,7 @@ package answer;
 
 import analysis.DistanceCalculator;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -83,14 +82,8 @@ public class FreeAnswer extends Answer {
      */
     private static Set<String> getWordsFromFile(String filename) {
         Set<String> strings = new HashSet<>();
-        ClassLoader classLoader = FreeAnswer.class.getClassLoader();
-        File file = new File(classLoader.getResource(filename).getFile());
-        Scanner s = null;
-        try {
-            s = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        InputStream resourceAsStream = FreeAnswer.class.getClassLoader().getResourceAsStream(filename);
+        Scanner s = new Scanner(resourceAsStream);
         while (s.hasNext())
             strings.add(s.next());
         s.close();
