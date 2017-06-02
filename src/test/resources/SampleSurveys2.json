@@ -3,8 +3,6 @@
     "id": 8,
     "title": "Import Survey Test",
     "description": "To validate import function test",
-    "finished": null,
-    "visible": null,
     "questions": [
       {
         "type": "FreeQuestion",

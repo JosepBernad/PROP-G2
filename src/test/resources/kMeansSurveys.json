@@ -3,8 +3,6 @@
     "id": 1,
     "title": "Survey1",
     "description": "Survey1",
-    "finished": null,
-    "visible": null,
     "questions": [
       {
         "type": "FreeQuestion",
