@@ -4,6 +4,10 @@ import answer.Answer;
 
 import java.util.Arrays;
 
+/**
+ * Aquesta classe modela un punt en un espai d'n dimensions
+ * L'atribut de la classe es un Array de answers
+ */
 public class Point {
 
     private Answer[] coordinates;

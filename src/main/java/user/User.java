@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *Aquesta classe gestionem els usuaris, la seva informació...
+ *Per aquesta classe disposem de tres atributs. El primer es l’username de úsuari (que és el
+ que l’identifica), el segon és el nom d’aquest i l'últim és la contrasenya del usuari (la que usarà per entrar al seu perfil)
+ */
 public class User {
     public static final String USERS = "users.json";
 
@@ -27,6 +32,11 @@ public class User {
         this.name = name;
     }
 
+    /**
+     * Retorna dins un Map<String, User> el conjunt de tots els User de dins persistència.
+     La clau és el username del User i el valor és el propi User
+     * @return
+     */
     public static Map<String, User> getUsers() {
         Map<String, User> users = new HashMap<>();
 
@@ -46,6 +56,11 @@ public class User {
 
     public void setPassword(String password) { this.password = password;}
 
+    /**
+     * Mètode static que retorna un User donat el seu username (que l’identifica)
+     * @param username
+     * @return
+     */
     public static User getUserByUsername(String username) {
         return getUsers().get(username);
     }
@@ -66,6 +81,12 @@ public class User {
         this.name = name;
     }
 
+    /**
+     * Mètode que guarda dins persistència l’usuari de la instància i si aquest ja existeix el
+     reempleça
+     * @throws DuplicatedUsernameException
+     * @throws EmptyRequiredAttributeException
+     */
     public void save() throws DuplicatedUsernameException, EmptyRequiredAttributeException {
         if (username == null || username.length() == 0 || password == null || password.length() == 0|| name == null || name.length() == 0)
             throw new EmptyRequiredAttributeException();
@@ -76,6 +97,9 @@ public class User {
         FileUtils.saveObjectInFile(users, USERS);
     }
 
+    /**
+     *Aquest mètode actualitza l'informació d'un usuari que ja existeix al programa i que ja està registrat
+     */
     private void update() {
         Map<String, User> users = getUsers();
         users.put(this.username, this);
@@ -100,6 +124,13 @@ public class User {
         return result;
     }
 
+    /**
+     * Aquest mètode valida que l'usuari que se li passa com a paràmetre existeixi
+     * @param username
+     * @param password
+     * @throws NotExistingUserException
+     * @throws NotSamePasswordException
+     */
     public static void validateCredentials(String username, String password) throws NotExistingUserException, NotSamePasswordException {
         if (!getUsers().containsKey(username)) throw new NotExistingUserException();
         if (!getUserByUsername(username).getPassword().equals(password)) throw new NotSamePasswordException();
@@ -110,6 +141,13 @@ public class User {
         return "Name: " + name + ", Username: " + username;
     }
 
+    /**
+     * Aquest mètode modifica la informació d'un usuari a partir de la nova que se li passa com a paràmetre
+     * @param newName
+     * @param newPassword
+     * @throws DuplicatedUsernameException
+     * @throws EmptyRequiredAttributeException
+     */
     public void modifyInformation(String newName, String newPassword) throws DuplicatedUsernameException, EmptyRequiredAttributeException {
         this.name = newName;
         this.password = newPassword;

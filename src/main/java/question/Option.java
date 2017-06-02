@@ -1,5 +1,11 @@
 package question;
 
+/**
+ * Classe per representar cada una de les opcions d’una pregunta que té diversos valors
+ possibles determintas com a resposta.
+ Els atributs són el valor de la possible opció en format String i el pes de la opció (només en cas de ser del tipus SortedQualitativeQuestions , altrament és
+ Null )
+ */
 public class Option {
     private String value;
     private Integer weight;

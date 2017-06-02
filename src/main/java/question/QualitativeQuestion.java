@@ -10,6 +10,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Aquesta classe és una subclasse abstract de Question que ens permet gestionar les
+ preguntes del tipus QualitativeQuestion (les quals s’identifiquen per tenir un conjunt de
+ possible respostes)
+ L'atribut de la classe és el conjunt de possible opcions que, depenent de la subclasse, l’usuari pot triar com a
+ resposta
+ */
 public abstract class QualitativeQuestion extends Question {
     private Set<Option> options = new HashSet<>();
 
@@ -21,6 +28,11 @@ public abstract class QualitativeQuestion extends Question {
         this.options = options;
     }
 
+    /**
+     * Mètode que ens serveix per afegir una opcó al Set<Option> de la instància
+     * @param option
+     * @throws RepeatedOptionWeightException
+     */
     public void addOption(Option option) throws RepeatedOptionWeightException {
         if (option.getWeight() != null)
             for (Option opt : options)
@@ -29,6 +41,11 @@ public abstract class QualitativeQuestion extends Question {
         options.add(option);
     }
 
+    /**
+     * Mètode que retorna una llista d’ String dels valors de les opcions ordenada pels pesos
+     d’aquestes opcions
+     * @return
+     */
     public List<String> optionsValuesOrderedByWeight() {
         String[] values = new String[options.size()];
         for (Option option : options) {
@@ -37,6 +54,13 @@ public abstract class QualitativeQuestion extends Question {
         return Arrays.asList(values);
     }
 
+    /**
+     * Amb aquest mètode, a partir de la instància de QualitativeQuestion , crea una resposta passant per
+     paràmetre el valor de l'opció que l’usuari ha introduit
+     * @param option
+     * @return
+     * @throws NotValidOptionException
+     */
     public UnivaluedQualitativeAnswer makeAnAnswer(Option option) throws NotValidOptionException {
         if (!getOptions().contains(option)) throw new NotValidOptionException();
 

@@ -16,6 +16,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ *Aquesta classe ens permet gestionar la resposta d’un usuari a una pregunta d’una enquesta determinada
+ *Per aquesta classe disposem de dos atributs, el username que ens indica l’usuari que ha
+ respòs a la pregunta i el quest questionId ionId que ens indica a quina enquesta pertany la
+ resposta de l’usuari.
+ */
+
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
@@ -35,6 +42,11 @@ public abstract class Answer {
     private String username;
     private Integer questionId;
 
+    /**
+     * Amb aquest mètode obtenim un set de respostes amb totes les respostes que hi ha
+     guardades al fitxer de respostes
+     * @return
+     */
     public static Set<Answer> getAnswers() {
         Set<Answer> answers = new HashSet<>();
 
@@ -51,6 +63,10 @@ public abstract class Answer {
         return answers;
     }
 
+    /**
+     * Aquest mètode ens permet guardar totes les respostes al fitxer de respostes
+     * @param answers
+     */
     public static void saveAnswersInFile(Set<Answer> answers) {
         answers.addAll(getAnswers());
         FileWriter fileWriter = null;
@@ -73,6 +89,14 @@ public abstract class Answer {
         }
     }
 
+    /**
+     * Amb aquest mètode obtenim totes les respostes (en una llista d’elles) d’una enquesta
+     determinada que ha contestat un usuari en concret
+     * @param username
+     * @param surveyId
+     * @return
+     * @throws Exception
+     */
     public static List<Answer> getAnswersByUsernameAndSurveyID(String username, Integer surveyId) throws Exception {
         Survey survey = Survey.getSurveyById(surveyId);
         if (User.getUserByUsername(username) == null) throw new ResourceNotFoundException();
@@ -91,6 +115,12 @@ public abstract class Answer {
         return getOrderedById(userAnswers);
     }
 
+    /**
+     * Aquest mètode ens ordena una llista de respostes en funció al identificador (id) de la seva
+     pregunta, ordenant-ho així de menor a major
+     * @param answers
+     * @return
+     */
     static List<Answer> getOrderedById(Set<Answer> answers) {
         List<Answer> list = new ArrayList<>();
         list.addAll(answers);
@@ -98,6 +128,11 @@ public abstract class Answer {
         return list;
     }
 
+    /**
+     * Aquest mètode retorna totes les respostes de l'usuari amb un determinat id a una enquesta
+     * @param surveyId
+     * @return
+     */
     public static Map<String, Map<Integer, Answer>> getAnswersBySurveyId(Integer surveyId) {
         Map<String, Map<Integer, Answer>> map = new HashMap<>();
 
@@ -115,6 +150,11 @@ public abstract class Answer {
         return map;
     }
 
+    /**
+     * Aquest mètode permet importar respostes a una determinada enquesta existent
+     * @param jsonPath
+     * @throws FileNotFoundException
+     */
     public static void importAnswers(String jsonPath) throws FileNotFoundException {
         Set<Answer> answers = new HashSet<>();
 
@@ -175,6 +215,12 @@ public abstract class Answer {
         return result;
     }
 
+    /**
+     * Aquest metode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
+     mateix tipus
+     * @param answer
+     * @return
+     */
     public abstract Double calculateDistance(Answer answer);
 
 }

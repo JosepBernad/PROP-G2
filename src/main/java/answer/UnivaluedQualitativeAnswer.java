@@ -9,10 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Aquesta classe és una subclasse de QualitativeAnswer i ens permet gestionar la resposta
+ d’un usuari a una pregunta de tipus qualitativa no avaluada d’una enquesta determinada
+ *Per aquesta classe disposem d’un atribut (a part dels de la seva superclasse), una opcio on
+ guardem la opcio que ha respos l’usuari
+ */
 public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
 
     private Option option;
 
+    /**
+     * Aquest mètode calcula el centroide d'un conjunt de respostes de tipus UnivaluedQualitativeAnswer
+     * @param answers
+     * @return
+     */
     public static UnivaluedQualitativeAnswer calculateCentroid(List<UnivaluedQualitativeAnswer> answers) {
         Map<Option, Integer> occurrences = new HashMap<>();
 
@@ -46,6 +57,12 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
         this.option = option;
     }
 
+    /**
+     * Aquest mètode retorna la distància (entre 0 i 1) entre una resposta i una altre resposta del
+     mateix tipus
+     * @param answer
+     * @return
+     */
     @Override
     public Double calculateDistance(Answer answer) {
         if (option.getWeight() == null)

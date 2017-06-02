@@ -6,7 +6,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Aquesta classe s'encarrega de la persistència dels fitxers
+ */
 public class FileUtils {
+    /**
+     * Aquest mètode permet guardar un objecte qualsevol a un fitxer amb nom filename
+     * @param o
+     * @param filename
+     */
     public static void saveObjectInFile(Object o, String filename) {
         FileWriter fileWriter = null;
         try {

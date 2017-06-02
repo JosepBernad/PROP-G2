@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+/**
+ * Aquesta classe ens permet instanciar cada una de les preguntes, per poder-les gestionar i
+ presentar als usuaris
+ El primer atribut és un identificador únic per la pregunta dins una enquesta i el segon atribut la pregunta pròpiament dita que l’usuari ha de contestar
+ */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
