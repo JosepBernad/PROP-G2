@@ -1,7 +1,6 @@
 package survey;
 
 
-import answer.UnivaluedQualitativeAnswer;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
@@ -599,6 +598,7 @@ public class SurveyEditorController {
 
     public void saveButtonPressed() throws IOException {
         Survey survey = new Survey();
+        survey.setId(this.survey.getId());
         survey.setTitle(surveyTitle.getText());
         survey.setDescription(surveyDescription.getText());
         Boolean error = Boolean.FALSE;

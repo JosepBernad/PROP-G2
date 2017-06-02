@@ -5,7 +5,6 @@ import answer.AnswerCreatorController;
 import answer.AnswerDetailController;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
@@ -105,7 +104,7 @@ public class SurveyDetailController {
         questionsBox.getChildren().add(new Label("Max size for the answer: " + question.getMaxSize().toString()));
     }
 
-    public void backButtonPressed() throws IOException {
+    public void back() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
         SurveyListController controller = loader.getController();
@@ -157,7 +156,7 @@ public class SurveyDetailController {
         stage.show();
     }
 
-    public void editButtonPressed() throws IOException {
+    public void edit() throws IOException {
         System.out.println("Edit survey with name: " + Survey.getSurveyById(surveyId).getTitle());
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyEditorView.fxml").openStream());
@@ -167,5 +166,10 @@ public class SurveyDetailController {
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void delete() throws IOException {
+        Survey.delete(surveyId);
+        back();
     }
 }
