@@ -1,6 +1,8 @@
 package survey;
 
+import answer.Answer;
 import com.jfoenix.controls.JFXListView;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +16,7 @@ import user.User;
 import utils.Constants;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,5 +124,17 @@ public class SurveyListController {
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void importAnswersButtonPressed() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import answers");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("json", "*.json*")
+        );
+        List<File> list = fileChooser.showOpenMultipleDialog(stage);
+        if (list != null)
+            for (File file : list)
+                Answer.importAnswers(file.getPath());
     }
 }

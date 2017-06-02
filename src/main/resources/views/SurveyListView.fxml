@@ -17,19 +17,23 @@
 
     <Label fx:id="userName" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="0"/>
 
-    <JFXListView fx:id="surveyLabelList" onMouseClicked="#handleMouseClick" prefHeight="400.0" prefWidth="800.0"
+    <JFXListView fx:id="surveyLabelList" onMouseClicked="#handleMouseClick" prefHeight="400.0" prefWidth="700.0"
                  GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
     <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <JFXButton alignment="CENTER" minWidth="100" onAction="#createSurveyButtonPressed" text="Create"/>
+        <JFXButton alignment="CENTER" minWidth="140" onAction="#createSurveyButtonPressed" text="Create"/>
 
         <Text GridPane.columnIndex="0"/>
 
-        <JFXButton alignment="CENTER" minWidth="100" onAction="#importSurveysButtonPressed" text="Import"/>
+        <JFXButton alignment="CENTER" minWidth="140" onAction="#importSurveysButtonPressed" text="Import surveys"/>
 
         <Text GridPane.columnIndex="0"/>
 
-        <JFXButton alignment="CENTER" minWidth="100" onAction="#exportSurveyButtonPressed" text="Export"/>
+        <JFXButton alignment="CENTER" minWidth="140" onAction="#importAnswersButtonPressed" text="Import answers"/>
+
+        <Text GridPane.columnIndex="0"/>
+
+        <JFXButton alignment="CENTER" minWidth="140" onAction="#exportSurveyButtonPressed" text="Export surveys"/>
 
         <Text GridPane.columnIndex="0"/>
         <Text GridPane.columnIndex="0"/>
@@ -45,12 +49,12 @@
         <Text GridPane.columnIndex="0"/>
         <Text GridPane.columnIndex="0"/>
 
-        <JFXButton alignment="CENTER" minWidth="100" onAction="#myAccountButtonPressed" text="My Account"
+        <JFXButton alignment="CENTER" minWidth="140" onAction="#myAccountButtonPressed" text="My Account"
                    GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
     </VBox>
 
-    <JFXButton alignment="CENTER" minWidth="100" onAction="#logOutButtonPressed" text="Log Out"
+    <JFXButton alignment="CENTER" minWidth="140" onAction="#logOutButtonPressed" text="Log Out"
                GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
     <Text GridPane.columnIndex="0" GridPane.rowIndex="3"/>
