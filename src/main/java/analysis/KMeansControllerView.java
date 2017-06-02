@@ -1,7 +1,7 @@
 package analysis;
 
 import answer.Answer;
-import answer.AnswerDetailController;
+import answer.AnswerDetailControllerView;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
@@ -24,7 +24,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
-import survey.SurveyDetailController;
+import survey.SurveyDetailControllerView;
 import user.User;
 import utils.Constants;
 
@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class KMeansController {
+public class KMeansControllerView {
 
     @FXML
     public JFXComboBox<Label> numberOfClusters;
@@ -115,7 +115,7 @@ public class KMeansController {
             root = loader.load(getClass().getResource("/views/ClusterView.fxml").openStream());
         } catch (IOException ignored) {
         }
-        ClusterController controller = loader.getController();
+        ClusterControllerView controller = loader.getController();
 
         List<List<Answer>> clusterAnswers = new ArrayList<>();
 
@@ -149,7 +149,7 @@ public class KMeansController {
             root = loader.load(getClass().getResource("/views/AnswerDetailView.fxml").openStream());
         } catch (IOException ignored) {
         }
-        AnswerDetailController controller = loader.getController();
+        AnswerDetailControllerView controller = loader.getController();
         controller.init(surveyId, User.getUserByUsername(username));
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -219,7 +219,7 @@ public class KMeansController {
     public void back() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
-        SurveyDetailController controller = loader.getController();
+        SurveyDetailControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

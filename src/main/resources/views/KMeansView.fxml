@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="center" xmlns="http://javafx.com/javafx/8.0.112"
       minHeight="800.0" prefWidth="1024.0"
-      spacing="10" fx:controller="analysis.KMeansController">
+      spacing="10" fx:controller="analysis.KMeansControllerView">
 
     <padding>
         <Insets bottom="3" left="3" right="3" top="3"/>

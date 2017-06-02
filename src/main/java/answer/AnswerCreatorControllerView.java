@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import question.*;
 import survey.Survey;
-import survey.SurveyDetailController;
+import survey.SurveyDetailControllerView;
 import user.User;
 import utils.Constants;
 
@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AnswerCreatorController {
+public class AnswerCreatorControllerView {
 
     @FXML
     public Label surveyTitle;
@@ -141,7 +141,7 @@ public class AnswerCreatorController {
     public void backButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
-        SurveyDetailController controller = loader.getController();
+        SurveyDetailControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -176,7 +176,7 @@ public class AnswerCreatorController {
             root = loader.load(getClass().getResource("/views/AnswerDetailView.fxml").openStream());
         } catch (IOException ignored) {
         }
-        AnswerDetailController controller = loader.getController();
+        AnswerDetailControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

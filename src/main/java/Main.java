@@ -4,7 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import user.LogInController;
+import user.LogInControllerView;
 import utils.Constants;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("views/LogInView.fxml"));
         Parent parent = loader.load();
-        LogInController controller = loader.getController();
+        LogInControllerView controller = loader.getController();
         controller.init(primaryStage);
         Scene scene = new Scene(parent);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import survey.Survey;
-import survey.SurveyDetailController;
+import survey.SurveyDetailControllerView;
 import user.User;
 import utils.Constants;
 
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswerDetailController {
+public class AnswerDetailControllerView {
 
     @FXML
     public Label surveyTitle;
@@ -92,7 +92,7 @@ public class AnswerDetailController {
     public void backButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
-        SurveyDetailController controller = loader.getController();
+        SurveyDetailControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

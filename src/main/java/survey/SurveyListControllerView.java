@@ -2,7 +2,6 @@ package survey;
 
 import answer.Answer;
 import com.jfoenix.controls.JFXListView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,18 +9,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import user.LogInController;
-import user.MyAccountController;
+import user.LogInControllerView;
+import user.MyAccountControllerView;
 import user.User;
 import utils.Constants;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyListController {
+public class SurveyListControllerView {
 
     @FXML
     private JFXListView<Label> surveyLabelList;
@@ -54,7 +52,7 @@ public class SurveyListController {
             Survey survey = surveyList.get(index);
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
-            SurveyDetailController controller = loader.getController();
+            SurveyDetailControllerView controller = loader.getController();
             controller.init(stage, survey.getId(), user);
             Scene scene = new Scene(root);
             scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -66,7 +64,7 @@ public class SurveyListController {
     public void logOutButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/LogInView.fxml").openStream());
-        LogInController controller = loader.getController();
+        LogInControllerView controller = loader.getController();
         controller.init(stage);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -92,7 +90,7 @@ public class SurveyListController {
     public void createSurveyButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyCreatorView.fxml").openStream());
-        SurveyCreatorController controller = loader.getController();
+        SurveyCreatorControllerView controller = loader.getController();
         controller.init(stage, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -118,7 +116,7 @@ public class SurveyListController {
     public void myAccountButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/MyAccountView.fxml").openStream());
-        MyAccountController controller = loader.getController();
+        MyAccountControllerView controller = loader.getController();
         controller.init(stage, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

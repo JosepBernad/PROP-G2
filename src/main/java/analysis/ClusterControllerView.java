@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ClusterController {
+public class ClusterControllerView {
 
     @FXML
     public Label surveyTitle;

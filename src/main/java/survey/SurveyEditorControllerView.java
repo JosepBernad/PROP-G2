@@ -30,7 +30,7 @@ import utils.Constants;
 import java.io.IOException;
 import java.util.*;
 
-public class SurveyEditorController {
+public class SurveyEditorControllerView {
 
     private static final String INTEGER = "^([-]?[1-9]\\d*|0)$";
     private static final String NATURAL = "^([1-9]\\d*)$";
@@ -597,7 +597,7 @@ public class SurveyEditorController {
     public void cancelButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
-        SurveyListController controller = loader.getController();
+        SurveyListControllerView controller = loader.getController();
         controller.init(stage, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

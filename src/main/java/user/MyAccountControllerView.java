@@ -10,12 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import survey.SurveyListController;
+import survey.SurveyListControllerView;
 import utils.Constants;
 
 import java.io.IOException;
 
-public class MyAccountController {
+public class MyAccountControllerView {
 
     @FXML
     private JFXTextField usernameField;
@@ -47,7 +47,7 @@ public class MyAccountController {
     public void cancelButtonPressed() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
-        SurveyListController controller = loader.getController();
+        SurveyListControllerView controller = loader.getController();
         controller.init(stage, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -64,7 +64,7 @@ public class MyAccountController {
             user.modifyInformation(nameField.getText(),password1.getText());
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
-            SurveyListController controller = loader.getController();
+            SurveyListControllerView controller = loader.getController();
             controller.init(stage, User.getUserByUsername(usernameField.getText()));
             Scene scene = new Scene(root);
             scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);

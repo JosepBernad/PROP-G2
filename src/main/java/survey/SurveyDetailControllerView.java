@@ -1,8 +1,8 @@
 package survey;
 
-import analysis.KMeansController;
-import answer.AnswerCreatorController;
-import answer.AnswerDetailController;
+import analysis.KMeansControllerView;
+import answer.AnswerCreatorControllerView;
+import answer.AnswerDetailControllerView;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import exceptions.SurveyAnsweredException;
@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyDetailController {
+public class SurveyDetailControllerView {
 
     @FXML
     public Label surveyTitle;
@@ -109,7 +109,7 @@ public class SurveyDetailController {
     public void back() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyListView.fxml").openStream());
-        SurveyListController controller = loader.getController();
+        SurveyListControllerView controller = loader.getController();
         controller.init(stage, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -120,7 +120,7 @@ public class SurveyDetailController {
     public void analiseSurvey() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/KMeansView.fxml").openStream());
-        KMeansController controller = loader.getController();
+        KMeansControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -135,7 +135,7 @@ public class SurveyDetailController {
             root = loader.load(getClass().getResource("/views/AnswerDetailView.fxml").openStream());
         } catch (IOException ignored) {
         }
-        AnswerDetailController controller = loader.getController();
+        AnswerDetailControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -150,7 +150,7 @@ public class SurveyDetailController {
             root = loader.load(getClass().getResource("/views/AnswerCreatorView.fxml").openStream());
         } catch (IOException ignored) {
         }
-        AnswerCreatorController controller = loader.getController();
+        AnswerCreatorControllerView controller = loader.getController();
         controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
@@ -162,7 +162,7 @@ public class SurveyDetailController {
         System.out.println("Edit survey with name: " + Survey.getSurveyById(surveyId).getTitle());
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/SurveyEditorView.fxml").openStream());
-        SurveyEditorController controller = loader.getController();
+        SurveyEditorControllerView controller = loader.getController();
         controller.init(stage, user, Survey.getSurveyById(surveyId));
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
