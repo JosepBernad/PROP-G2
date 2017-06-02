@@ -182,17 +182,15 @@ public class SurveyEditorController {
     }
 
     private void deleteOptionWithWeight(VBox containerBox, HBox optionBox, Map<TextField, TextField> options) {
-        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
-        options.remove(option);
+        JFXTextField optionWeightField = (JFXTextField) optionBox.getChildren().get(1);
+        options.remove(optionWeightField);
         containerBox.getChildren().remove(optionBox);
-        // FIXME: Només borra de la vista, del questionBuilders (el que ho acaba guardant al json) no ho borra
     }
 
     private void deleteOption(VBox containerBox, HBox optionBox, Set<TextField> options) {
-        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
-        options.remove(option);
+        JFXTextField optionField = (JFXTextField) optionBox.getChildren().get(0);
+        options.remove(optionField);
         containerBox.getChildren().remove(optionBox);
-        // FIXME: Només borra de la vista, del questionBuilders (el que ho acaba guardant al json) no ho borra
     }
 
     private void addMultivaluedQualitativeQuestion(MultivaluedUnsortedQualitativeQuestion question) {

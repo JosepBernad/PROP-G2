@@ -26,10 +26,12 @@ public class FreeAnswer extends Answer {
         Map<String, Integer> occurrences = new HashMap<>();
 
         for (FreeAnswer answer : answers) {
-            List<String> strings = parseSentence(answer.getValue());
-            for (String s : strings) {
-                if (!occurrences.containsKey(s)) occurrences.put(s, 0);
-                occurrences.put(s, occurrences.get(s) + 1);
+            if (answer.getValue() != null) {
+                List<String> strings = parseSentence(answer.getValue());
+                for (String s : strings) {
+                    if (!occurrences.containsKey(s)) occurrences.put(s, 0);
+                    occurrences.put(s, occurrences.get(s) + 1);
+                }
             }
         }
 
@@ -112,6 +114,8 @@ public class FreeAnswer extends Answer {
      */
     @Override
     public Double calculateDistance(Answer answer) {
-        return DistanceCalculator.calculateFreeQuestion(this.getValue(), ((FreeAnswer) answer).getValue());
+        String answerValue = ((FreeAnswer) answer).getValue();
+        if (this.getValue() == null || answerValue == null) return 1D;
+        return DistanceCalculator.calculateFreeQuestion(this.getValue(), answerValue);
     }
 }

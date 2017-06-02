@@ -160,14 +160,14 @@ public class SurveyCreatorController {
     }
 
     private void deleteOptionWithWeight(VBox containerBox, HBox optionBox, Map<TextField, TextField> options) {
-        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
-        options.remove(option);
+        JFXTextField optionWeightField = (JFXTextField) optionBox.getChildren().get(1);
+        options.remove(optionWeightField);
         containerBox.getChildren().remove(optionBox);
     }
 
     private void deleteOption(VBox containerBox, HBox optionBox, Set<TextField> options) {
-        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
-        options.remove(option);
+        JFXTextField optionField = (JFXTextField) optionBox.getChildren().get(0);
+        options.remove(optionField);
         containerBox.getChildren().remove(optionBox);
     }
 
@@ -302,33 +302,26 @@ public class SurveyCreatorController {
         VBox elementsHBox = new VBox();
         HBox questionHBox = new HBox();
 
-
-        // Question parameter: Max length
         parametersHVox.getChildren().add(new Label("Max length:"));
 
         JFXTextField maxLenghtField = new JFXTextField();
         parametersHVox.getChildren().add(checkRegExField(maxLenghtField, NATURAL));
 
-
-        // Question elements: Tile and parameter
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
         elementsHBox.getChildren().add(statementField);
 
         elementsHBox.getChildren().add(parametersHVox);
 
-        // Question box: elements and delete button
         questionHBox.getChildren().add(elementsHBox);
 
         JFXButton deleteQuestionButton = new JFXButton("X");
         questionHBox.getChildren().add(deleteQuestionButton);
 
-
         FreeQuestionBuilder builder = new FreeQuestionBuilder();
         builder.setStatement(statementField);
         builder.setMaxLength(maxLenghtField);
         questionBuilders.add(builder);
-
 
         vPrincipalBox.getChildren().add(questionHBox);
 

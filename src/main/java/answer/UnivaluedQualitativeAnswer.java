@@ -29,8 +29,10 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
 
         for (UnivaluedQualitativeAnswer answer : answers) {
             Option value = answer.getOption();
-            if (!occurrences.containsKey(value)) occurrences.put(value, 0);
-            occurrences.put(value, occurrences.get(value) + 1);
+            if (value != null) {
+                if (!occurrences.containsKey(value)) occurrences.put(value, 0);
+                occurrences.put(value, occurrences.get(value) + 1);
+            }
         }
 
         Option mode = null;
@@ -65,9 +67,12 @@ public class UnivaluedQualitativeAnswer extends QualitativeAnswer {
      */
     @Override
     public Double calculateDistance(Answer answer) {
-        if (option.getWeight() == null)
-            return DistanceCalculator.calculateUnsortedUnivaluedQualitative(this.getOption().getValue(), ((UnivaluedQualitativeAnswer) answer).getOption().getValue());
+        Option answerOption = ((UnivaluedQualitativeAnswer) answer).getOption();
+        if (getOption() == null || answerOption == null) return 1D;
+
+        if (this.option.getWeight() == null)
+            return DistanceCalculator.calculateUnsortedUnivaluedQualitative(this.getOption().getValue(), answerOption.getValue());
         QualitativeQuestion question = (QualitativeQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
-        return DistanceCalculator.calculateSortedUnivaluedQualitative(this.getOption().getWeight(), ((UnivaluedQualitativeAnswer) answer).getOption().getWeight(), question.getOptions().size());
+        return DistanceCalculator.calculateSortedUnivaluedQualitative(this.getOption().getWeight(), answerOption.getWeight(), question.getOptions().size());
     }
 }

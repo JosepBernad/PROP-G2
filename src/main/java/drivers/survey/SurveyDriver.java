@@ -3,6 +3,7 @@ package drivers.survey;
 import answer.*;
 import exceptions.NotInRangeException;
 import exceptions.RepeatedOptionWeightException;
+import exceptions.SurveyAnsweredException;
 import question.*;
 import survey.Survey;
 import user.User;
@@ -145,7 +146,7 @@ public class SurveyDriver {
         System.out.println(EXIT + " - Exit");
     }
 
-    private static void deleteSurvey() throws IOException {
+    private static void deleteSurvey() throws IOException, SurveyAnsweredException {
         Map<Integer, Survey> s = Survey.getSurveys();
         if (s.isEmpty()) IOUtils.printLine("Any existing survey");
         else {

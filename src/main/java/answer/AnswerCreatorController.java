@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
-import exceptions.EmptyRequiredAttributeException;
+import exceptions.InvalidSizeException;
 import exceptions.NotInRangeException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +42,9 @@ public class AnswerCreatorController {
 
     @FXML
     public JFXButton saveButton;
+
+    @FXML
+    public Label missingLabel;
 
     private Integer surveyId;
     private User user;
@@ -146,14 +149,24 @@ public class AnswerCreatorController {
         stage.show();
     }
 
-    //TODO: try catch exceptions
-    public void saveAnswer() throws EmptyRequiredAttributeException, NotInRangeException {
+    public void saveAnswer() {
         Set<Answer> answers = new HashSet<>();
+        Boolean error = false;
         for (AnswerBuilder builder : answerBuilders)
-            answers.add(builder.build());
-        Answer.saveAnswersInFile(answers);
+            try {
+                answers.add(builder.build());
+            } catch (NotInRangeException e) {
+                error = true;
+                missingLabel.setText("Incorrect values");
+            } catch (InvalidSizeException e) {
+                error = true;
+                missingLabel.setText("Invalid size");
+            }
+        if (!error) {
+            Answer.saveAnswersInFile(answers);
+            showAnswer();
+        }
 
-        showAnswer();
     }
 
     private void showAnswer() {
@@ -177,12 +190,7 @@ public class AnswerCreatorController {
         private Integer surveyId;
         private String username;
 
-        public abstract Answer build() throws EmptyRequiredAttributeException, NotInRangeException;
-
-        void isEmpty(TextField... textFields) throws EmptyRequiredAttributeException {
-            for (TextField textField : textFields)
-                if (textField.getText().isEmpty()) throw new EmptyRequiredAttributeException();
-        }
+        public abstract Answer build() throws NotInRangeException, InvalidSizeException;
 
         Integer getQuestionId() {
             return questionId;
@@ -216,10 +224,12 @@ public class AnswerCreatorController {
 
         private TextField value;
 
-        public FreeAnswer build() throws EmptyRequiredAttributeException {
-            isEmpty(value);
+        public FreeAnswer build() throws InvalidSizeException {
+            String text = value.getText();
+            FreeQuestion question = (FreeQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
+            if (question.getMaxSize() < text.length()) throw new InvalidSizeException();
             FreeAnswer freeAnswer = new FreeAnswer();
-            freeAnswer.setValue(value.getText());
+            freeAnswer.setValue(text.isEmpty() ? null : text);
             freeAnswer.setUsername(getUsername());
             freeAnswer.setQuestionId(getQuestionId());
             freeAnswer.setSurveyId(getSurveyId());
@@ -236,14 +246,19 @@ public class AnswerCreatorController {
 
         private TextField value;
 
-        public NumericAnswer build() throws EmptyRequiredAttributeException, NotInRangeException {
-            isEmpty(value);
+        public NumericAnswer build() throws NotInRangeException {
+            NumericQuestion question = (NumericQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
             NumericAnswer numericAnswer = new NumericAnswer();
-            try {
-                numericAnswer.setValue(Double.parseDouble(value.getText()));
-            } catch (NumberFormatException e) {
-                throw new NotInRangeException();
+            Double v = null;
+            if (!this.value.getText().isEmpty()) {
+                try {
+                    v = Double.parseDouble(this.value.getText());
+                } catch (NumberFormatException e) {
+                    throw new NotInRangeException();
+                }
+                if (v < question.getMin() || v > question.getMax()) throw new NotInRangeException();
             }
+            numericAnswer.setValue(v);
             numericAnswer.setUsername(getUsername());
             numericAnswer.setQuestionId(getQuestionId());
             numericAnswer.setSurveyId(getSurveyId());
@@ -271,7 +286,9 @@ public class AnswerCreatorController {
 
         private Option findOption() {
             QualitativeQuestion question = (QualitativeQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
-            String value = ((RadioButton) options.getSelectedToggle()).getText();
+            RadioButton selectedToggle = (RadioButton) options.getSelectedToggle();
+            if (selectedToggle == null) return null;
+            String value = selectedToggle.getText();
             if (question instanceof SortedQualitativeQuestion)
                 for (Option opt : question.getOptions())
                     if (opt.getValue().equals(value))

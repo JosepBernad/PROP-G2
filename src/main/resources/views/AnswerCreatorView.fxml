@@ -17,6 +17,8 @@
 
     <VBox fx:id="questionsBox" minWidth="900" minHeight="600" spacing="10"/>
 
+    <Label fx:id="missingLabel" textFill="RED"/>
+
     <HBox alignment="CENTER" spacing="10">
         <JFXButton fx:id="saveButton" onAction="#saveAnswer" text="Save"/>
         <JFXButton fx:id="backButton" onAction="#backButtonPressed" text="Back"/>

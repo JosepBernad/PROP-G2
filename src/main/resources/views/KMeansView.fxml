@@ -4,8 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" alignment="center" xmlns="http://javafx.com/javafx/8.0.112"
       minHeight="800.0" prefWidth="1024.0"
       spacing="10" fx:controller="analysis.KMeansController">
@@ -19,8 +18,11 @@
         <Label text="Clusters:"/>
         <JFXComboBox fx:id="numberOfClusters"/>
     </HBox>
-    <JFXButton onAction="#doKmeans" text="Calculate"/>
-    <Label fx:id="errorText" textFill="#e33636"/>
+    <HBox alignment="CENTER" spacing="10">
+        <JFXButton onAction="#doKmeans" text="Calculate"/>
+        <JFXButton onAction="#back" text="Back"/>
+    </HBox>
+    <Label fx:id="errorText" text="Select the number of clusters" textFill="#e33636" visible="false"/>
     <Separator prefHeight="5"/>
     <HBox alignment="center" spacing="10" fx:id="clustersPane" minWidth="400"/>
     <HBox fx:id="chart" minWidth="400" alignment="TOP_CENTER"/>

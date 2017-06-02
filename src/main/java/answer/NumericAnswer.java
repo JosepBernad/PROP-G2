@@ -23,12 +23,17 @@ public class NumericAnswer extends Answer {
      * @return
      */
     public static NumericAnswer calculateCentroid(List<NumericAnswer> answers) {
-        Double sum = 0D;
-        for (NumericAnswer answer : answers)
-            sum += answer.getValue();
+        Double sum = null;
+        Integer nullAnswers = 0;
+        for (NumericAnswer answer : answers) {
+            if (answer.getValue() != null) {
+                if (sum == null) sum = 0D;
+                sum += answer.getValue();
+            } else ++nullAnswers;
+        }
 
         NumericAnswer numericAnswer = new NumericAnswer();
-        numericAnswer.setValue(sum / answers.size());
+        numericAnswer.setValue(sum == null ? null : sum / (answers.size() - nullAnswers));
         return numericAnswer;
     }
 
@@ -49,7 +54,9 @@ public class NumericAnswer extends Answer {
     @Override
     public Double calculateDistance(Answer answer) {
         NumericQuestion question = (NumericQuestion) Survey.getSurveyById(getSurveyId()).getQuestion(getQuestionId());
-        return DistanceCalculator.calculateNumeric(getValue(), ((NumericAnswer) answer).getValue(), question.getMax(), question.getMin());
+        Double answerValue = ((NumericAnswer) answer).getValue();
+        if (getValue() == null || answerValue == null) return 1D;
+        return DistanceCalculator.calculateNumeric(getValue(), answerValue, question.getMax(), question.getMin());
     }
 
 }
