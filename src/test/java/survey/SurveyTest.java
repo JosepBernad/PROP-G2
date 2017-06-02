@@ -1,7 +1,9 @@
 package survey;
 
 
+import answer.Answer;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.SurveyAnsweredException;
 import org.junit.After;
 import org.junit.Test;
 import question.FreeQuestion;
@@ -22,7 +24,8 @@ import static org.junit.Assert.*;
 public class SurveyTest {
 
     private static final Path SURVEY_PATH = Paths.get(Survey.SURVEYS);
-    public static final Path EXPORT_PATH = Paths.get("export.json");
+    private static final Path ANSWERS_PATH = Paths.get(Answer.ANSWERS);
+    private static final Path EXPORT_PATH = Paths.get("export.json");
 
     @After
     public void deleteSurveysFile() throws IOException {
@@ -139,15 +142,25 @@ public class SurveyTest {
     }
 
     @Test
-    public void test_givenExistingSurveys_whenDeletesSurvey_withValidSurveyId_thenDeletesSurvey() throws IOException {
+    public void test_givenExistingSurveys_whenDeletesSurvey_withValidSurveyId_thenDeletesSurvey() throws Exception {
         // Arrange
-        Files.copy(Paths.get("src/test/resources/SampleSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+        Files.copy(Paths.get("src/test/resources/kMeansSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
 
         // Act
         Survey.delete(1);
 
         // Assert
         assertFalse(Survey.getSurveys().containsKey(1));
+    }
+
+    @Test(expected = SurveyAnsweredException.class)
+    public void test_givenExistingSurveyWithAnswer_whenDeletesSurvey_withValidSurveyId_thenThrowsSurveyAnsweredException() throws Exception {
+        // Arrange
+        Files.copy(Paths.get("src/test/resources/kMeansSurveys.json"), SURVEY_PATH, REPLACE_EXISTING);
+        Files.copy(Paths.get("src/test/resources/kMeansAnswers.json"), ANSWERS_PATH, REPLACE_EXISTING);
+
+        // Act
+        Survey.delete(1);
     }
 
     @Test

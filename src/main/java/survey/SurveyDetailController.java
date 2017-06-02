@@ -5,10 +5,12 @@ import answer.AnswerCreatorController;
 import answer.AnswerDetailController;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
+import exceptions.SurveyAnsweredException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToggleGroup;
@@ -169,7 +171,16 @@ public class SurveyDetailController {
     }
 
     public void delete() throws IOException {
-        Survey.delete(surveyId);
-        back();
+        try {
+            Survey.delete(surveyId);
+            back();
+        } catch (SurveyAnsweredException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Answered survey");
+            alert.setContentText("Ooops, you are trying to remove a survey that has associated answers and that is a bad idea");
+
+            alert.showAndWait();
+        }
     }
 }

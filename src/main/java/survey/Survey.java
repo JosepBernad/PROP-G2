@@ -1,8 +1,10 @@
 package survey;
 
 
+import answer.Answer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.EmptyRequiredAttributeException;
+import exceptions.SurveyAnsweredException;
 import question.Question;
 import utils.FileUtils;
 
@@ -46,10 +48,31 @@ public class Survey {
         return getSurveys().get(id);
     }
 
-    public static void delete(Integer id) {
+    public static void delete(Integer id) throws SurveyAnsweredException {
         Map<Integer, Survey> surveys = getSurveys();
+        if (!Answer.getAnswersBySurveyId(id).isEmpty()) throw new SurveyAnsweredException();
         surveys.remove(id);
         FileUtils.saveObjectInFile(surveys, SURVEYS);
+    }
+
+    public static void importSurveys(String jsonPath) throws FileNotFoundException {
+        Map<Integer, Survey> surveys = new HashMap<>();
+        File file = new File(jsonPath);
+        if (!file.exists()) throw new FileNotFoundException();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            surveys = mapper.readValue(
+                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        surveys.putAll(getSurveys());
+        FileUtils.saveObjectInFile(surveys, SURVEYS);
+    }
+
+    public static void exportSurveys(String path) {
+        FileUtils.saveObjectInFile(getSurveys(), path);
     }
 
     public Integer getId() {
@@ -151,25 +174,5 @@ public class Survey {
     @Override
     public String toString() {
         return "id:  " + id + " - title: " + title;
-    }
-
-    public static void importSurveys(String jsonPath) throws FileNotFoundException {
-        Map<Integer, Survey> surveys = new HashMap<>();
-        File file = new File(jsonPath);
-        if (!file.exists()) throw new FileNotFoundException();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            surveys = mapper.readValue(
-                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        surveys.putAll(getSurveys());
-        FileUtils.saveObjectInFile(surveys, SURVEYS);
-    }
-
-    public static void exportSurveys(String path) {
-        FileUtils.saveObjectInFile(getSurveys(),path);
     }
 }
