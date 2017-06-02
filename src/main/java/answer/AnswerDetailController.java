@@ -75,15 +75,18 @@ public class AnswerDetailController {
     }
 
     private void createUnivaluedQualitativeAnswer(UnivaluedQualitativeAnswer answer) {
-        answers.getChildren().add(new Label(answer.getOption().getValue()));
+        if (answer.getOption() != null)
+            answers.getChildren().add(new Label(answer.getOption().getValue()));
     }
 
     private void createNumericAnswer(NumericAnswer answer) {
-        answers.getChildren().add(new Label(answer.getValue().toString()));
+        if (answer.getValue() != null)
+            answers.getChildren().add(new Label(answer.getValue().toString()));
     }
 
     private void createFreeAnswer(FreeAnswer answer) {
-        answers.getChildren().add(new Label(answer.getValue()));
+        if (answer.getValue() != null)
+            answers.getChildren().add(new Label(answer.getValue()));
     }
 
     public void backButtonPressed() throws IOException {

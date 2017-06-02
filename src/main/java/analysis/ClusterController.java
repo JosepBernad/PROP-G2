@@ -11,6 +11,8 @@ import question.Option;
 import question.Question;
 import survey.Survey;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,18 +59,28 @@ public class ClusterController {
         String options = answer.getOptions().stream().
                 map(Option::getValue).
                 collect(Collectors.joining(", "));
-        box.getChildren().add(new Label(options));
+        if (!options.isEmpty())
+            box.getChildren().add(new Label(options));
+        else box.getChildren().add(new Label());
     }
 
     private void createUnivaluedQualitativeAnswer(UnivaluedQualitativeAnswer answer, VBox box) {
-        box.getChildren().add(new Label(answer.getOption().getValue()));
+        if (answer.getOption() != null)
+            box.getChildren().add(new Label(answer.getOption().getValue()));
+        else box.getChildren().add(new Label());
     }
 
     private void createNumericAnswer(NumericAnswer answer, VBox box) {
-        box.getChildren().add(new Label(answer.getValue().toString()));
+        if (answer.getValue() != null) {
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.CEILING);
+            box.getChildren().add(new Label(df.format(answer.getValue())));
+        } else box.getChildren().add(new Label());
     }
 
     private void createFreeAnswer(FreeAnswer answer, VBox box) {
-        box.getChildren().add(new Label(answer.getValue()));
+        if (answer.getValue() != null)
+            box.getChildren().add(new Label(answer.getValue()));
+        else box.getChildren().add(new Label());
     }
 }

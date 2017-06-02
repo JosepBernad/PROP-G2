@@ -302,33 +302,26 @@ public class SurveyCreatorController {
         VBox elementsHBox = new VBox();
         HBox questionHBox = new HBox();
 
-
-        // Question parameter: Max length
         parametersHVox.getChildren().add(new Label("Max length:"));
 
         JFXTextField maxLenghtField = new JFXTextField();
         parametersHVox.getChildren().add(checkRegExField(maxLenghtField, NATURAL));
 
-
-        // Question elements: Tile and parameter
         JFXTextField statementField = new JFXTextField();
         statementField.setText(statement);
         elementsHBox.getChildren().add(statementField);
 
         elementsHBox.getChildren().add(parametersHVox);
 
-        // Question box: elements and delete button
         questionHBox.getChildren().add(elementsHBox);
 
         JFXButton deleteQuestionButton = new JFXButton("X");
         questionHBox.getChildren().add(deleteQuestionButton);
 
-
         FreeQuestionBuilder builder = new FreeQuestionBuilder();
         builder.setStatement(statementField);
         builder.setMaxLength(maxLenghtField);
         questionBuilders.add(builder);
-
 
         vPrincipalBox.getChildren().add(questionHBox);
 

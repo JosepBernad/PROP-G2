@@ -121,7 +121,7 @@ public class SurveyDetailController {
         FXMLLoader loader = new FXMLLoader();
         Pane root = loader.load(getClass().getResource("/views/KMeansView.fxml").openStream());
         KMeansController controller = loader.getController();
-        controller.init(stage, surveyId);
+        controller.init(stage, surveyId, user);
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
         stage.setScene(scene);

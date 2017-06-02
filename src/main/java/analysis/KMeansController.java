@@ -24,6 +24,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.statistics.HistogramDataset;
+import survey.SurveyDetailController;
 import user.User;
 import utils.Constants;
 
@@ -53,21 +54,23 @@ public class KMeansController {
     private Label errorText;
 
     private Integer surveyId;
+    private User user;
     private Stage stage;
 
-    public void init(Stage stage, Integer surveyId) {
+    public void init(Stage stage, Integer surveyId, User user) {
         this.stage = stage;
         this.surveyId = surveyId;
+        this.user = user;
         Map<String, Map<Integer, Answer>> answers = Answer.getAnswersBySurveyId(surveyId);
         for (Integer i = 1; i <= answers.keySet().size(); ++i)
             numberOfClusters.getItems().add(new Label(i.toString()));
     }
 
     public void doKmeans() {
-        if (numberOfClusters.getValue() == null) errorText.setText("Select the number of clusters");
+        if (numberOfClusters.getValue() == null) errorText.setVisible(Boolean.TRUE);
         else {
             clustersPane.getChildren().clear();
-            errorText.setText("");
+            errorText.setVisible(Boolean.FALSE);
             KMeans kMeans = new KMeans(surveyId);
             int k = Integer.parseInt(numberOfClusters.getSelectionModel().getSelectedItem().getText());
             List<Cluster> calc = kMeans.calc(k);
@@ -211,5 +214,16 @@ public class KMeansController {
         barChart.setBorderPaint(Color.BLACK);
 
         return barChart;
+    }
+
+    public void back() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        Pane root = loader.load(getClass().getResource("/views/SurveyDetailView.fxml").openStream());
+        SurveyDetailController controller = loader.getController();
+        controller.init(stage, surveyId, user);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().addAll(Constants.STYLE, Constants.FONTS);
+        stage.setScene(scene);
+        stage.show();
     }
 }

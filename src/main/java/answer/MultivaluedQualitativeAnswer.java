@@ -57,6 +57,8 @@ public class MultivaluedQualitativeAnswer extends QualitativeAnswer {
 
     @Override
     public Double calculateDistance(Answer answer) {
-        return DistanceCalculator.calculateUnsortedMultivaluedQualitative(this.getValues(), ((MultivaluedQualitativeAnswer) answer).getValues());
+        Set<String> answerValues = ((MultivaluedQualitativeAnswer) answer).getValues();
+        if (getValues().isEmpty() || answerValues.isEmpty()) return 1D;
+        return DistanceCalculator.calculateUnsortedMultivaluedQualitative(this.getValues(), answerValues);
     }
 }
