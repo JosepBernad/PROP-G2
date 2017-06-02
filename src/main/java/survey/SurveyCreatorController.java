@@ -160,14 +160,14 @@ public class SurveyCreatorController {
     }
 
     private void deleteOptionWithWeight(VBox containerBox, HBox optionBox, Map<TextField, TextField> options) {
-        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
-        options.remove(option);
+        JFXTextField optionWeightField = (JFXTextField) optionBox.getChildren().get(1);
+        options.remove(optionWeightField);
         containerBox.getChildren().remove(optionBox);
     }
 
     private void deleteOption(VBox containerBox, HBox optionBox, Set<TextField> options) {
-        JFXTextField option = (JFXTextField) optionBox.getChildren().get(0);
-        options.remove(option);
+        JFXTextField optionField = (JFXTextField) optionBox.getChildren().get(0);
+        options.remove(optionField);
         containerBox.getChildren().remove(optionBox);
     }
 
