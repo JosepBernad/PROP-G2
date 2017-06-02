@@ -78,27 +78,7 @@ public class Survey {
         surveys.remove(id);
         FileUtils.saveObjectInFile(surveys, SURVEYS);
     }
-
-    public static void importSurveys(String jsonPath) throws FileNotFoundException {
-        Map<Integer, Survey> surveys = new HashMap<>();
-        File file = new File(jsonPath);
-        if (!file.exists()) throw new FileNotFoundException();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            surveys = mapper.readValue(
-                    file, mapper.getTypeFactory().constructMapType(Map.class, Integer.class, Survey.class));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        surveys.putAll(getSurveys());
-        FileUtils.saveObjectInFile(surveys, SURVEYS);
-    }
-
-    public static void exportSurveys(String path) {
-        FileUtils.saveObjectInFile(getSurveys(), path);
-    }
-
+    
     public Integer getId() {
         return id;
     }
