@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
 <VBox xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx"
       fx:controller="survey.SurveyDetailControllerView" prefHeight="720" prefWidth="1080">
 
@@ -18,8 +19,9 @@
 
     <Separator prefHeight="5"/>
 
-    <VBox fx:id="questionsBox" minWidth="900" minHeight="600" spacing="10"/>
-
+    <ScrollPane>
+        <VBox fx:id="questionsBox" minWidth="900" minHeight="600" spacing="10"/>
+    </ScrollPane>
     <HBox alignment="CENTER" spacing="10">
         <JFXButton onAction="#edit" text="Edit"/>
         <JFXButton onAction="#showAnswer" text="View my answer"/>
