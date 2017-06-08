@@ -109,7 +109,8 @@ public abstract class Answer {
         Set<Answer> userAnswers = new HashSet<>();
 
         for (Answer answer : answers)
-            if (answer.getUsername().equals(username) && questions.contains(answer.getQuestionId()))
+            if (answer.getUsername().equals(username) && questions.contains(answer.getQuestionId())
+                    && answer.getSurveyId().equals(surveyId))
                 userAnswers.add(answer);
 
         return getOrderedById(userAnswers);
@@ -204,6 +205,7 @@ public abstract class Answer {
 
         Answer answer = (Answer) o;
 
+        if (surveyId != null ? !surveyId.equals(answer.surveyId) : answer.surveyId != null) return false;
         if (username != null ? !username.equals(answer.username) : answer.username != null) return false;
         return questionId != null ? questionId.equals(answer.questionId) : answer.questionId == null;
     }
