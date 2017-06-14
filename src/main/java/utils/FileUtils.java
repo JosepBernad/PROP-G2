@@ -1,5 +1,6 @@
 package utils;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -21,7 +22,8 @@ public class FileUtils {
             File file = new File(filename);
             fileWriter = new FileWriter(file);
             if (!file.exists()) file.createNewFile();
-            fileWriter.write(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(o));
+            ObjectMapper objectMapper = new ObjectMapper().configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
+            fileWriter.write(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(o));
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();

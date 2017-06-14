@@ -3,6 +3,7 @@ package answer;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.ResourceNotFoundException;
@@ -75,6 +76,7 @@ public abstract class Answer {
             fileWriter = new FileWriter(file);
             if (!file.exists()) file.createNewFile();
             ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(JsonGenerator.Feature.ESCAPE_NON_ASCII, true);
             JavaType type = mapper.getTypeFactory().constructCollectionType(Set.class, Answer.class);
             fileWriter.write(mapper.writerWithDefaultPrettyPrinter().forType(type).writeValueAsString(answers));
             fileWriter.flush();
